@@ -5,7 +5,8 @@
    [cerberus.api :as api]
    [cerberus.http :as http]
    [cerberus.alert :refer [alerts]]
-   [cerberus.state :refer [set-state!]]))
+   [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def root :roles)
 
@@ -21,13 +22,13 @@
   (assoc (alerts success error) :always #(get uuid)))
 
 (defn delete [data uuid]
-  (api/delete data root [uuid] (alerts "Role deleted." "Failed to delete role.")))
+  (api/delete data root [uuid] (alerts (ml/t :roles-api/delete-succ) (ml/t :roles-api/delete-fail))))
 
 
 (defn grant [uuid perm]
   (api/put root (concat [uuid :permissions] perm) {}
-           (a-get uuid "Permission granted." "Failed to grant permission.")))
+           (a-get uuid (ml/t :roles-api/grant-succ) (ml/t :roles-api/grant-fail))))
 
 (defn revoke [uuid perm]
   (api/delete root (concat [uuid :permissions] perm)
-              (a-get uuid "Permission revoke." "Failed to revoke permission.")))
+              (a-get uuid (ml/t :roles-api/revoke-succ) (ml/t :roles-api/revoke-fail))))

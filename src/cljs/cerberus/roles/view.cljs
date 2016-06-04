@@ -35,18 +35,18 @@
         (g/col
          {:sm 6}
          (p/panel
-          {:header (d/h3 "General")
+          {:header (d/h3 (k :general))
            :list-group
            (lg
             "UUID"        (:uuid data)
-            "Permissions" (count (:permissions data)))})))))))
+            (k :permissions) (count (:permissions data)))})))))))
 
 (def sections
   {""             {:key  1 :fn #(om/build render-home %2)                       :title (k :general)}
    "permissions"  {:key  2 :fn #(om/build permissions/render %1
                                           {:key (str (:uuid %2) "-permissions")
-                                           :opts {:element %2 :grant roles/grant :revoke roles/revoke}}) :title "Permissions"}
-   "metadata"     {:key  3 :fn #(om/build metadata/render %2)    :title "Metadata"}})
+                                           :opts {:element %2 :grant roles/grant :revoke roles/revoke}}) :title (k :permissions)}
+   "metadata"     {:key  3 :fn #(om/build metadata/render %2)    :title (k :metadata)}})
 
 (def render
   (view/make root sections roles/get :name-fn :name))

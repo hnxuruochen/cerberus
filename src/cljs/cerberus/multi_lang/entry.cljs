@@ -16,5 +16,7 @@
     :zh-CN zh-CN/tconfig-map}})
 
 (defn t [keyword]
-  (pr (get-current-locale))
   (tower/t (get-current-locale) my-tconfig keyword))
+
+(defn t1 [keyword & args]
+  (tower/t (get-current-locale) my-tconfig keyword args))

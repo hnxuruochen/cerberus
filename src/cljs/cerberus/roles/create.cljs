@@ -1,7 +1,8 @@
 (ns cerberus.roles.create
   (:require
    [om.core :as om :include-macros true]
-   [cerberus.create :as create]))
+   [cerberus.create :as create]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn render [app]
   (reify
@@ -12,4 +13,4 @@
     (render-state [_ _]
       (create/render
        app
-       {:type :input :label "Name" :id "role-name" :key :name}))))
+       {:type :input :label (ml/t :roles-create/name) :id "role-name" :key :name}))))
