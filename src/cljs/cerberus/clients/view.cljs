@@ -21,15 +21,16 @@
    [cerberus.metadata :as metadata]
    [cerberus.state :refer [set-state!]]
    [cerberus.validate :as validate]
-   [cerberus.fields :refer [fmt-bytes fmt-percent]]))
+   [cerberus.fields :refer [fmt-bytes fmt-percent]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn secret-panel [data owner state]
   (let [uuid (:uuid data)]
     (p/panel
-     {:header (d/h3 "Change Secret")}
+     {:header (d/h3 (ml/t :clients-view/auth-change-secret))}
      (d/form
       (i/input
-       {:type "secret" :label "New Secret"
+       {:type "secret" :label (ml/t :clients-view/auth-new-secret)
         :id "changepass1"
         :value (:secret1-val state)
         :on-change  #(validate/match
@@ -39,7 +40,7 @@
                       owner %)})
 
       (i/input
-       {:type "secret" :label "Confirm"
+       {:type "secret" :label (ml/t :clients-view/auth-confirm-secret)
         :id "changepass2"
         :value (:secret2-val state)
         :bs-style (if (or (:secret-validate state)
@@ -55,7 +56,7 @@
         :className "pull-right"
         :onClick #(clients/change-secret uuid (:secret1-val state))
         :disabled? (false? (:secret-validate state))}
-       "Change")))))
+       (ml/t :clients-view/auth-change))))))
 
 
 (defn render-auth [data owner opts]
@@ -101,7 +102,7 @@
              :className "pull-right"
              :on-click #(clients/add-uri uuid (:uri state))
              :disabled? invalid?}
-            "Add Redirect URI")))
+            (ml/t :clients-view/uri-add-redirect-uri))))
          (row
           (g/col
            {}
@@ -124,9 +125,9 @@
               uris))))))))))
 
 
-(def sections {""            {:key  1 :fn #(om/build render-auth %2)  :title "Authentication"}
-               "permissions" {:key  2 :fn #(om/build permissions/render %2 {:opts {:grant clients/grant :revoke clients/revoke}}) :title "Permissions"}
-               "uris"        {:key  3 :fn #(om/build render-uris %2) :title "URI's"}
-               "metadata"    {:key  4 :fn #(om/build metadata/render %2)  :title "Metadata"}})
+(def sections {""            {:key  1 :fn #(om/build render-auth %2)  :title (ml/t :clients-view/sections-auth)}
+               "permissions" {:key  2 :fn #(om/build permissions/render %2 {:opts {:grant clients/grant :revoke clients/revoke}}) :title (ml/t :clients-view/sections-permissions)}
+               "uris"        {:key  3 :fn #(om/build render-uris %2) :title (ml/t :clients-view/sections-uri)}
+               "metadata"    {:key  4 :fn #(om/build metadata/render %2)  :title (ml/t :clients-view/sections-metadata)}})
 
 (def render (view/make root sections clients/get :name-fn :name))
