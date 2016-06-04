@@ -28,6 +28,34 @@
                   :clients-create {:name "Name"
                                    :secret "Secret"}
 
+
+                  :datasets {:datasets "Datasets"
+                             :version "Version"
+                             :imported "Imported"}
+                  :datasets-api {:dataset-del-succ "Dataset deleted."
+                                 :dataset-del-fail "Failed to delete dataset."
+                                 :dataset-import-start "Dataset import started."
+                                 :dataset-import-fail "Dataset import failed."
+                                 :nic-add-succ "Dataset network added."
+                                 :nic-add-fail "Failed to add dataset network."
+                                 :nic-del-succ "Dataset network added."
+                                 :nic-del-fail "Failed to add dataset network."}
+                  :datasets-create {:name "Name"
+                                    :version "Version"
+                                    :type "Type"
+                                    :published "Published"
+                                    :size "Size"}
+                  :datasets-view {:home-type "type: "
+                                  :home-version "version: "
+                                  :networks-desc "Description"
+                                  :networks-add "Add"
+
+                                  :sections-general "General"
+                                  :sections-requirements "Requirements"
+                                  :sections-networks "Networks"
+                                  :sections-metadata "Metadata"}
+
+
                   :roles {:roles "Roles"}
                   :roles-view {:general "General"
                                :permissions "Permission"

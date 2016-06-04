@@ -6,7 +6,8 @@
    [cerberus.api :as api]
    [cerberus.global :as global]
    [cerberus.alert :refer [alerts]]
-   [cerberus.state :refer [set-state!]]))
+   [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def root :datasets)
 
@@ -22,11 +23,11 @@
 
 (defn delete [data uuid]
   (api/delete data root [uuid]
-              (alerts "Dataset deleted." "Failed to delete dataset.")))
+              (alerts (ml/t :datasets-api/dataset-del-succ) (ml/t :datasets-api/dataset-del-fail))))
 
 (defn import [uuid]
   (api/post root [] {:url (str server "/" uuid)}
-            (alerts "Dataset import started." "Dataset import failed.")))
+            (alerts (ml/t :datasets-api/dataset-import-start) (ml/t :datasets-api/dataset-import-fail))))
 
 (defn from-vm [vm snapshot name version os desc]
   (let [payload {:vm vm
@@ -36,12 +37,12 @@
                           :os os
                           :description desc}}]
     (api/post root [] payload
-              (alerts "Dataset import started." "Dataset import failed."))))
+              (alerts (ml/t :datasets-api/dataset-import-start) (ml/t :datasets-api/datset-import-fail)))))
 
 (defn add-nic [uuid nic desc]
   (api/put root [uuid :networks nic] {:description desc}
-           (a-get uuid "Dataset network added." "Failed to add dataset network.")))
+           (a-get uuid (ml/t :datasets-api/nic-add-succ) (ml/t :datasets-api/nic-add-fail))))
 
 (defn delete-nic [uuid nic]
   (api/delete root [uuid :networks nic]
-              (a-get uuid "Dataset network added." "Failed to add dataset network.")))
+              (a-get uuid (ml/t :datasets-api/nic-del-succ) (ml/t :datasets-api/nic-del-fail))))

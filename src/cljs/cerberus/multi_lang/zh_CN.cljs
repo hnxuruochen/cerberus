@@ -30,6 +30,33 @@
                   :clients-create {:name "名称"
                                    :secret "密钥"}
 
+                  :datasets {:datasets "系统镜像"
+                             :version "版本"
+                             :imported "导入"}
+                  :datasets-api {:dataset-del-succ "系统镜像删除成功"
+                                 :dataset-del-fail "系统镜像删除失败"
+                                 :dataset-import-start "系统镜像导入开始"
+                                 :dataset-import-fail "系统镜像导入失败"
+                                 :nic-add-succ "网卡添加成功"
+                                 :nic-add-fail "网卡添加失败"
+                                 :nic-del-succ "网卡删除成功"
+                                 :nic-del-fail "网卡删除失败"}
+                  :datasets-create {:name "名称"
+                                    :version "版本"
+                                    :type "类型"
+                                    :published "发布"
+                                    :size "大小"}
+                  :datasets-view {:home-type "类型："
+                                  :home-version "版本："
+                                  :networks-desc "描述"
+                                  :networks-add "添加"
+
+                                  :sections-general "常规"
+                                  :sections-requirements "需求"
+                                  :sections-networks "网络"
+                                  :sections-metadata "元数据"}
+
+
                   :roles {:roles "角色"}
                   :roles-view {:general "常规"
                                :permissions "权限"

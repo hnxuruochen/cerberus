@@ -10,7 +10,8 @@
    [cerberus.fields :as fields]
    [cerberus.state :refer [app-state set-state! update-state!]]
    [cerberus.create :as create]
-   [cerberus.datasets.api :as datasets :refer [root]]))
+   [cerberus.datasets.api :as datasets :refer [root]]
+   [cerberus.multi-lang.entry :as ml]))
 
 
 (defn submit [section data]
@@ -64,11 +65,11 @@
          {:striped? true :condensed? true
           :hover? true :responsive? true :id "remote-datasets"}
          (d/thead
-          (d/td "Name")
-          (d/td "Version")
-          (d/td "Type")
-          (d/td "Published")
-          (d/td "Size"))
+          (d/td (ml/t :datasets-create/name))
+          (d/td (ml/t :datasets-create/version))
+          (d/td (ml/t :datasets-create/type))
+          (d/td (ml/t :datasets-create/published))
+          (d/td (ml/t :datasets-create/size)))
          (d/tbody
           (map
            (fn [{uuid :uuid :as e}]

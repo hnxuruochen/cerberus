@@ -17,7 +17,8 @@
    [cerberus.services :as services]
    [cerberus.metadata :as metadata]
    [cerberus.state :refer [set-state!]]
-   [cerberus.fields :refer [fmt-bytes fmt-percent]]))
+   [cerberus.fields :refer [fmt-bytes fmt-percent]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn render-home [app element]
   (reify
@@ -27,8 +28,8 @@
        {}
        (d/p (:description app))
        (d/ul
-        (d/li "type: " (:type app))
-        (d/li "version: " (:version app)))))))
+        (d/li (ml/t :datasets-view/home-type) (:type app))
+        (d/li (ml/t :datasets-view/home-version) (:version app)))))))
 
 (defn render-requirement [{attribute :attribute condition :condition value :value
                            weight :weight}]
@@ -62,13 +63,13 @@
            {:xs 10 :sm 5}
            (i/input {:addon-before iface
                      :type "input" :value desc
-                     :placeholder "Description"
+                     :placeholder (ml/t :datasets-view/networks-desc)
                      :on-change (->state owner :desc)}))
           (g/col
            {:xs 2 :sm 1}
            (b/button {:bs-style "success"
                       :disabled? (or (nil? desc) (empty? desc))
-                      :on-click #(datasets/add-nic uuid iface desc)} "Add"))
+                      :on-click #(datasets/add-nic uuid iface desc)} (ml/t :datasets-view/networks-add)))
           (g/col
            {:xs 12 :sm 6}
            (d/dl
@@ -81,10 +82,10 @@
                                     (r/glyphicon {:glyph "trash"})))
                     (d/dd desc)]) networks)))))))))
 
-(def sections {""              {:key  1 :fn #(om/build render-home %2)      :title "General"}
-               "requirements"  {:key  2 :fn #(om/build requirements (:requirements %2))     :title "Requirements"}
-               "networks"      {:key  3 :fn #(om/build networks %2)         :title "Networks"}
-               "metadata"      {:key  4 :fn #(om/build metadata/render %2)  :title "Metadata"}})
+(def sections {""              {:key  1 :fn #(om/build render-home %2)      :title (ml/t :datasets-view/sections-general)}
+               "requirements"  {:key  2 :fn #(om/build requirements (:requirements %2))     :title (ml/t :datasets-view/sections-requirements)}
+               "networks"      {:key  3 :fn #(om/build networks %2)         :title (ml/t :datasets-view/sections-networks)}
+               "metadata"      {:key  4 :fn #(om/build metadata/render %2)  :title (ml/t :datasets-view/sections-metadata)}})
 
 (def render
   (view/make root sections datasets/get

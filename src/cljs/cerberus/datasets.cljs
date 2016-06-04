@@ -12,14 +12,15 @@
    [cerberus.datasets.view :as view]
    [cerberus.utils :refer [initial-state]]
    [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]
    ))
 
 (defn actions [{uuid :uuid}]
   [(del/menue-item uuid)])
 
-(def config (mk-config root "Datasets" actions
-                       :version {:title "Version" :key :version :type :string}
-                       :imported {:title "Imported" :key :imported :type :percent-flt}))
+(def config (mk-config root (ml/t :datasets/datasets) actions
+                       :version {:title (ml/t :datasets/version) :key :version :type :string}
+                       :imported {:title (ml/t :datasets/imported) :key :imported :type :percent-flt}))
 
 (set-state! [root :fields] (initial-state config))
 
