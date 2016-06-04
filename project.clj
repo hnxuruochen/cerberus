@@ -29,7 +29,8 @@
                  [secretary "1.2.3"]
                  [clj-http "2.0.0"]
                  [jarohen/chord "0.6.0"]
-                 [cljs-http "0.1.37"]]
+                 [cljs-http "0.1.37"]
+                 [net.unit8/tower-cljs "0.1.0"]]
 
   :plugins [[lein-cljsbuild "1.0.6"]
             [lein-environ "1.0.0"]

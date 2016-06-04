@@ -17,10 +17,12 @@
    [cerberus.metadata :as metadata]
    [cerberus.permissions :as permissions]
    [cerberus.state :refer [set-state!]]
-   [cerberus.fields :refer [fmt-bytes fmt-percent]]))
+   [cerberus.fields :refer [fmt-bytes fmt-percent]]
+   [cerberus.multi-lang.entry :as ml]))
 
 
-
+(defn- k [local-keyword]
+  (ml/t (keyword "roles-view" (name local-keyword))))
 
 (defn render-home [data owner opts]
   (reify
@@ -40,7 +42,7 @@
             "Permissions" (count (:permissions data)))})))))))
 
 (def sections
-  {""             {:key  1 :fn #(om/build render-home %2)                       :title "General"}
+  {""             {:key  1 :fn #(om/build render-home %2)                       :title (k :general)}
    "permissions"  {:key  2 :fn #(om/build permissions/render %1
                                           {:key (str (:uuid %2) "-permissions")
                                            :opts {:element %2 :grant roles/grant :revoke roles/revoke}}) :title "Permissions"}
