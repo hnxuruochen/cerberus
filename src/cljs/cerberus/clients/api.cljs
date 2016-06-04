@@ -4,7 +4,8 @@
   (:require
    [cerberus.api :as api]
    [cerberus.alert :refer [alerts]]
-   [cerberus.state :refer [set-state!]]))
+   [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def root :clients)
 
@@ -20,24 +21,24 @@
   (assoc (alerts success error) :always #(get uuid)))
 
 (defn delete [data uuid]
-  (api/delete data root [uuid] (alerts "Client deleted." "Failed to delete client.")))
+  (api/delete data root [uuid] (alerts (ml/t :clients-api/client-delete-succ) (ml/t :clients-api/client-delete-fail))))
 
 (defn grant [uuid perm]
   (api/put root (concat [uuid :permissions] perm) {}
-           (a-get uuid "Permission granted." "Failed to grant permission.")))
+           (a-get uuid (ml/t :clients-api/grant-succ) (ml/t :clients-api/grant-fail))))
 
 (defn revoke [uuid perm]
   (api/delete root (concat [uuid :permissions] perm)
-              (a-get uuid "Permission revoked." "Failed to revoke permission.")))
+              (a-get uuid (ml/t :clients-api/revoke-succ) (ml/t :clients-api/revoke-fail))))
 
 (defn change-secret [uuid secret]
   (api/put root [uuid] {:secret secret}
-           (alerts "Secret changed." "Failed to change secret.")))
+           (alerts (ml/t :clients-api/secret-succ) (ml/t :clients-api/secret-fail))))
 
 (defn add-uri [uuid uri]
   (api/post root [uuid :uris] {:uri uri}
-           (a-get uuid "URI added." "Failed to add uri.")))
+            (a-get uuid (ml/t :clients-api/uri-add-succ) (ml/t :clients-api/uri-add-fail))))
 
 (defn delete-uri [uuid uri-id]
   (api/delete root [uuid :uris uri-id]
-           (a-get uuid "URI added." "Failed to add uri.")))
+              (a-get uuid (ml/t :clients-api/uri-del-succ) (ml/t :clients-api/uri-del-fail))))
