@@ -55,6 +55,39 @@
                                   :sections-networks "Networks"
                                   :sections-metadata "Metadata"}
 
+                  :groupings {:groupings "Groupings"
+                              :name "Name"
+                              :type "Type"
+                              :elements "Elements"}
+                  :groupings-view {:config-config "Configuration"
+                                   :config-value "Value"
+                                   :config-set-config "Set Configuration"
+
+                                   :general-general "General"
+                                   :general-name "Name"
+                                   :general-type "Type"
+
+                                   :element-add "Add"
+
+
+                                   :sections-general "General"
+                                   :sections-elements "Elements"
+                                   :sections-configuration "Configuration"
+                                   :sections-metadata "Meatadata"}
+                  :groupings-create {:type "Type"
+                                     :cluster "Cluster"
+                                     :stack "Stack"
+                                     :name "Name"}
+                  :groupings-api {:grouping-del-succ "Grouping deleted."
+                                  :grouping-del-fail "Failed to delete grouping."
+                                  :config-set-succ "Configuration updated."
+                                  :config-set-fail "Failed to update configuration."
+                                  :config-del-succ "Configuration deleted."
+                                  :config-del-fail "Failed to delete configuration."
+                                  :element-add-succ "Element added."
+                                  :element-add-fail "Failed to add element."
+                                  :element-del-succ "Element deleted."
+                                  :element-del-fail "Failed to delete element."}
 
                   :roles {:roles "Roles"}
                   :roles-view {:general "General"

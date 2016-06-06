@@ -19,7 +19,8 @@
    [cerberus.state :refer [set-state! app-state]]
    [cerberus.view :as view]
    [cerberus.metrics :as metrics]
-   [cerberus.fields :refer [fmt-bytes fmt-percent]]))
+   [cerberus.fields :refer [fmt-bytes fmt-percent]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn render-config [element owner opts]
   (reify
@@ -41,14 +42,14 @@
            {:md 3}
            (i/input
             {:type "text"
-             :placeholder "Configuration"
+             :placeholder (ml/t :groupings-view/config-config)
              :value (:conf state)
              :on-change (->state owner :conf)}))
           (g/col
            {:md 7}
            (i/input
             {:type "text"
-             :placeholder "Value"
+             :placeholder (ml/t :groupings-view/config-value)
              :value (:val state)
              :on-change (->state owner :val)}))
           (g/col
@@ -58,7 +59,7 @@
              :className "pull-right"
              :on-click #(groupings/set-config uuid (:conf state) (:val state))
              :disabled? invalid?}
-            "Set Configuration")))
+            (ml/t :groupings-view/config-set-config))))
          (row
           (g/col
            {}
@@ -66,8 +67,8 @@
             {}
             (d/thead
              (d/tr
-              (d/th "Configuration")
-              (d/th "Value")
+              (d/th (ml/t :groupings-view/config-config))
+              (d/th (ml/t :groupings-view/config-value))
               (d/th "")))
             (d/tbody
              (map
@@ -99,12 +100,12 @@
         (g/col
          {:md 6}
          (p/panel
-          {:header (d/h3 "General")
+          {:header (d/h3 (ml/t :groupings-view/general-general))
            :list-group
            (lg
-            "Name"                   (:name element)
+            (ml/t :groupings-view/general-name) (:name element)
             "UUDI"                   (:uuid element)
-            "Type"                   (:type element))})))))))
+            (ml/t :groupings-view/general-type) (:type element))})))))))
 
 
 (defn render-elements [app owner {:keys [type element id root]}]
@@ -136,7 +137,7 @@
                :className "pull-right"
                :onClick #(groupings/add-element id (:grouping state))
                :disabled? (invalid-grouping (:grouping state))}
-              "Add"))
+              (ml/t :groupings-view/element-add)))
             (g/col
              {:xs 12 :sm 6}
              (d/ul
@@ -152,14 +153,14 @@
         (let [])))))
 
 (def sections
-  {""          {:key  1 :fn  #(om/build render-home %2)     :title "General"}
+  {""          {:key  1 :fn  #(om/build render-home %2)     :title (ml/t :groupings-view/sections-general)}
    "elements"  {:key  2 :fn  #(om/build render-elements %1
                                         {:opts {:id (:uuid %2)
                                                 :type (:type %2)
                                                 :element %2
-                                                :root root}})     :title "Elements"}
-   "config"    {:key  3 :fn #(om/build render-config %2)    :title "Configuration"}
-   "metadata"  {:key  4 :fn #(om/build metadata/render %2)  :title "Metadata"}})
+                                                :root root}})     :title (ml/t :groupings-view/sections-elements)}
+   "config"    {:key  3 :fn #(om/build render-config %2)    :title (ml/t :groupings-view/sections-configuration)}
+   "metadata"  {:key  4 :fn #(om/build metadata/render %2)  :title (ml/t :groupings-view/sections-metadata)}})
 
 
 (def render

@@ -11,18 +11,19 @@
    [cerberus.groupings.view :as view]
    [cerberus.fields :refer [mk-config]]
    [cerberus.utils :refer [initial-state make-event]]
-   [cerberus.state :refer [set-state!]]))
+   [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn actions [{uuid :uuid}]
   [(del/menue-item uuid)])
 
 (def config
   (mk-config
-   root "Groupings" actions
-   :name {:title "Name" :key :name :order -20}
-   :type {:title "Type" :key :type :order 0}
-   :elements {:title "Elements" :key #(+ (count (:elements %))
-                                         (count (:groupings %))) :order 10}))
+   root (ml/t :groupings/groupings) actions
+   :name {:title (ml/t :groupings/name) :key :name :order -20}
+   :type {:title (ml/t :groupings/type) :key :type :order 0}
+   :elements {:title (ml/t :groupings/elements) :key #(+ (count (:elements %))
+                                                         (count (:groupings %))) :order 10}))
 
 (set-state! [root :fields] (initial-state config))
 

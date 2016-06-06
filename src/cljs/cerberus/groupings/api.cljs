@@ -5,7 +5,8 @@
    [cerberus.api :as api]
    [cerberus.http :as http]
    [cerberus.alert :refer [alerts]]
-   [cerberus.state :refer [set-state!]]))
+   [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def root :groupings)
 
@@ -21,20 +22,20 @@
   (assoc (alerts success error) :always #(get uuid)))
 
 (defn delete [data uuid]
-  (api/delete data root [uuid] (alerts "Grouping removed." "Failed to remove grouping.")))
+  (api/delete data root [uuid] (alerts (ml/t :groupings-api/grouping-del-succ) (ml/t :groupings-api/grouping-del-fail))))
 
 (defn set-config [uuid conf val]
   (api/put root [uuid :config] {conf val}
-           (a-get uuid "Configuration updated." "Failed to update configuration.")))
+           (a-get uuid (ml/t :groupings-api/config-set-succ) (ml/t :groupings-api/config-set-fail))))
 
 (defn delete-config [uuid conf]
   (api/delete root [uuid :config conf]
-              (a-get uuid "Configuration deleted." "Failed to delete configuration.")))
+              (a-get uuid (ml/t :groupings-api/config-del-succ) (ml/t :groupings-api/config-del-fail))))
 
 (defn add-element [uuid grouping]
   (api/put root [uuid :elements grouping] {}
-           (a-get uuid "Grouping added." "Failed to add grouping.")))
+           (a-get uuid (ml/t :groupings-api/element-add-succ) (ml/t :groupings-api/element-add-fail))))
 
 (defn remove-element [uuid grouping]
   (api/delete root [uuid :elements grouping]
-              (a-get uuid "Grouping removed." "Failed to remve grouping.")))
+              (a-get uuid (ml/t :groupings-api/element-del-succ) (ml/t :groupings-api/element-del-fail))))

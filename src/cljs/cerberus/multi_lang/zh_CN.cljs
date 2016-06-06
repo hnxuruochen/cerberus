@@ -56,6 +56,38 @@
                                   :sections-networks "网络"
                                   :sections-metadata "元数据"}
 
+                  :groupings {:groupings "编组"
+                              :name "名称"
+                              :type "类型"
+                              :elements "元素"}
+                  :groupings-view {:config-config "配置"
+                                   :config-value "值"
+                                   :config-set-config "设置"
+
+                                   :general-general "常规"
+                                   :general-name "名称"
+                                   :general-type "类型"
+
+                                   :element-add "添加"
+
+                                   :sections-general "常规"
+                                   :sections-elements "元素"
+                                   :sections-configuration "配置"
+                                   :sections-metadata "元数据"}
+                  :groupings-create {:type "类型"
+                                     :cluster "集群"
+                                     :stack "堆叠"
+                                     :name "名称"}
+                  :groupings-api {:grouping-del-succ "编组删除成功"
+                                  :grouping-del-fail "编组删除失败"
+                                  :config-set-succ "配置设置成功"
+                                  :config-set-fail "配置设置失败"
+                                  :config-del-succ "配置删除成功"
+                                  :config-del-fail "配置删除失败"
+                                  :element-add-succ "元素添加成功"
+                                  :element-add-fail "元素添加失败"
+                                  :element-del-succ "元素删除成功"
+                                  :element-del-fail "元素删除失败"}
 
                   :roles {:roles "角色"}
                   :roles-view {:general "常规"
