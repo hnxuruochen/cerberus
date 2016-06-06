@@ -23,7 +23,8 @@
    [cerberus.vms.view :as view :refer [open-with-ott]]
    [cerberus.utils :refer [initial-state make-event]]
    [cerberus.fields :refer [mk-config]]
-   [cerberus.state :refer [set-state!]]))
+   [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn actions [e]
   (let [uuid (:uuid e)
@@ -68,35 +69,35 @@
 
 (def config
   (mk-config
-   root "Machines" actions
-   :name       {:title "Name" :key [:config :alias] :order -20}
-   :hostname   {:title "Hostname" :key [:config :hostname] :order -18 :show false}
-   :ip         {:title "IP" :key get-ip :type :ip :order -16}
-   :created_at  {:title "Created" :type [:timstamp :s] :order -15
+   root (ml/t :vms/machines) actions
+   :name       {:title (ml/t :vms/name) :key [:config :alias] :order -20}
+   :hostname   {:title (ml/t :vms/hostname) :key [:config :hostname] :order -18 :show false}
+   :ip         {:title (ml/t :vms/ip) :key get-ip :type :ip :order -16}
+   :created_at  {:title (ml/t :vms/created) :type [:timstamp :s] :order -15
                  :key :created_at :show false}
-   :created_ago  {:title "Created ago" :type [:ago :s] :order -14
+   :created_ago  {:title (ml/t :vms/createdAgo) :type [:ago :s] :order -14
                   :key :created_at :show true
                   :sort-key #(or (:created_at %) 0)}
-   :package    {:title "Package" :type :string :order -13
+   :package    {:title (ml/t :vms/package) :type :string :order -13
                 :key (partial api/get-sub-element :packages :package :name)}
-   :dataset    {:title "Dataset" :type :string :order -12
+   :dataset    {:title (ml/t :vms/dataset) :type :string :order -12
                 :key (fn [vm]
                        (if (= (:vm_type vm) "docker")
                          (:dataset vm)
                          (api/get-sub-element :datasets :dataset
                                               #(str (:name %) " (" (:version %) ")")
                                               vm)))}
-   :owner      {:title "Owner" :type :string :order -10
+   :owner      {:title (ml/t :vms/owner) :type :string :order -10
                 :key (partial api/get-sub-element :orgs :owner :name)}
-   :created_by {:title "Creator" :order -5
+   :created_by {:title (ml/t :vms/creator) :order -5
                 :key (partial api/get-sub-element :users :created_by :name) :show false}
-   :cpu        {:title "CPU" :key [:config :cpu_cap] :type :percent :show false}
-   :ram        {:title "Memory" :key [:config :ram] :type [:bytes :mb] :show false}
-   :brand      {:title "Brand" :key brand :type :string :show false}
-   :state      {:title "State" :key :state :type :string  :render-fn map-state}
-   :hypervisor {:title "Hypervisor" :type :string :show false
+   :cpu        {:title (ml/t :vms/cpu) :key [:config :cpu_cap] :type :percent :show false}
+   :ram        {:title (ml/t :vms/memory) :key [:config :ram] :type [:bytes :mb] :show false}
+   :brand      {:title (ml/t :vms/brand) :key brand :type :string :show false}
+   :state      {:title (ml/t :vms/state) :key :state :type :string  :render-fn map-state}
+   :hypervisor {:title (ml/t :vms/hypervisor) :type :string :show false
                 :key (partial api/get-sub-element :hypervisors :hypervisor :alias)}
-   :cluster    {:title "Cluster" :type :string :show false
+   :cluster    {:title (ml/t :vms/cluster) :type :string :show false
                 :key (partial api/get-sub-element :groupings #(first (:groupings %)) :name)}))
 
 (set-state! [root :fields] (initial-state config))

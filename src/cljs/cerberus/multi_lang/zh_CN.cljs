@@ -8,7 +8,7 @@
                          :datasets "镜像"
                          :groupings "编组"
                          :hypervisors "物理机"
-                         :ipranges "IP范围"
+                         :ipranges "网络地址范围"
                          :logout "登出"
                          :machines "虚机"
                          :networks "网络"
@@ -114,4 +114,22 @@
                               :grant-fail "权限授予失败"
                               :revoke-succ "权限撤销成功"
                               :revoke-fail "权限撤销失败"}
-                  :roles-create {:name "名称"}})
+                  :roles-create {:name "名称"}
+                  :vms {
+                        :brand "类型"
+                        :cluster "集群"    
+                        :cpu "处理器"              
+                        :created "创建时间"
+                        :createdAgo "创建时长"
+                        :creator "创建者"
+                        :dataset "镜像"
+                        :hostname "主机名"
+                        :hypervisor "物理机"                        
+                        :ip "网络地址"                        
+                        :machines "虚机"
+                        :memory "内存"
+                        :name "名称"
+                        :owner "所有者"
+                        :package "配置包"
+                        :state "状态"
+                  }})
