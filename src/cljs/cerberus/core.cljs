@@ -36,7 +36,8 @@
    [cerberus.timers]
    [cerberus.utils :refer [goto val-by-id by-id a menu-items]]
    [cerberus.list.utils :refer [large small]]
-   [cerberus.state :refer [app-state set-state!]]))
+   [cerberus.state :refer [app-state set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (enable-console-print!)
 
@@ -111,33 +112,33 @@
        {:brand (d/a {:href (str "#/")} (d/img {:src "imgs/fifo-logo.png" :alt "FiFo"}))}
        (n/nav
         {:collapsible? true}
-        (n/nav-item {:key 1 :href "#/vms"} "Machines")
-        (n/nav-item {:key 2 :href "#/datasets"} "Datasets")
-        (n/nav-item {:key 3 :href "#/hypervisors"} "Hypervisors")
+        (n/nav-item {:key 1 :href "#/vms"} (ml/t :core/machines))
+        (n/nav-item {:key 2 :href "#/datasets"} (ml/t :core/datasets))
+        (n/nav-item {:key 3 :href "#/hypervisors"} (ml/t :core/hypervisors))
         (b/dropdown
-         {:key 4 :title "Configuration"}
+         {:key 4 :title (ml/t :core/configuration)}
          (menu-items
-          ["Users" "#/users"]
-          ["Roles"  "#/roles"]
-          ["Organisations"  "#/orgs"]
+          [(ml/t :core/users) "#/users"]
+          [(ml/t :core/roles) "#/roles"]
+          [(ml/t :core/orgs)  "#/orgs"]
           :divider
-          ["Clients"  "#/clients"]
+          [(ml/t :core/clients) "#/clients"]
           :divider
-          ["Packages" "#/packages"]
+          [(ml/t :core/packages) "#/packages"]
           :divider
-          ["Networks" "#/networks"]
-          ["IP Ranges" "#/ipranges"]
+          [(ml/t :core/networks) "#/networks"]
+          [(ml/t :core/ipranges) "#/ipranges"]
           #_["DTrace" "#/dtrace"]
-          ["Stacks & Clusters" "#/groupings"]
+          [(ml/t :core/groupings) "#/groupings"]
           :divider
-          ["Logout" #(conf/logout)]
+          [(ml/t :core/logout) #(conf/logout)]
           ;;["Logout & Reset UI" #(conf/clear)]
           ))
         (let [alerts (:alerts data)]
           (b/dropdown
            {:key 5
             :bs-style (max-level alerts)
-            :title (d/span "Notifications "
+            :title (d/span (ml/t :core/notifications)
                            (r/badge {} (count alerts)))}
            (apply
             menu-items

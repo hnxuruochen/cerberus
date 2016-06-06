@@ -2,7 +2,22 @@
 
 (def tconfig-map {
                   :common {:delete "删除"}
-
+                  :core {
+                         :clients "客户"
+                         :configuration "设置"
+                         :datasets "镜像"
+                         :groupings "编组"
+                         :hypervisors "物理机"
+                         :ipranges "IP范围"
+                         :logout "登出"
+                         :machines "虚机"
+                         :networks "网络"
+                         :notifications "通知"
+                         :orgs "组织"
+                         :packages "配置包"
+                         :roles "角色"
+                         :users "用户" 
+                  }
                   :clients {:clients "客户端"}
                   :clients-view {:auth-change-secret "修改密钥"
                                  :auth-new-secret "新密钥"
