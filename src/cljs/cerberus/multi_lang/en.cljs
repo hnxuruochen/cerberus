@@ -291,6 +291,61 @@
                               :sections-docker "Docker"
                               :sections-metadata "Metadata"}
 
+                  :packages {:action-clone "Clone"
+                             :pkgs "Packages"
+                             :ttl-cpu "CPU"
+                             :ttl-quota "Quota"
+                             :ttl-ram "RAM"}
+                  :packages-api {:del-succ "Package deleted."
+                                 :del-fail "Failed to delete package."}
+                  :packages-create {:cond-must "Must"
+                                    :cond-cant "Can't"
+                                    :cond-scale "Scale"
+                                    :cond-rand "Random"
+
+                                    :lbl-name "Name"
+                                    :lbl-cpu "CPU"
+                                    :lbl-mem "Memory"
+                                    :lbl-disk "Disk"
+                                    :lbl-io-prio "IO Priority"
+                                    :lbl-blk-size "Block Size"
+                                    :lbl-compr "Compression"
+
+                                    :rules-rules "Rules"
+                                    :rules-attr "Attribute"
+                                    :rules-val "Value"
+                                    :rules-low "Low"
+                                    :rules-high "High"
+                                    :rules-add "Add"
+
+                                    :org-res "Org Resources"
+                                    :org-res-res "Resource"
+                                    :org-res-req "Required"
+                                    :org-res-add "Add"
+                                    :org-res-val "Value"}
+                  :packages-view {:gen-general "General"
+                                  :gen-uuid "UUID"
+                                  :gen-req "Requirements"
+                                  :gen-cpu-mem "CPU / Memory"
+                                  :gen-ram "Ram"
+                                  :gen-cpu-cap "CPU Capacity"
+                                  :gen-cpu-shares "CPU Shares"
+                                  :gen-disk "Disk"
+                                  :gen-disk-quota "Quota"
+                                  :gen-disk-compr "Compression"
+                                  :gen-disk-io-prio "IO Priority"
+                                  :gen-disk-blk-size "Block Size"
+                                  :gen-org-res "Org Resources"
+
+                                  :req-scale "scale"
+                                  :req-rand "random"
+                                  :req-between " between "
+                                  :req-and " and "
+
+                                  :sections-general "General"
+                                  :sections-req "Requirements"
+                                  :sections-metadata "Metadata"}
+
 
                   :roles {:roles "Roles"}
                   :roles-view {:general "General"

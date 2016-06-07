@@ -5,7 +5,8 @@
    [cerberus.api :as api]
    [cerberus.http :as http]
    [cerberus.alert :refer [alerts]]
-   [cerberus.state :refer [app-state set-state!]]))
+   [cerberus.state :refer [app-state set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def root :packages)
 
@@ -19,4 +20,4 @@
                                                  (fn [es] (dissoc es uuid)))))
 
 (defn delete [data uuid]
-  (api/delete data root [uuid] (a-delete uuid "Package deleted." "Failed to delete package.")))
+  (api/delete data root [uuid] (a-delete uuid (ml/t :packages-api/del-succ) (ml/t :packages-api/del-fail))))

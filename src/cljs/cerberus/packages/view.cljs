@@ -17,7 +17,8 @@
    [cerberus.services :as services]
    [cerberus.metadata :as metadata]
    [cerberus.state :refer [set-state!]]
-   [cerberus.fields :refer [fmt-bytes fmt-percent]]))
+   [cerberus.fields :refer [fmt-bytes fmt-percent]]
+   [cerberus.multi-lang.entry :as ml]))
 
 
 (defn or-auto [v]
@@ -34,43 +35,43 @@
         (g/col
          {:sm 4}
          (p/panel
-          {:header (d/h3 "General")
+          {:header (d/h3 (ml/t :packages-view/gen-general))
            :list-group
            (lg
-            "UUID" (:uuid data)
-            "Requirements" (count (:requirements data)))}))
+            (ml/t :packages-view/gen-uuid)            (:uuid data)
+            (ml/t :packages-view/gen-req)            (count (:requirements data)))}))
 
         (g/col
          {:sm 4}
          (p/panel
-          {:header (d/h3 "CPU / Memory")
+          {:header (d/h3 (ml/t :packages-view/gen-cpu-mem))
            :list-group
            (lg
-            "RAM"        (:ram data)
-            "CPU Capacy" (:cpu_cap data)
-            "CPU Shares" (or-auto (:cpu_shares data)))}))
+            (ml/t :packages-view/gen-ram)            (:ram data)
+            (ml/t :packages-view/gen-cpu-cap)            (:cpu_cap data)
+            (ml/t :packages-view/gen-cpu-shares)            (or-auto (:cpu_shares data)))}))
         (g/col
          {:sm 4}
          (p/panel
-          {:header (d/h3 "Disk")
+          {:header (d/h3 (ml/t :packages-view/gen-disk))
            :list-group
            (lg
-            "Quota"       (:quota data)
-            "Compression" (:compression data)
-            "IO Priority" (or-auto (:io_priority data))
-            "Block  Size" (or-auto (:block_size data)))}))
+            (ml/t :packages-view/gen-disk-quota)            (:quota data)
+            (ml/t :packages-view/gen-disk-compr)            (:compression data)
+            (ml/t :packages-view/gen-disk-io-prio)            (or-auto (:io_priority data))
+            (ml/t :packages-view/gen-disk-blk-size)            (or-auto (:block_size data)))}))
         (g/col
          {:sm 4}
          (p/panel
-          {:header (d/h3 "Org Resources")
+          {:header (d/h3 (ml/t :packages-view/gen-org-res))
            :list-group
            (apply lg (flatten (map (fn [[r v]] [(name r) v]) (:org_resources data))))})))))))
 
 (defn render-requirement [{:keys [attribute condition value
                                   weight low high]}]
   (condp = weight
-    "scale" [(d/dt weight) (d/dd (d/strong attribute) " betwee " (d/strong  low) " and " (d/strong high))]
-    "random" [(d/dt weight) (d/dd "between " (d/strong low) " and " (d/strong high))]
+    (ml/t :packages-view/req-scale)    [(d/dt weight) (d/dd (d/strong attribute) (ml/t :packages-view/req-between) (d/strong  low) (ml/t :packages-view/req-and) (d/strong high))]
+    (ml/t :pacakges-view/req-rand)    [(d/dt weight) (d/dd (ml/t :packages-view/req-between) (d/strong low) (ml/t :packages-view/req-and) (d/strong high))]
     [(d/dt weight) (d/dd (d/strong attribute) " " condition " " (d/strong value))]))
 
 (defn build-reqs [reqs]
@@ -86,8 +87,8 @@
        (build-reqs app)))))
 
 (def sections
-  {""             {:key  1 :fn #(om/build render-home %2)      :title "General"}
-   "requirements" {:key  2 :fn #(om/build render-reqs (:requirements %2))  :title "Requirements"}
-   "metadata"     {:key  3 :fn #(om/build metadata/render %2)  :title "Metadata"}})
+  {""             {:key  1 :fn #(om/build render-home %2)      :title (ml/t :packages-view/sections-general)}
+   "requirements" {:key  2 :fn #(om/build render-reqs (:requirements %2))  :title (ml/t :packages-view/sections-req)}
+   "metadata"     {:key  3 :fn #(om/build metadata/render %2)  :title (ml/t :packages-view/sections-metadata)}})
 
 (def render (view/make root sections packages/get :name-fn :name))

@@ -10,7 +10,8 @@
    [cerberus.packages.api :refer [root] :as packages]
    [cerberus.utils :refer [initial-state]]
    [cerberus.state :refer [set-state!]]
-   [cerberus.fields :refer [mk-config]]))
+   [cerberus.fields :refer [mk-config]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn clone-pkg [{raw :raw}]
   (let [package (-> raw
@@ -23,14 +24,14 @@
              :section :packages,
              :maximized true})))
 
-  (defn actions [{uuid :uuid :as pkg}]
-    [(del/menue-item uuid)
-     ["Clone" #(clone-pkg pkg)]])
+(defn actions [{uuid :uuid :as pkg}]
+  [(del/menue-item uuid)
+   [(ml/t :packages/action-clone) #(clone-pkg pkg)]])
 
-  (def config (mk-config root "Packages" actions
-                         :cpu_cap {:title "CPU" :key :cpu_cap :type :percent}
-                         :quota {:title "Quota" :key :quota :type [:bytes :gb]}
-                         :ram {:title "RAM" :key :ram :type [:bytes :mb]}))
+(def config (mk-config root (ml/t :packages/pkgs) actions
+                       :cpu_cap {:title (ml/t :packages/ttl-cpu) :key :cpu_cap :type :percent}
+                       :quota {:title (ml/t :packages/ttl-quota) :key :quota :type [:bytes :gb]}
+                       :ram {:title (ml/t :packages/ttl-ram) :key :ram :type [:bytes :mb]}))
 
   (set-state! [root :fields] (initial-state config))
 

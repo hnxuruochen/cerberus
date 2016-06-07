@@ -288,7 +288,60 @@
                               :sections-docker "Docker"
                               :sections-metadata "元数据"}
 
+                  :packages {:action-clone "克隆"
+                             :pkgs "配置包"
+                             :ttl-cpu "CPU"
+                             :ttl-quota "配额"
+                             :ttl-ram "内存"}
+                  :packages-api {:del-succ "配置包删除成功"
+                                 :del-fail "配置包删除失败"}
+                  :packages-create {:cond-must "必须"
+                                    :cond-cant "不能"
+                                    :cond-scale "缩放"
+                                    :cond-rand "随机"
 
+                                    :lbl-name "名称"
+                                    :lbl-cpu "CPU"
+                                    :lbl-mem "内存"
+                                    :lbl-disk "磁盘"
+                                    :lbl-io-prio "IO优先级"
+                                    :lbl-blk-size "块大小"
+                                    :lbl-compr "压缩"
+
+                                    :rules-rules "规则"
+                                    :rules-attr "属性"
+                                    :rules-val "值"
+                                    :rules-low "低"
+                                    :rules-high "高"
+                                    :rules-add "添加"
+
+                                    :org-res "组织资源"
+                                    :org-res-res "资源"
+                                    :org-res-req "需求"
+                                    :org-res-add "添加"
+                                    :org-res-val "值"}
+                  :packages-view {:gen-general "常规"
+                                  :gen-uuid "UUID"
+                                  :gen-req "需求"
+                                  :gen-cpu-mem "CPU / 内存"
+                                  :gen-ram "内存"
+                                  :gen-cpu-cap "CPU性能"
+                                  :gen-cpu-shares "CPU共享"
+                                  :gen-disk "磁盘"
+                                  :gen-disk-quota "配额"
+                                  :gen-disk-compr "压缩"
+                                  :gen-disk-io-prio "IO优先级"
+                                  :gen-disk-blk-size "块大小"
+                                  :gen-org-res "组织资源"
+
+                                  :req-scale "缩放"
+                                  :req-rand "随机"
+                                  :req-between "介于区间"
+                                  :req-and "至"
+
+                                  :sections-general "常规"
+                                  :sections-req "需求"
+                                  :sections-metadata "元数据"}
 
                   :roles {:roles "角色"}
                   :roles-view {:general "常规"

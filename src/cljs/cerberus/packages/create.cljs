@@ -8,17 +8,18 @@
    [om-bootstrap.input :as i]
    [cerberus.utils :refer [->state str->int]]
    [cerberus.packages.view :refer [build-reqs]]
-   [cerberus.create :as create]))
+   [cerberus.create :as create]
+   [cerberus.multi-lang.entry :as ml]))
 
 
 
 
 (defn conditions []
   (concat
-   [["must" "Must"]
-    ["cant" "Can't"]
-    ["scale" "Scale"]
-    ["random" "Random"]]
+   [["must" (ml/t :packages-create/cond-must)]
+    ["cant" (ml/t :packages-create/cond-cant)]
+    ["scale" (ml/t :packages-create/cond-scale)]
+    ["random" (ml/t :packages-create/cond-random)]]
    (map
     (fn [i]
       [i (str (if (< 0 i) "+") i)])
@@ -82,19 +83,19 @@
       (d/div
        (create/render
         data
-        {:label "Name"                     :id "pkg-name"        :key :name}
-        {:label "CPU"         :unit "%"    :id "pkg-cpu"         :key :cpu_cap         :data-type :integer                :validator #(and (integer? %2) (< 0 %2))}
-        {:label "Memory"      :unit "MB"   :id "pkg-ram"         :key :ram             :data-type :integer                :validator #(and (integer? %2) (< 0 %2))}
-        {:label "Disk"        :unit "GB"   :id "pkg-quota"       :key :quota           :data-type :integer                :validator #(and (integer? %2) (< 0 %2))}
-        {:label "IO Priority"              :id "pkg-iopriority"  :key :zfs_io_priority :data-type :integer :optional true}
-        {:label "Block Size"  :unit "Byte" :id "pkg-block_size"  :key :blocksize       :data-type :integer :optional true}
-        {:label "Compression"              :id "pkg-compression" :key :compression                         :optional true
+        {:label (ml/t :packages-create/lbl-name)                     :id "pkg-name"        :key :name}
+        {:label (ml/t :packages-create/lbl-cpu)         :unit "%"    :id "pkg-cpu"         :key :cpu_cap         :data-type :integer                :validator #(and (integer? %2) (< 0 %2))}
+        {:label (ml/t :packages-create/lbl-mem)      :unit "MB"   :id "pkg-ram"         :key :ram             :data-type :integer                :validator #(and (integer? %2) (< 0 %2))}
+        {:label (ml/t :packages-create/lbl-disk)        :unit "GB"   :id "pkg-quota"       :key :quota           :data-type :integer                :validator #(and (integer? %2) (< 0 %2))}
+        {:label (ml/t :packages-create/lbl-io-prio)              :id "pkg-iopriority"  :key :zfs_io_priority :data-type :integer :optional true}
+        {:label (ml/t :packages-create/lbl-blk-size)  :unit "Byte" :id "pkg-block_size"  :key :blocksize       :data-type :integer :optional true}
+        {:label (ml/t :packages-create/lbl-compr)              :id "pkg-compression" :key :compression                         :optional true
          :type :select :options ["lz4" "lzjb" "zle" "gzip"]})
        (g/row
         {}
         (g/col
          {:xs 12}
-         (d/h4 "Rules")))
+         (d/h4 (ml/t :packages-create/rules-rules))))
        (g/row
         {}
         (g/col
@@ -109,7 +110,7 @@
         (if (not= "random" (:weight state))
           (g/col
            {:sm 4}
-           (i/input {:type "text" :value (:attribute state) :placeholder "Attribute"
+           (i/input {:type "text" :value (:attribute state) :placeholder (ml/t :packages-create/rules-attr)
                      :on-change (->state owner :attribute)})))
         (if (not (#{"random" "scale"} (:weight state)))
 
@@ -125,17 +126,17 @@
         (if (not (#{"random" "scale"} (:weight state)))
           (g/col
            {:sm 2}
-           (i/input {:type "text" :value (:value state) :placeholder "Value"
+           (i/input {:type "text" :value (:value state) :placeholder (ml/t :packages-create/rules-val)
                      :on-change (->state owner :value)})))
         (if (#{"random" "scale"} (:weight state))
           (g/col
            {:sm 2}
-           (i/input {:type "text" :value (:low state) :placeholder "Low"
+           (i/input {:type "text" :value (:low state) :placeholder (ml/t :packages-create/rules-low)
                      :on-change (->state owner :low)})))
         (if (#{"random" "scale"} (:weight state))
           (g/col
            {:sm 2}
-           (i/input {:type "text" :value (:high state) :placeholder "High"
+           (i/input {:type "text" :value (:high state) :placeholder (ml/t :packages-create/rules-high)
                      :on-change (->state owner :high)})))
         (let [rule (mk-rule state)]
           (g/col
@@ -144,7 +145,7 @@
             {:bs-style "primary"
              :on-click #(om/transact! data [:data :requirements] (fn [ds] (conj ds rule)))
              :disabled? (nil? rule)}
-            "Add"))))
+            (ml/t :packages-create/rules-add)))))
        (g/row
         {}
         (g/col
@@ -154,16 +155,16 @@
         {}
         (g/col
          {:xs 12}
-         (d/h4 "Org Resources")))
+         (d/h4 (ml/t :packages-create/org-res))))
        (g/row
         {}
         (g/col
          {:sm 6}
-         (i/input {:type "text" :value (:res state) :placeholder "Resource"
+         (i/input {:type "text" :value (:res state) :placeholder (ml/t :packages-create/org-res-res)
                    :on-change (->state owner :res)}))
         (g/col
          {:sm 4}
-         (i/input {:type "text" :value (:res-val state) :placeholder "Required"
+         (i/input {:type "text" :value (:res-val state) :placeholder (ml/t :packages-create/org-res-req)
                    :on-change (->state owner :res-val)}))
         (g/col
          {:sm 2}
@@ -171,7 +172,7 @@
           {:bs-style "primary"
            :on-click #(om/update! data [:data :org (:res state)] (str->int (:res-val state)))
            :disabled? (or (empty? (:res state)) (empty? (:res-val state)))}
-          "Add")))
+          (ml/t :packages-create/org-res-add))))
        (g/row
         {}
         (g/col
@@ -180,8 +181,8 @@
           {:condensed? true}
           (d/thead
            (d/tr
-            (d/th "Resource")
-            (d/th "Value")))
+            (d/th (ml/t :packages-create/org-res-res))
+            (d/th (ml/t :packages-create/org-res-val))))
           (d/tbody
            (map (fn [[r v]]
                   (d/tr
