@@ -19,75 +19,76 @@
    [cerberus.state :refer [set-state! app-state]]
    [cerberus.view :as view]
    [cerberus.metrics :as metrics]
-   [cerberus.fields :refer [fmt-bytes fmt-percent]]))
+   [cerberus.fields :refer [fmt-bytes fmt-percent]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn apply-fmt [fmt v & rest]
   (concat [(fmt v)] rest))
 
 (defn info [osname osver chunterversion boottime host]
   (p/panel
-   {:header (d/h3 "Info")
+   {:header (d/h3 (ml/t :hypervisor-view/general-info))
     :list-group
     (lg
-     "Host"             host
-     "Operating System" osname
-     "OS Version"       osver
-     "Chunter Version"  chunterversion
-     "Last Boot"        (.toISOString (js/Date. (* boottime 1000)))
-     "Host"             host)}))
+     (ml/t :hypervisors-view/gen-info-host) host
+     (ml/t :hypervisors-view/gen-info-os) osname
+     (ml/t :hypervisors-view/gen-info-os-ver)     osver
+     (ml/t :hypervisors-view/gen-info-chunter-ver)     chunterversion
+     (ml/t :hypervisors-view/gen-info-last-boot)     (.toISOString (js/Date. (* boottime 1000)))
+     (ml/t :hypervisors-view/gen-info-host)     host)}))
 
 (defn hardware [cpu cores virt_support mainboard manufacturer serial_number]
   (p/panel
-   {:header (d/h3 "Hardware")
+   {:header (d/h3 (ml/t :hypervisors-view/gen-hw-hardware))
     :list-group
     (lg
-     "CPU"                    cpu
-     "Cores"                  cores
-     "Mainboard"              mainboard
-     "Manufacturer"           manufacturer
-     "Serial Number"          serial_number
-     "Virtualisation Support" (clojure.string/join ", " virt_support))}))
+     (ml/t :hypervisors-view/gen-hw-cpu)     cpu
+     (ml/t :hypervisors-view/gen-hw-cores)     cores
+     (ml/t :hypervisors-view/gen-hw-mainboard)     mainboard
+     (ml/t :hypervisors-view/gen-hw-manufacturer)     manufacturer
+     (ml/t :hypervisors-view/gen-hw-sn)     serial_number
+     (ml/t :hypervisors-view/gen-hw-vs)     (clojure.string/join ", " virt_support))}))
 
 (defn memory [total provisioned free reserved l1size l1hit]
   (p/panel
-   {:header (d/h3 "Memory")
+   {:header (d/h3 (ml/t :hypervisors-view/gen-mem-memory))
     :list-group
     (lg
-     "Total"          total
-     "Provisioned"    provisioned
-     "Free"           free
-     "Reserved"       reserved
-     "L1 Cache Size"  l1size
-     "L1 Cache Hit %" l1hit)}))
+     (ml/t :hypervisors-view/gen-mem-total)     total
+     (ml/t :hypervisors-view/gen-mem-provisioned)     provisioned
+     (ml/t :hypervisors-view/gen-mem-free)     free
+     (ml/t :hypervisors-view/gen-mem-reserved)     reserved
+     (ml/t :hypervisors-view/gen-mem-l1-size)     l1size
+     (ml/t :hypervisors-view/gen-mem-l1-hit)     l1hit)}))
 
 (defn storage [pools disks]
   (p/panel
-   {:header (d/h3 "Storage")
+   {:header (d/h3 (ml/t :hypervisors-view/gen-st-storage))
     :list-group
     (d/ul {:class "list-group"}
           (d/li {:class "list-group-item"}
-                (d/b {:class "span-label"} "Disks")
+                (d/b {:class "span-label"} (ml/t :hypervisors-view/gen-st-disks))
                 (map (fn [[disk disk-info]]
                        [(d/div {:class "span-value"}
                                (clojure.string/replace (str disk) #"^:" "") ": "
                                ((keyword "Size in GB") disk-info))])
                      disks))
           (d/li {:class "list-group-item"}
-                (d/b {:class "span-label"} "Pools")
+                (d/b {:class "span-label"} (ml/t :hypervisors-view/gen-st-pools))
                 (map (fn [[pool pool-info]]
                        [(d/div {:class "span-value"}
                                (d/b (d/i (clojure.string/replace (str pool) #"^:" "") ": "))
                                (d/br)
-                               "Health: "
+                               (ml/t :hypervisors-view/gen-st-health)
                                (:health pool-info)
                                (d/br)
-                               "Size: "
+                               (ml/t :hypervisors-view/gen-st-size)
                                (apply-fmt (partial fmt-bytes :mb) (:size pool-info))
                                (d/br)
-                               "Free: "
+                               (ml/t :hypervisors-view/gen-st-free)
                                (apply-fmt (partial fmt-bytes :mb) (:free pool-info))
                                (d/br)
-                               "Used: "
+                               (ml/t :hypervisors-view/gen-st-used)
                                (apply-fmt (partial fmt-bytes :mb) (:used pool-info))
                                ) ])
                      pools)))}))
@@ -111,7 +112,7 @@
             osname (cond
                      (= (:smartos bootparams) "true") "SmartOS"
                      ;;(true? (:omnios bootparams)) "OmniOS"
-                     :else "Unknown")]
+                     :else (ml/t :hypervisors-view/gen-home-unknown))]
         (r/well
          {}
          (row
@@ -128,7 +129,7 @@
              :className "pull-right"
              :on-click #(hypervisors/set-config uuid {:alias (:alias state)})
              :disabled? (empty? (:alias state))}
-            "Change alias")))
+            (ml/t :hypervisors-view/gen-home-change-alias))))
          (row
           (g/col
            {:md 6}
@@ -160,7 +161,7 @@
           (g/col
            {:md 4}
            (p/panel
-            {:header "Networks"}
+            {:header (ml/t :hypervisors-view/gen-home-networks)}
             (d/ul
              (map  d/li (:networks element)))))))))))
 
@@ -184,14 +185,14 @@
            {:md 3}
            (i/input
             {:type "text"
-             :placeholder "Characteristic"
+             :placeholder (ml/t :hypervisors-view/char-char)
              :value (:char state)
              :on-change (->state owner :char)}))
           (g/col
            {:md 7}
            (i/input
             {:type "text"
-             :placeholder "Value"
+             :placeholder (ml/t :hypervisors-view/char-value)
              :value (:val state)
              :on-change (->state owner :val)}))
           (g/col
@@ -201,7 +202,7 @@
              :className "pull-right"
              :on-click #(hypervisors/set-characteristic uuid (:char state) (:val state))
              :disabled? invalid?}
-            "Add Characteristics")))
+            (ml/t :hypervisors-view/char-add-char))))
          (g/row
           {}
           (g/col
@@ -210,8 +211,8 @@
             {}
             (d/thead
              (d/tr
-              (d/th "Characteristic")
-              (d/th "Value")
+              (d/th (ml/t :hypervisors-view/char-char))
+              (d/th (ml/t :hypervisors-view/char-value))
               (d/th "")))
             (d/tbody
              (map
@@ -231,17 +232,17 @@
    [name]
 
    [["cpu" sub-metric]]
-   (assoc-in acc ["CPU" sub-metric] points)
+   (assoc-in acc [(ml/t :hypervisors-view/metrics-cpu) sub-metric] points)
 
    [_] acc))
 
 (def sections
-  {""          {:key  1 :fn  #(om/build render-home %2)     :title "General"}
-   "services"  {:key  3 :fn #(om/build services/render %2   {:opts {:action hypervisors/service-action}})  :title "Services"}
-   "chars"     {:key  4 :fn #(om/build render-chars %2)     :title "Characteristics"}
+  {""          {:key  1 :fn  #(om/build render-home %2)     :title (ml/t :hypervisors-view/sections-general)}
+   "services"  {:key  3 :fn #(om/build services/render %2   {:opts {:action hypervisors/service-action}})  :title (ml/t :hypervisors-view/sections-services)}
+   "chars"     {:key  4 :fn #(om/build render-chars %2)     :title (ml/t :hypervisors-view/sections-char)}
    ;; "notes"     {:key  5 :fn render-notes     :title "Notes"}
-   "metrics"   {:key  5 :fn #(om/build metrics/render (:metrics %2) {:opts {:translate build-metric}})   :title "Metrics"}
-   "metadata"  {:key  6 :fn #(om/build metadata/render %2)  :title "Metadata"}})
+   "metrics"   {:key  5 :fn #(om/build metrics/render (:metrics %2) {:opts {:translate build-metric}})   :title (ml/t :hypervisors-view/sections-metrics)}
+   "metadata"  {:key  6 :fn #(om/build metadata/render %2)  :title (ml/t :hypervisors-view/sections-metadata)}})
 
 
 (def logo

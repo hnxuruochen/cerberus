@@ -5,7 +5,8 @@
    [cerberus.api :as api]
    [cerberus.http :as http]
    [cerberus.alert :refer [alerts]]
-   [cerberus.state :refer [set-state!]]))
+   [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def root :hypervisors)
 
@@ -21,14 +22,14 @@
   (assoc (alerts success error) :always #(get uuid)))
 
 (defn delete [data uuid]
-  (api/delete data root [uuid] (alerts "Hypervisor removed." "Failed to remove hypervisor.")))
+  (api/delete data root [uuid] (alerts (ml/t :hypervisors-api/hv-del-succ) (ml/t :hypervisors-api/hv-del-fail))))
 
 (defn rename [uuid name]
-  (api/put root [uuid :config] {:alias name} (a-get uuid "Hypervisor renamed." "Failed to rename hypervisor.")))
+  (api/put root [uuid :config] {:alias name} (a-get uuid (ml/t :hypervisors-api/hv-rename-succ) (ml/t :hypervisors-api/hv-rename-fail))))
 
 (defn service-action [uuid service action]
   (api/put root [uuid :services] {:service service :action action}
-           (a-get uuid "Service state changed." "Failed to change service state.")))
+           (a-get uuid (ml/t :hypervisors-api/svc-change-succ) (ml/t :hypervisors-api/svc-change-fail))))
 
 (defn metrics [uuid]
   (go
@@ -42,12 +43,12 @@
 
 (defn set-config [uuid config]
   (api/put root [uuid :config] config
-           (a-get uuid "Configuration updated." "Failed to change configuration.")))
+           (a-get uuid (ml/t :hypervisors-api/config-set-succ) (ml/t :hypervisors-api/config-set-fail))))
 
 (defn set-characteristic [uuid char val]
   (api/put root [uuid :characteristics] {char val}
-           (a-get uuid "Characteristic set." "Failed to set characteristic.")))
+           (a-get uuid (ml/t :hypervisors-api/char-set-succ) (ml/t :hypervisors-api/char-set-fail))))
 
 (defn delete-characteristic [uuid char]
   (api/delete root [uuid :characteristics char]
-              (a-get uuid "Characteristic deleted." "Failed to delete characteristic.")))
+              (a-get uuid (ml/t :hypervisors-api/char-del-succ) (ml/t :hypervisors-api/char-del-fail))))
