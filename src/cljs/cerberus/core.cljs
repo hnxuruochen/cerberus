@@ -127,7 +127,7 @@
           [(ml/t :core/packages) "#/packages"]
           :divider
           [(ml/t :core/networks) "#/networks"]
-          [(ml/t :core/ipRanges) "#/ipranges"]
+          [(ml/t :core/ip-ranges) "#/ipranges"]
           #_["DTrace" "#/dtrace"]
           [(ml/t :core/groupings) "#/groupings"]
           :divider

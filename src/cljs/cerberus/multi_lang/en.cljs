@@ -1,14 +1,13 @@
 (ns cerberus.multi-lang.en)
 
 (def tconfig-map {
-                  :common {:delete "delete"}
                   :core {
                          :clients "Clients"
                          :configuration "Configuration"
                          :datasets "Datasets"
                          :groupings "Stack & Clusters"
                          :hypervisors "Hypervisors"
-                         :ipRanges "IP Ranges"
+                         :ip-ranges "IP Ranges"
                          :logout "Logout"
                          :machines "Machines"
                          :networks "Networks"
@@ -117,21 +116,31 @@
                               :revoke-succ "Permission revoked."
                               :revoke-fail "Failed to revoke permission."}
                   :roles-create {:name "Name"}
-                  :vms {
+                  :vms {                          
                         :brand "Brand"
                         :cluster "Cluster"
+                        :console "Console"
                         :cpu "CPU"
                         :created "Created"
-                        :createdAgo "Created ago"
+                        :created-ago "Created ago"
                         :creator "Creator"
                         :dataset "Dataset"
+                        :delete "Delete"
+                        :failed "failed"                        
                         :hostname "Hostname"
                         :hypervisor "Hypervisor"
-                        :ip "IP"                        
+                        :ip "IP"       
+                        :lock "Lock"                 
                         :machines "Machines"
                         :memory "Memory"
                         :name "Name"
                         :owner "Owner"
                         :package "Package"
-                        :state "State"
+                        :reboot "Reboot"
+                        :running "running"
+                        :start "Start"
+                        :state "State"                        
+                        :stop "Stop"
+                        :stopped "stopped"
+                        :unlock "Unlock"
                   }})

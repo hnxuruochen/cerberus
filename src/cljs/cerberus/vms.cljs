@@ -34,19 +34,19 @@
         type (get-in e [:raw :config :type])
         state (get-in e [:raw :state])]
     (if (or (not hypervisor) (empty? hypervisor))
-      [["Delete" {:class (if locked "disabled")} #(del/show uuid)]]
-      [["Console" #(open-with-ott (str "./" (if (= type "kvm") "vnc" "console")  ".html?uuid=" uuid))]
+      [[(ml/t :vms/delete) {:class (if locked "disabled")} #(del/show uuid)]]
+      [[(ml/t :vms/console) #(open-with-ott (str "./" (if (= type "kvm") "vnc" "console")  ".html?uuid=" uuid))]
        (if locked
-         ["Unlock" #(set-lock false)]
-         ["Lock" #(set-lock true)])
+         [(ml/t :vms/unlock) #(set-lock false)]
+         [(ml/t :vms/lock) #(set-lock true)])
        :divider
        (if (= state "running")
-         ["Stop" {:class (if locked "disabled")} #(vms/stop uuid)]
-         ["Start" {:class (if locked "disabled")} #(vms/start uuid)])
+         [(ml/t :vms/stop) {:class (if locked "disabled")} #(vms/stop uuid)]
+         [(ml/t :vms/start) {:class (if locked "disabled")} #(vms/start uuid)])
        (if (= state "running")
-         ["Reboot" {:class (if locked "disabled")} #(vms/reboot uuid)])
+         [(ml/t :vms/reboot) {:class (if locked "disabled")} #(vms/reboot uuid)])
        :divider
-       ["Delete" {:class (if locked "disabled")} #(del/show uuid)]])))
+       [(ml/t :vms/delete) {:class (if locked "disabled")} #(del/show uuid)]])))
 
 (defn get-ip [vm]
   (:ip (first (filter (fn [{p :primary}] p) (get-in vm [:config :networks])))))
@@ -58,7 +58,7 @@
 
 (defn map-state [state]
   (let [style (or (state-map state) "default")]
-    (r/label {:bs-style style} state)))
+    (r/label {:bs-style style} (ml/t (keyword "vms" state)))))
 
 (defn brand [config]
   (let [brand (get-in config [:config :type])
@@ -75,7 +75,7 @@
    :ip         {:title (ml/t :vms/ip) :key get-ip :type :ip :order -16}
    :created_at  {:title (ml/t :vms/created) :type [:timstamp :s] :order -15
                  :key :created_at :show false}
-   :created_ago  {:title (ml/t :vms/createdAgo) :type [:ago :s] :order -14
+   :created_ago  {:title (ml/t :vms/created-ago) :type [:ago :s] :order -14
                   :key :created_at :show true
                   :sort-key #(or (:created_at %) 0)}
    :package    {:title (ml/t :vms/package) :type :string :order -13
