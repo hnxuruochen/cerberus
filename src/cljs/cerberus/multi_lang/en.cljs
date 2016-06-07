@@ -403,4 +403,28 @@
                   :users-create {
                         :name "Name"
                         :password "Password"
+                  }
+                  :add {
+                        :new-machine "New Machine"
+                        :new-users "New User"
+                        :new-roles "New Role"
+                        :new-orgs "New Organisation"
+                        :new-clients "New Client"
+                        :new-groupings "New Grouping"
+                        :new-packages "New Package"
+                        :new-networks "New Network"
+                        :new-ipranges "New IP-Range"
+                        :new-dtrace "New DTrace Script"
+                        :new-datasets "Import Dataset"
+                        :btn-machine "Create"
+                        :btn-users "Add User"
+                        :btn-roles "Add Role"
+                        :btn-orgs "Add Organisation"
+                        :btn-clients "Add Client"
+                        :btn-groupings "Add Grouping"
+                        :btn-packages "Add Package"
+                        :btn-networks "Add Network"
+                        :btn-ipranges "Add IP-Range"
+                        :btn-dtrace "Add DTrace Script"
+                        :btn-datasets "Import"
                   }})
