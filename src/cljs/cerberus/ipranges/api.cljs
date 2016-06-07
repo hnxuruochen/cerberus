@@ -5,7 +5,8 @@
    [cerberus.api :as api]
    [cerberus.http :as http]
    [cerberus.alert :refer [alerts]]
-   [cerberus.state :refer [set-state!]]))
+   [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def root :ipranges)
 
@@ -16,4 +17,4 @@
 (def get (partial api/get root))
 
 (defn delete [data uuid]
-  (api/delete data root [uuid] (alerts "IPRange deleted." "Failed to delete IPRange.")))
+  (api/delete data root [uuid] (alerts (ml/t :ipranges-api/delete-succ) (ml/t :ipranges-api/delete-fail))))

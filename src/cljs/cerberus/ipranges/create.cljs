@@ -1,9 +1,10 @@
 (ns cerberus.ipranges.create
   (:require
    [om.core :as om :include-macros true]
-   ;[cerberus.ipranges.api :refer [root]]
+                                        ;[cerberus.ipranges.api :refer [root]]
    [cerberus.utils :refer [ip->int]]
-   [cerberus.create :as create]))
+   [cerberus.create :as create]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn network [data]
   (or (get-in data [:network]) "0.0.0.0"))
@@ -52,16 +53,16 @@
         (om/update! data [:view :vlan] "0"))
       (create/render
        data
-       {:type :input :label "Name" :id "ipr-name" :key :name}
-       {:type :input :label "NIC Tag" :id "ipr-tag" :key :tag}
-       {:type :input :label "VLAN" :id "ipr-vlan" :key :vlan :data-type :integer
+       {:type :input :label (ml/t :ipranges-create/name) :id "ipr-name" :key :name}
+       {:type :input :label (ml/t :ipranges-create/nic-tag) :id "ipr-tag" :key :tag}
+       {:type :input :label (ml/t :ipranges-create/vlan) :id "ipr-vlan" :key :vlan :data-type :integer
         :validator #(and
                      (not= %3 "")
                      (not (nil? %2))
                      (not (js/isNaN  %2))
                      (<= 0 %2 4096))}
-       {:type :input :label "Subnet IP" :id "ipr-network" :key :network :validator valid-ip}
-       {:type :input :label "Netmask" :id "ipr-netmask" :key :netmask :validator valid-ip}
-       {:type :input :label "Gateway" :id "ipr-gateway" :key :gateway :validator valid-ip}
-       {:type :input :label "First" :id "ipr-first" :key :first :validator valid-ip}
-       {:type :input :label "Last" :id "ipr-last" :key :last :validator valid-ip}))))
+       {:type :input :label (ml/t :ipranges-create/subset-ip) :id "ipr-network" :key :network :validator valid-ip}
+       {:type :input :label (ml/t :ipranges-create/netmask) :id "ipr-netmask" :key :netmask :validator valid-ip}
+       {:type :input :label (ml/t :ipranges-create/gateway) :id "ipr-gateway" :key :gateway :validator valid-ip}
+       {:type :input :label (ml/t :ipranges-create/first) :id "ipr-first" :key :first :validator valid-ip}
+       {:type :input :label (ml/t :ipranges-create/last) :id "ipr-last" :key :last :validator valid-ip}))))

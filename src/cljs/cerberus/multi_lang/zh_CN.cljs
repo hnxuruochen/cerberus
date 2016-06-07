@@ -1,14 +1,13 @@
 (ns cerberus.multi-lang.zh-CN)
 
 (def tconfig-map {
-                  :common {:delete "删除"}
                   :core {
                          :clients "客户"
                          :configuration "设置"
                          :datasets "镜像"
                          :groupings "编组"
                          :hypervisors "物理机"
-                         :ipranges "网络地址范围"
+                         :ip-ranges "网络地址范围"
                          :logout "登出"
                          :machines "虚机"
                          :networks "网络"
@@ -155,7 +154,7 @@
                                      :gen-st-health "健康: "
                                      :gen-st-size "大小: "
                                      :gen-st-free "空闲: "
-                                     :gen-st-used "已使用: "
+                                     :gen-st-used "使用: "
 
                                      :gen-home-unknown "未知"
                                      :gen-home-change-alias "修改别名"
@@ -173,6 +172,7 @@
                                      :sections-metrics "度量"
                                      :sections-metadata "元数据"}
 
+                  :ipranges {:ip-ranges "网络地址范围"}
                   :ipranges-api {:delete-succ "网络地址范围删除成功"
                                  :delete-fail "网络地址范围删除失败"}
                   :ipranges-create {:name "名称"
@@ -183,10 +183,24 @@
                                     :gateway "网关"
                                     :first "首地址"
                                     :last "尾地址"}
-                  :ipranges-view {:general-general "常规"
-                                  :general-uuid "标识符"
-                                  :general-network "网络"
-                                  :general-vlan "虚拟局域网"}
+                  :ipranges-view {:gen-general-general "常规"
+                                  :gen-general-uuid "标识符"
+                                  :gen-general-network "网络"
+                                  :gen-general-gateway "网关"
+                                  :gen-general-netmask "子网掩码"
+                                  :gen-general-vlan "虚拟局域网"
+                                  :gen-general-tag "标签"
+
+                                  :gen-ips-ips "网络地址"
+                                  :gen-ips-free "空闲"
+                                  :gen-ips-used "使用"
+
+                                  :ips-free "空闲"
+                                  :ips-used "使用"
+
+                                  :sections-general "常规"
+                                  :sections-ips "网络地址"
+                                  :sections-metadata "元数据"}
 
 
                   :roles {:roles "角色"}
@@ -203,18 +217,29 @@
                   :vms {
                         :brand "类型"
                         :cluster "集群"
+                        :console "控制台"
                         :cpu "处理器"
                         :created "创建时间"
-                        :createdAgo "创建时长"
+                        :created-ago "创建时长"
                         :creator "创建者"
                         :dataset "镜像"
+                        :delete "删除"
+                        :failed "已失败"
                         :hostname "主机名"
+
                         :hypervisor "物理机"
                         :ip "网络地址"
+                        :lock "锁定"
                         :machines "虚机"
                         :memory "内存"
                         :name "名称"
                         :owner "所有者"
                         :package "配置包"
+                        :reboot "重启"
+                        :running "运行中"
+                        :start "启动"
                         :state "状态"
+                        :stop "停止"
+                        :stopped "已停止"
+                        :unlock "解锁"
                         }})
