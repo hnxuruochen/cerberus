@@ -205,6 +205,23 @@
                                   :sections-ips "IPs"
                                   :sections-metadata "Metadata"}
 
+                  :networks {:networks "Networks"
+                             :ip-ranges "IP Ranges"}
+                  :networks-api {:network-del-succ "Network deleted."
+                                 :network-del-fail "Failed to delete network."
+                                 :iprange-add-succ "IP range added."
+                                 :iprange-add-fail "Failed to add IP range."
+                                 :iprange-del-succ "IP range deleted."
+                                 :iprange-del-fail "Failed to delete IP range."}
+                  :networks-create {:name "Name"}
+                  :networks-view {:iprange-add "Add"
+                                  :gen-general "General"
+                                  :gen-uuid "UUID"
+                                  :gen-ipranges "IPRanges"
+                                  :sections-general "General"
+                                  :sections-ipranges "IP Ranges"
+                                  :sections-metadata "Metadata"}
+
 
                   :roles {:roles "Roles"}
                   :roles-view {:general "General"

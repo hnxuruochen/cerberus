@@ -4,7 +4,8 @@
   (:require
    [cerberus.api :as api]
    [cerberus.alert :refer [alerts]]
-   [cerberus.state :refer [set-state!]]))
+   [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def root :networks)
 
@@ -20,12 +21,12 @@
   (assoc (alerts success error) :always #(get uuid)))
 
 (defn delete [data uuid]
-  (api/delete data root [uuid] (alerts "Network deleted." "Failed to delete network.")))
+  (api/delete data root [uuid] (alerts (ml/t :networks-api/network-del-succ) (ml/t :networks-api/network-del-fail))))
 
 (defn add-iprange [uuid iprange]
   (api/put root [uuid :ipranges iprange] {}
-           (a-get uuid "IPRange added." "Failed to add IPRange.")))
+           (a-get uuid (ml/t :networks-api/iprange-add-succ) (ml/t :networks-api/iprange-add-fail))))
 
 (defn remove-iprange [uuid iprange]
   (api/delete root [uuid :ipranges iprange]
-              (a-get uuid "IPRange removed." "Failed to remove IPRange.")))
+              (a-get uuid (ml/t :networks-api/iprange-del-succ) (ml/t :networks-api/iprange-del-fail))))

@@ -18,7 +18,8 @@
    [cerberus.services :as services]
    [cerberus.metadata :as metadata]
    [cerberus.state :refer [set-state!]]
-   [cerberus.fields :refer [fmt-bytes fmt-percent]]))
+   [cerberus.fields :refer [fmt-bytes fmt-percent]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn render-ranges [app owner opts]
   (reify
@@ -43,7 +44,7 @@
             {:bs-style "primary"
              :className "pull-right"
              :onClick #(networks/add-iprange id (val-by-id "iprange"))}
-            "Add"))
+            (ml/t :networks-view/iprange-add)))
           (col
            {:xs 12 :sm 6}
            (d/ul
@@ -64,16 +65,16 @@
       (r/well
        {}
        (p/panel
-          {:header (d/h3 "General")
-           :list-group
-           (lg
-            "UUID"     (:uuid data)
-            "IPRanges" (count (:ipranges data)))})))))
+        {:header (d/h3 (ml/t :networks-view/gen-general))
+         :list-group
+         (lg
+          (ml/t :networks-view/gen-uuid)          (:uuid data)
+          (ml/t :networks-view/gen-ipranges)          (count (:ipranges data)))})))))
 
 (def sections
-  {""          {:key  1 :fn #(om/build render-home %2)     :title "General"}
-   "ipranges"  {:key  2 :fn #(om/build render-ranges %1) :title "IP Ranges"}
-   "metadata"  {:key  3 :fn #(om/build metadata/render %2) :title "Metadata"}})
+  {""          {:key  1 :fn #(om/build render-home %2)     :title (ml/t :networks-view/sections-general)}
+   "ipranges"  {:key  2 :fn #(om/build render-ranges %1) :title (ml/t :networks-view/sections-ipranges)}
+   "metadata"  {:key  3 :fn #(om/build metadata/render %2) :title (ml/t :networks-view/sections-metadata)}})
 
 (def render
   (view/make

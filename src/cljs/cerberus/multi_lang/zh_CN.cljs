@@ -203,6 +203,23 @@
                                   :sections-ips "网络地址"
                                   :sections-metadata "元数据"}
 
+                  :networks {:networks "网络配置"
+                             :ip-ranges "网络地址范围"}
+                  :networks-api {:network-del-succ "网络配置删除成功"
+                                 :network-del-fail "网络配置删除失败"
+                                 :iprange-add-succ "网络地址范围添加成功"
+                                 :iprange-add-fail "网络地址范围添加失败"
+                                 :iprange-del-succ "网络地址范围删除成功"
+                                 :iprange-del-fail "网络地址范围删除失败"}
+                  :networks-create {:name "名称"}
+                  :networks-view {:iprange-add "添加"
+                                  :gen-general "常规"
+                                  :gen-uuid "UUID"
+                                  :gen-ipranges "网络地址范围"
+                                  :sections-general "常规"
+                                  :sections-ipranges "网络地址范围"
+                                  :sections-metadata "元数据"}
+
 
                   :roles {:roles "角色"}
                   :roles-view {:general "常规"
