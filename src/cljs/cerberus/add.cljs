@@ -22,7 +22,8 @@
    [cerberus.groupings.create :as groupings]
    [cerberus.roles.create :as roles]
    [cerberus.datasets.create :as datasets]
-   [cerberus.vms.create :as vms]))
+   [cerberus.vms.create :as vms]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def add-renderer
   {:vms       vms/render
@@ -38,30 +39,30 @@
    :datasets  datasets/render})
 
 (def add-title
-  {:vms       "New Machine"
-   :users     "New User"
-   :roles     "New Role"
-   :orgs      "New Organisation"
-   :clients   "New Client"
-   :groupings "New Grouping"
-   :packages  "New Package"
-   :networks  "New Network"
-   :ipranges  "New IP-Range"
-   :dtrace    "New DTrace Script"
-   :datasets  "Import Dataset"})
+  {:vms       (ml/t :add/new-machine)
+   :users     (ml/t :add/new-users)
+   :roles     (ml/t :add/new-roles)
+   :orgs      (ml/t :add/new-orgs)
+   :clients   (ml/t :add/new-clients)
+   :groupings (ml/t :add/new-groupings)
+   :packages  (ml/t :add/new-packages)
+   :networks  (ml/t :add/new-networks)
+   :ipranges  (ml/t :add/new-ipranges)
+   :dtrace    (ml/t :add/new-dtrace)
+   :datasets  (ml/t :add/new-datasets)})
 
 (def submit-text
-  {:vms       "Create"
-   :users     "Add User"
-   :roles     "Add Role"
-   :orgs      "Add Organisation"
-   :clients   "Add Client"
-   :groupings "Add Grouping"
-   :packages  "Add Package"
-   :networks  "Add Network"
-   :ipranges  "Add IP-Range"
-   :dtrace    "Add DTrace Script"
-   :datasets  "Import"})
+  {:vms      (ml/t :add/btn-machine)
+   :users     (ml/t :add/btn-users)
+   :roles     (ml/t :add/btn-roles)
+   :orgs      (ml/t :add/btn-orgs)
+   :clients   (ml/t :add/btn-clients)
+   :groupings (ml/t :add/btn-groupings)
+   :packages  (ml/t :add/btn-packages)
+   :networks  (ml/t :add/btn-networks)
+   :ipranges  (ml/t :add/btn-ipranges)
+   :dtrace    (ml/t :add/btn-dtrace)
+   :datasets  (ml/t :add/btn-datasets)})
 
 (def add-submit
   {:datasets datasets/submit})

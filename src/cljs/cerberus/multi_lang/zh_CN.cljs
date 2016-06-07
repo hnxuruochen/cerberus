@@ -2,6 +2,30 @@
 
 (def tconfig-map {
                   :missing "翻译缺失"
+                  :add {
+                        :new-machine "创建新的虚拟机"
+                        :new-users "创建用户"
+                        :new-roles "创建新角色"
+                        :new-orgs "创建新组织"
+                        :new-clients "创建新客户"
+                        :new-groupings "创建新编组"
+                        :new-packages "创建新的配置包"
+                        :new-networks "创建新的网络"
+                        :new-ipranges "创建新的网络地址范围"
+                        :new-dtrace "创建新 DTrace Script"
+                        :new-datasets "导入 Dataset"
+                        :btn-machine "创建虚拟机"
+                        :btn-users "创建用户"
+                        :btn-roles "创建角色"
+                        :btn-orgs "创建组织"
+                        :btn-clients "创建客户"
+                        :btn-groupings "创建编组"
+                        :btn-packages "创建配置包"
+                        :btn-networks "创建网络"
+                        :btn-ipranges "创建网络地址范围"
+                        :btn-dtrace "创建 DTrace Script"
+                        :btn-datasets "导入"
+                  }                  
                   :core {
                          :clients "客户"
                          :configuration "设置"
