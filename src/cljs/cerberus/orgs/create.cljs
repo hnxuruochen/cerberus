@@ -1,7 +1,8 @@
 (ns cerberus.orgs.create
   (:require
    [om.core :as om :include-macros true]
-   [cerberus.create :as create]))
+   [cerberus.create :as create]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn render [data]
   (reify
@@ -12,4 +13,4 @@
     (render-state [_ _]
       (create/render
        data
-       {:type :input :label "Name" :id "org-name" :key :name :validator #(not (empty? %2))}))))
+       {:type :input :label (ml/t :orgs-create/name) :id "org-name" :key :name :validator #(not (empty? %2))}))))

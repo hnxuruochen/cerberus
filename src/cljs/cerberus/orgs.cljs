@@ -16,7 +16,7 @@
 (defn actions [{uuid :uuid}]
   [(del/menue-item uuid)])
 
-(def config (mk-config root "Organisations" actions))
+(def config (mk-config root (ml/t :orgs/orgs) actions))
 
 (set-state! [root :fields] (initial-state config))
 

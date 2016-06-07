@@ -220,6 +220,75 @@
                                   :sections-ipranges "网络地址范围"
                                   :sections-metadata "元数据"}
 
+                  :orgs {:orgs "组织"}
+                  :orgs-api {:orgs-del-succ "组织删除成功"
+                             :orgs-del-fail "组织删除失败"
+                             :trigger-del-succ "触发器删除成功"
+                             :trigger-del-fail "触发器删除失败"
+                             :trigger-add-succ "触发器添加成功"
+                             :trigger-add-fail "触发器添加失败"
+                             :res-dec-succ "资源减少成功"
+                             :res-dec-fail "资源减少失败"
+                             :res-inc-succ "资源增加成功"
+                             :res-inc-fail "资源增加失败"
+                             :net-set-succ "网络配置设置成功"
+                             :net-set-fail "网络配置设置失败"
+                             :res-del-succ "资源删除成功"
+                             :res-del-fail "资源删除失败"}
+                  :orgs-create {:name "名称"}
+                  :orgs-view {:res-res "资源"
+                              :res-value "值"
+                              :res-inc "增加"
+                              :res-dec "减少"
+
+                              :docker-set-pub-net "设置公开网络"
+                              :docker-set-priv-net "设置私有网络"
+
+                              :tr-trigger-vm "当新建虚机"
+                              :tr-trigger-user "当新建用户"
+                              :tr-trigger-dataset "当新建镜像"
+
+                              :tr-rest-role "授予角色"
+                              :tr-rest-user "授予用户"
+                              :tr-rest-join-org "加入组织"
+                              :tr-rest-rcv-role "获得角色"
+
+                              :tr-when "当"
+                              :tr-a-vm "一台虚机"
+                              :tr-a-user "一名用户"
+                              :tr-a-dataset "一个镜像"
+                              :tr-is-created "被创建"
+                              :tr-join-them-org "将他们加入组织"
+                              :tr-give-them-role "授予他们角色"
+                              :tr-grant-role "授予角色"
+                              :tr-grant-user "授予用户"
+                              :tr-permissions-to "权限去"
+                              :tr-the-new "该新"
+                              :tr-vm "虚机"
+                              :tr-user "用户"
+                              :tr-dataset "镜像"
+                              :tr-period "。"
+                              :tr-create-trigger "创建触发器"
+                              :tr-event "事件"
+                              :tr-rest "其他"
+
+                              :gen-general "常规"
+                              :gen-uuid "UUID"
+                              :gen-res "资源"
+                              :gen-triggers "触发器"
+                              :gen-tr-total "总计"
+                              :gen-tr-vm "虚机创建"
+                              :gen-tr-user "用户创建"
+                              :gen-tr-dataset "镜像创建"
+
+                              :sections-general "常规"
+                              :sections-res "资源"
+                              :sections-accounting "账务"
+                              :sections-triggers "触发器"
+                              :sections-docker "Docker"
+                              :sections-metadata "元数据"}
+
+
 
                   :roles {:roles "角色"}
                   :roles-view {:general "常规"

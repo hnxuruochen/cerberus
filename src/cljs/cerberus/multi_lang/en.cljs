@@ -223,6 +223,75 @@
                                   :sections-metadata "Metadata"}
 
 
+                  :orgs {:orgs "Organisations"}
+                  :orgs-api {:orgs-del-succ "Organisation deleted."
+                             :orgs-del-fail "Failed to delete organisation."
+                             :trigger-del-succ "Trigger deleted."
+                             :trigger-del-fail "Failed to delete trigger."
+                             :trigger-add-succ "Trigger added."
+                             :trigger-add-fail "Failed to add trigger."
+                             :res-dec-succ "Resource decreased."
+                             :res-dec-fail "Failed to decrease resource."
+                             :res-inc-succ "Resource increased."
+                             :res-inc-fail "Failed to increase resource."
+                             :net-set-succ "Network set."
+                             :net-set-fail "Failed to set network."
+                             :res-del-succ "Resource deleted."
+                             :res-del-fail "Failed to delete resource."}
+                  :orgs-create {:name "Name"}
+                  :orgs-view {:res-res "Resource"
+                              :res-value "Value"
+                              :res-inc "Increase"
+                              :res-dec "Decrease"
+
+                              :docker-set-pub-net "Set Public Network"
+                              :docker-set-priv-net "Set Private Network"
+
+                              :tr-trigger-vm "When a VM is created"
+                              :tr-trigger-user "When a User is created"
+                              :tr-trigger-dataset "When a Dataset is created"
+
+                              :tr-rest-role "Grant the role "
+                              :tr-rest-user "Grant the user "
+                              :tr-rest-join-org "Join the Organisation "
+                              :tr-rest-rcv-role "Receive the role "
+
+                              :tr-when "When "
+                              :tr-a-vm "a VM"
+                              :tr-a-user "a User"
+                              :tr-a-dataset "a Dataset"
+                              :tr-is-created " is created "
+                              :tr-join-them-org "join them to the organisation"
+                              :tr-give-them-role "give them the role"
+                              :tr-grant-role "grnat the role"
+                              :tr-grant-user "grant the user"
+                              :tr-permissions-to " permissions to "
+                              :tr-the-new " the new "
+                              :tr-vm "VM"
+                              :tr-user "User"
+                              :tr-dataset "Dataset"
+                              :tr-period "."
+                              :tr-create-trigger "Create Trigger"
+                              :tr-event "Event"
+                              :tr-rest "Rest"
+
+                              :gen-general "General"
+                              :gen-uuid "UUID"
+                              :gen-res "Resources"
+                              :gen-triggers "Triggers"
+                              :gen-tr-total "Total"
+                              :gen-tr-vm "VM Creation"
+                              :gen-tr-user "User Creation"
+                              :gen-tr-dataset "Dataset Creation"
+
+                              :sections-general "General"
+                              :sections-res "Resources"
+                              :sections-accounting "Accounting"
+                              :sections-triggers "Triggers"
+                              :sections-docker "Docker"
+                              :sections-metadata "Metadata"}
+
+
                   :roles {:roles "Roles"}
                   :roles-view {:general "General"
                                :permissions "Permission"
