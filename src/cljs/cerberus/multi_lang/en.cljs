@@ -1,6 +1,23 @@
 (ns cerberus.multi-lang.en)
 
 (def tconfig-map {
+                  :common {:delete "delete"}
+                  :core {
+                         :clients "Clients"
+                         :configuration "Configuration"
+                         :datasets "Datasets"
+                         :groupings "Stack & Clusters"
+                         :hypervisors "Hypervisors"
+                         :ipRanges "IP Ranges"
+                         :logout "Logout"
+                         :machines "Machines"
+                         :networks "Networks"
+                         :notifications "Notifications"
+                         :orgs "Organisations"
+                         :packages "Packages"
+                         :roles "Roles"
+                         :users "Users" 
+                  }
                   :clients {:clients "Clients"}
                   :clients-view {:auth-change-secret "Change Secret"
                                  :auth-new-secret "New Secret"
@@ -118,4 +135,22 @@
                               :grant-fail "Failed to grant permission."
                               :revoke-succ "Permission revoked."
                               :revoke-fail "Failed to revoke permission."}
-                  :roles-create {:name "Name"}})
+                  :roles-create {:name "Name"}
+                  :vms {
+                        :brand "Brand"
+                        :cluster "Cluster"
+                        :cpu "CPU"
+                        :created "Created"
+                        :createdAgo "Created ago"
+                        :creator "Creator"
+                        :dataset "Dataset"
+                        :hostname "Hostname"
+                        :hypervisor "Hypervisor"
+                        :ip "IP"                        
+                        :machines "Machines"
+                        :memory "Memory"
+                        :name "Name"
+                        :owner "Owner"
+                        :package "Package"
+                        :state "State"
+                  }})
