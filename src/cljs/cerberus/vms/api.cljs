@@ -9,7 +9,8 @@
    [cerberus.howl :as howl]
    [cerberus.alert :as alert :refer [alerts]]
    [cerberus.utils :refer [initial-state make-event]]
-   [cerberus.state :refer [set-state! update-state! app-state delete-state!]]))
+   [cerberus.state :refer [set-state! update-state! app-state delete-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def root :vms)
 
@@ -38,24 +39,24 @@
 (defn delete [data uuid]
   (api/delete
    data root [uuid]
-   (alerts "VM Deletion successful." "Failed to delete VM.")))
+   (alerts (ml/t :vms-api/vm-del-succ) (ml/t :vms-api/vm-del-fail))))
 
 (defn delete-hypervisor [uuid]
   (api/delete
    root [uuid :hypervisor]
-   (a-get uuid "VM successfuly removed from hypervisor."
-          "Failed to remove VM from hypervisor.")))
+   (a-get uuid (ml/t :vms-api/vm-rm-succ)
+          (ml/t :vms-api/vm-rm-fail))))
 
 (defn start [uuid]
   (api/put root [uuid :state] {:action :start}
-           (alerts "Starting VM." "Failed to start VM.")))
+           (alerts (ml/t :vms-api/vm-start) (ml/t :vms-api/vm-start-fail))))
 
 (defn stop [uuid & [force]]
   (api/put root [uuid :state]
            (if force
              {:action :stop :force true}
              {:action :stop})
-           (alerts "Stopping VM." "Failed to stop VM.")))
+           (alerts (ml/t :vms-api/vm-stop) (ml/t :vms-api/vm-stop-fail))))
 
 
 (defn reboot [uuid & [force]]
@@ -63,27 +64,27 @@
            (if force
              {:action :reboot :force true}
              {:action :reboot})
-           (alerts "Rebooting VM." "Failed to reboot VM.")))
+           (alerts (ml/t :vms-api/vm-reboot) (ml/t :vms-api/vm-reboot-fail))))
 
 (defn snapshot [uuid comment]
   (api/post
    root [uuid :snapshots]
    {:comment comment}
-   (alerts "Creating Snapshot." "Failed to create snapshot.")))
+   (alerts (ml/t :vms-api/snapshot-create) (ml/t :vms-api/snapshot-create-fail))))
 
 (defn delete-snapshot [uuid snapshot]
   (api/delete root [uuid :snapshots snapshot]
-              (alerts "Deleting Snapshot." "Failed to delete snapshot.")))
+              (alerts (ml/t :vms-api/snapshot-delete) (ml/t :vms-api/snapshot-delete-fail))))
 
 (defn restore-snapshot
   ([uuid snapshot]
    (api/put root [uuid :snapshots snapshot] {:action "rollback"}
-            (a-get uuid "Restoring Snapshot." "Failed to restore snapshot."))))
+            (a-get uuid (ml/t :vms-api/snapshot-restore) (ml/t :vms-api/snapshot-restore-fail)))))
 
 (defn _backup [uuid opts]
   (api/post root [uuid :backups]
             opts
-            (assoc (alerts "Creating backup." "Failed to create backup.")
+            (assoc (alerts (ml/t :vms-api/backup-create) (ml/t :vms-api/backup-create-fail))
                    :always
                    (fn [resp]
                      (if (:success resp)
@@ -91,12 +92,12 @@
 
 (defn add-fw-rule [uuid rule]
   (api/post root [uuid :fw_rules] rule
-            (a-get uuid "Adding firewall rule." "Failed to add firewall rule.")))
+            (a-get uuid (ml/t :vms-api/firewall-add) (ml/t :vms-api/firewall-add-fail))))
 
 (defn delete-fw-rule [uuid rule]
   (api/delete
    root [uuid :fw_rules rule]
-   (a-get uuid "Deleting firewall rule." "Failed to delete firewall rule.")))
+   (a-get uuid (ml/t :vms-api/firewall-delete) (ml/t :vms-api/firewall-delete-fail))))
 
 (defn backup
   ([uuid comment]
@@ -106,7 +107,7 @@
 
 (defn delete-backup [uuid backup]
   (api/delete root [uuid :backups backup]
-              (assoc (alerts "Deleting backup." "Failed to delete backup.")
+              (assoc (alerts (ml/t :vms-api/backup-delete) (ml/t :vms-api/backup-delete-fail))
                      :always
                      (fn [resp]
                        (if (:success resp)
@@ -115,44 +116,44 @@
 (defn restore-backup
   ([uuid backup]
    (api/put root [uuid :backups backup] {:action "rollback"}
-            (a-get uuid "Restoring backup." "Failed to restore backup.")))
+            (a-get uuid (ml/t :vms-api/backup-restore) (ml/t :vms-api/backup-restore-fail))))
   ([uuid hypervisor backup]
    (api/put root [uuid :backups backup] {:action "rollback" :hypervisor hypervisor}
-            (a-get uuid "Restoring backup." "Failed to restore backup."))))
+            (a-get uuid (ml/t :vms-api/backup-restore) (ml/t :vms-api/backup-restore-fail)))))
 
 (defn service-action [uuid service action]
   (api/put root [uuid :services] {:service service :action action}
-           (a-get uuid "Changing service state." "Failed to change service state.")))
+           (a-get uuid (ml/t :vms-api/service-change) (ml/t :vms-api/service-change-fail))))
 
 (defn change-package [uuid package]
   (api/put root [uuid :package] {:package package}
-           (a-get uuid "Changing VM package." "Failed to change VM package, you are probably out of space.")))
+           (a-get uuid (ml/t :vms-api/vm-pkg-change) (ml/t :vms-api/vm-pkg-change-fail))))
 
 (defn change-config [uuid config]
   (api/put root [uuid :config] config
-           (a-get uuid "Changing VM configuration." "Failed to change the VM configuration.")))
+           (a-get uuid (ml/t :vms-api/vm-conf-change) (ml/t :vms-api/vm-pkg-conf-fail))))
 
 (defn change-alias [uuid alias]
   (change-config uuid {:alias alias}))
 
 (defn add-network [uuid network]
   (api/post root [uuid :nics] {:network network}
-            (a-get uuid "Adding network." "Failed to add network.")))
+            (a-get uuid (ml/t :vms-api/network-add) (ml/t :vms-api/network-add-fail))))
 
 (defn set-hostname [uuid nic hostname]
   (api/put root [uuid :hostname nic] {:hostname hostname}
-           (a-get uuid "Hostname set." "Failed to set hostname.")))
+           (a-get uuid (ml/t :vms-api/hostname-set) (ml/t :vms-api/hostname-set-fail))))
 
 (defn delete-network [uuid mac]
   (api/delete root [uuid :nics mac]
-              (a-get uuid "Deleting network." "Failed to add network.")))
+              (a-get uuid (ml/t :vms-api/network-delete) (ml/t :vms-api/network-delete-fail))))
 
 (defn make-network-primary [uuid mac]
   (api/put root [uuid :nics mac] {:primary true}
-           (a-get uuid "Marking network as primary." "Failed to mark network as primary.")))
+           (a-get uuid (ml/t :vms-api/network-marking) (ml/t :vms-api/network-marking))))
 
 (def update-metadata (partial api/update-metadata root))
 
 (defn set-owner [uuid org]
   (api/put root [uuid :owner] {:org org}
-           (a-get uuid "Owner changed." "Failed to change owner.")))
+           (a-get uuid (ml/t :vms-api/owner-change) (ml/t :vms-api/owner-change-fail))))

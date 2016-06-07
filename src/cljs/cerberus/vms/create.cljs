@@ -14,17 +14,18 @@
    [cerberus.create :as create]
    [clojure.string :refer [split]]
    [cerberus.state :refer [app-state]]
-   [cerberus.utils :refer [make-event val-by-id ->state]]))
+   [cerberus.utils :refer [make-event val-by-id ->state]]
+   [cerberus.multi-lang.entry :as ml]))
 
 
-(def spec-alias {:label "Alias" :id "vm-alias" :key [:config :alias]})
+(def spec-alias {:label (ml/t :vms-create/alias) :id "vm-alias" :key [:config :alias]})
 
-(def spec-hostname {:label "Hostname" :id "vm-hostname" :key [:config  :hostname]
+(def spec-hostname {:label (ml/t :vms-create/hostname) :id "vm-hostname" :key [:config  :hostname]
                     :validator #(re-matches #"[a-zA-Z]+[.a-zA-Z0-9-]*" (str %2))})
 
-(def spec-dataset {:lable "Dataset" :key :dataset :validator #(not (empty? %2))})
+(def spec-dataset {:lable (ml/t :vms-create/dataset) :key :dataset :validator #(not (empty? %2))})
 
-(def spec-package {:label "Package" :key :package :validator #(not (empty? %2))})
+(def spec-package {:label (ml/t :vms-create/package) :key :package :validator #(not (empty? %2))})
 
 (defn valid-networks [data networks]
   (if networks
@@ -34,7 +35,7 @@
         false))
     false))
 
-(def spec-networks {:label "Networks" :key [:config :networks] :validator valid-networks})
+(def spec-networks {:label (ml/t :vms-create/network) :key [:config :networks] :validator valid-networks})
 
 (def spec-general [spec-alias spec-hostname])
 
@@ -77,11 +78,11 @@
           (g/col
            {:md 2}
            (n/nav {:bs-style "stacked" :active-key tab :id "vm-create-tabs"}
-                  (n/nav-item (mkopts 1 spec-general) "General")
-                  (n/nav-item (mkopts 2 [spec-dataset]) "Dataset")
-                  (n/nav-item (mkopts 3 [spec-package]) "Package")
-                  (n/nav-item (mkopts 4 [spec-networks]) "Networking")
-                  (n/nav-item (mkopts 5 []) "Advanced")))
+                  (n/nav-item (mkopts 1 spec-general) (ml/t :vms-create/general))
+                  (n/nav-item (mkopts 2 [spec-dataset]) (ml/t :vms-create/dataset))
+                  (n/nav-item (mkopts 3 [spec-package]) (ml/t :vms-create/package))
+                  (n/nav-item (mkopts 4 [spec-networks]) (ml/t :vms-create/networking))
+                  (n/nav-item (mkopts 5 []) (ml/t :vms-create/advanced))))
           (g/col
            {:md 10}
            (condp = tab
@@ -93,7 +94,7 @@
                 {}
                 (d/thead
                  (d/tr
-                  (d/td "Name") (d/td "Version")))
+                  (d/td (ml/t :vms-create/name)) (d/td (ml/t :vms-create/version))))
                 (d/tbody
                  (map (fn [{:keys [uuid name version]}]
                         (d/tr
@@ -108,7 +109,7 @@
                 {}
                 (d/thead
                  (d/tr
-                  (d/td "Name") (d/td "CPU") (d/td "RAM") (d/td "Quota")))
+                  (d/td (ml/t :vms-create/name)) (d/td (ml/t :vms-create/cpu)) (d/td (ml/t :vms-create/ram)) (d/td (ml/t :vms-create/quota))))
                 (d/tbody
                  (map (fn [{:keys [uuid name cpu_cap ram quota]}]
                         (d/tr
@@ -163,7 +164,7 @@
                       :disabled? (or unchanged?
                                      (empty? (:resolvers state))
                                      (invalid-resolvers? (:resolvers state)))}
-                     "Set Resolvers")))))
+                     (ml/t :vms-create/set-resolvers))))))
              5 (g/grid
                 {:md 10}
                 (g/row
@@ -184,16 +185,16 @@
                  {}
                  (g/col
                   {:xs 12}
-                  (d/h4 "Metadata")))
+                  (d/h4 (ml/t :vms-create/metadata))))
                 (g/row
                  {}
                  (g/col
                   {:sm 4}
-                  (i/input {:type "text" :value (:meta-name state) :placeholder "Name"
+                  (i/input {:type "text" :value (:meta-name state) :placeholder (ml/t :vms-create/name)
                             :on-change (->state owner :meta-name)}))
                  (g/col
                   {:sm 4}
-                  (i/input {:type "text" :value (:meta-val state) :placeholder "Value"
+                  (i/input {:type "text" :value (:meta-val state) :placeholder (ml/t :vms-create/value)
                             :on-change (->state owner :meta-val)}))
                  (g/col
                   {:sm 2}
@@ -210,8 +211,8 @@
                    {:condensed? true}
                    (d/thead
                     (d/tr
-                     (d/th "Key")
-                     (d/th "Value")))
+                     (d/th (ml/t :vms-create/key))
+                     (d/th (ml/t :vms-create/value))))
                    (d/tbody
                     (map (fn [[r v]]
                            (d/tr
