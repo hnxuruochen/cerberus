@@ -26,15 +26,16 @@
    [cerberus.alert :as alert]
    [cerberus.state :refer [set-state!]]
    [cerberus.fields :refer [fmt-bytes fmt-percent]]
-   [cerberus.validate :as validate]))
+   [cerberus.validate :as validate]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn password-panel [data owner state]
   (let [uuid (:uuid data)]
     (p/panel
-     {:header (d/h3 "Change Password")}
+     {:header (d/h3 (ml/t :users-view/change-password))}
      (d/form
       (i/input
-       {:type "password" :label "New Password"
+       {:type "password" :label (ml/t :users-view/new-password)
         :id "changepass1"
         :value (:password1-val state)
         :on-change  #(validate/match
@@ -43,7 +44,7 @@
                       :password1-val
                       owner %)})
       (i/input
-       {:type "password" :label "Confirm"
+       {:type "password" :label (ml/t :users-view/confirm)
         :id "changepass2"
         :value (:password2-val state)
         :bs-style (if (or (:password-validate state)
@@ -58,10 +59,10 @@
        {:bs-style "primary"
         :className "pull-right"
         :onClick #(do
-                    (alert/raise :success "Password changed")
+                    (alert/raise :success (ml/t :users-view/password-changed))
                     (users/changepass uuid (:password1-val state)))
         :disabled? (false? (:password-validate state))}
-       "Change")))))
+       (ml/t :users-view/change))))))
 
 (defn clean-key [owner]
   (om/set-state! owner :key-name-validate false)
@@ -92,7 +93,7 @@
    {:style {:display (if (:add-ssh-modal state) "block" "none")} }
    (md/modal
     {:header (d/h4
-              "New SSH Public Key"
+              (ml/t :users-view/new-ssh-key)
               (d/button {:type         "button"
                          :class        "close"
                          :aria-hidden  true
@@ -109,16 +110,16 @@
                                       (:key-name-validate state)
                                       (:key-data-validate state)))
                          :on-click #(submit-key uuid owner state)}
-                        "Add"))}
+                        (ml/t :users-view/ssh-add)))}
     (d/form
      (i/input
-      {:type "textarea" :label "Key"
+      {:type "textarea" :label (ml/t :users-view/ssh-key)
        :id "newsshkey"
        :style {:height "8em"}
        :value (:key-data-value state)
        :on-change (partial change-key state owner)})
      (i/input
-      {:type "text" :label "Name"
+      {:type "text" :label (ml/t :users-view/ssh-name)
        :id "newsshkeyname"
        :value (:key-name-value state)
        :on-change
@@ -142,7 +143,7 @@
    {:style {:display (if (:add-yubi-modal state) "block" "none")} }
    (md/modal
     {:header (d/h4
-              "Register YubiKey"
+              (ml/t :users-view/register-yubikey)
               (d/button {:type         "button"
                          :class        "close"
                          :aria-hidden  true
@@ -157,10 +158,10 @@
                          :disabled? (not
                                      (:yubi-validate state))
                          :on-click #(submit-yubi uuid owner state)}
-                        "Add"))}
+                        (ml/t :users-view/yubi-add)))}
     (d/form
      (i/input
-      {:type "text" :label "Key"
+      {:type "text" :label (ml/t :users-view/yubi-key)
        :id "newyubikey"
        :value (:yubi-value state)
        :on-change
@@ -183,7 +184,7 @@
   (let [uuid (:uuid data)
         ssh-keys (:keys data)]
     (d/div
-     (p/panel {:header (d/h3 "SSH Keys"
+     (p/panel {:header (d/h3 (ml/t :users-view/ssh-keys)
                              (b/button {;:bs-style "primary"
                                         :bs-size "xsmall"
                                         :className "pull-right"
@@ -212,7 +213,7 @@
   (let [uuid (:uuid data)
         yubi-keys (:yubikeys data)]
     (d/div
-     (p/panel {:header (d/h3 "Yubi Keys"
+     (p/panel {:header (d/h3 (ml/t :users-view/yubi-keys)
                              (b/button {;:bs-style "primary"
                                         :bs-size "xsmall"
                                         :className "pull-right"
@@ -272,7 +273,7 @@
              :className "pull-right"
              :onClick #(users/add-role id (:role state))
              :disabled? (invalid-role (:role state))}
-            "Add"))
+            (ml/t :users-view/roles-add)))
           (col
            {:xs 12 :sm 6}
            (d/ul
@@ -315,7 +316,7 @@
              :className "pull-right"
              :on-click #(users/add-org id (:org state))
              :disabled? (invalid-org (:org state))}
-            "Add"))
+            (ml/t :users-view/orgs-add)))
           (col
            {:xs 12 :sm 6}
            (d/ul
@@ -343,7 +344,7 @@
    {:style {:display (if (:token state) "block" "none")} }
    (md/modal
     {:header (d/h4
-              "API Key"
+              (ml/t :users-view/token-api-key)
               (d/button {:type         "button"
                          :class        "close"
                          :aria-hidden  true
@@ -357,11 +358,11 @@
      :animate? false
      :style {:display "block"}}
     (d/p
-     "Your API key as been created, this is the only time you will be able to access it, "
-     "be sure to put it in the applicaiton you generated it for." (d/br)
-     (d/strong "Once this window is closed you will not be able to retrive it any again!"))
+     (ml/t :users-view/token-api-key-exist-1)
+     (ml/t :users-view/token-api-key-exist-2) (d/br)
+     (d/strong (ml/t :users-view/token-api-key-exist-3)))
     (d/p
-     "API Token: " (d/strong {:class "uuid"} (:token state))))))
+     (ml/t :users-view/api-token) (d/strong {:class "uuid"} (:token state))))))
 
 (defn create-api-key [owner {:keys [comment scopes uuid] :as state}]
   (go
@@ -399,7 +400,7 @@
             (i/input
              {:type "text"
               :value (:comment state)
-              :placeholder "API Key Name"
+              :placeholder (ml/t :users-view/api-key-name)
               :on-change (->state owner :comment)}))
            (g/col
             {:xs 12 :sm 4 :md 2}
@@ -407,7 +408,7 @@
                        :disabled? (or (empty? (:scopes state))
                                       (empty? (:comment state)))
                        :on-click #(create-api-key owner state)}
-                      "Create API Key")))
+                      (ml/t :users-view/create-api-key))))
           (g/row
            {}
            (map
@@ -431,10 +432,10 @@
              (d/thead
               {}
               (d/tr
-               (d/th "Client")
-               (d/th "Type")
-               (d/th "Expiery")
-               (d/th "Revoke")))
+               (d/th (ml/t :users-view/tokens-list-title-client))
+               (d/th (ml/t :users-view/tokens-list-title-type))
+               (d/th (ml/t :users-view/tokens-list-title-expiry))
+               (d/th (ml/t :users-view/tokens-list-title-revoke))))
              (d/tbody
               (map (fn [{type     :type
                          expiery  :expiery
@@ -444,10 +445,10 @@
                      (d/tr
                       (d/td (cond
                               (and (not expiery) (not client)) (d/strong comment)
-                              (and (= type "access") (not client)) (d/strong "User")
+                              (and (= type "access") (not client)) (d/strong (ml/t :users-view/users))
                               :else (client-name client)))
                       (d/td (cond
-                              (and (not expiery) (not client)) "API"
+                              (and (not expiery) (not client)) (ml/t :users-view/api)
                               (and (= type "access") (not client)) "password"
                               :else type))
                       (d/td
@@ -460,23 +461,23 @@
                    tokens)))))))))))
 
 (def sections
-  {""         {:key  1 :fn #(om/build render-auth %2)  :title "Authentication"}
+  {""         {:key  1 :fn #(om/build render-auth %2)  :title (ml/t :users-view/title-authentication)}
    "perms"    {:key  2
                :fn #(om/build permissions/render
                               %1
                               {:key  (str  (:uuid %2) "-permissions")
                                :opts {:element %2 :grant users/grant :revoke users/revoke}})
-               :title "Permissions"}
+               :title (ml/t :users-view/title-permission)}
    "roles"    {:key  3 :fn #(om/build render-roles %1
                                       {:opts {:id (get-in %1 [root :selected])
-                                              :root root}})     :title "Roles"}
+                                              :root root}})     :title (ml/t :users-view/title-roles)}
    "orgs"     {:key  4 :fn #(om/build render-orgs %1
                                       {:opts {:id (get-in %1 [root :selected])}})
-               :title "Orgs"}
+               :title (ml/t :users-view/title-orgs)}
    "tokens"   {:key  5 :fn #(om/build render-tokens %1
                                       {:opts {:id (get-in %1 [root :selected])}})
-               :title "Tokens"}
-   "metadata" {:key  6 :fn #(om/build metadata/render (get-in %1 [root :elements (get-in %1 [root :selected])]))  :title "Metadata"}})
+               :title (ml/t :users-view/title-tokens)}
+   "metadata" {:key  6 :fn #(om/build metadata/render (get-in %1 [root :elements (get-in %1 [root :selected])]))  :title (ml/t :users-view/title-metadata)}})
 
 (def render
   (view/make
