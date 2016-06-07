@@ -11,7 +11,8 @@
    [cerberus.hypervisors.view :as view]
    [cerberus.fields :refer [mk-config]]
    [cerberus.utils :refer [initial-state make-event str->int]]
-   [cerberus.state :refer [set-state!]]))
+   [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn actions [{uuid :uuid}]
   [(del/menue-item uuid)])
@@ -21,20 +22,20 @@
 
 (def config
   (mk-config
-   root "Hypervisors" actions
-   :name {:title "Name" :key :alias :order -20}
-   :version {:title "Version" :key :version :order 1}
-   :os-version {:title "OS Version" :key [:sysinfo (keyword "Live Image")] :order 2}
-   :host {:title "Host" :key :host :order 3 :show false}
-   :last-seen {:title "Last seen" :key :last_seen
+   root (ml/t :hypervisors/hypervisors) actions
+   :name {:title (ml/t :hypervisors/name) :key :alias :order -20}
+   :version {:title (ml/t :hypervisors/version) :key :version :order 1}
+   :os-version {:title (ml/t :hypervisors/os-ver) :key [:sysinfo (keyword "Live Image")] :order 2}
+   :host {:title (ml/t :hypervisors/host) :key :host :order 3 :show false}
+   :last-seen {:title (ml/t :hypervisors/last-seen) :key :last_seen
                :type [:ago :s] :order 4}
-   :uptime {:title "Uptime" :key (fn [h] (str->int (get-in h [:sysinfo (keyword "Boot Time")])))
+   :uptime {:title (ml/t :hypervisors/uptime) :key (fn [h] (str->int (get-in h [:sysinfo (keyword "Boot Time")])))
             :type [:ago :s] :order 5}
-   :used-men {:title "Used Memory" :key [:resources :provisioned-memory]
+   :used-men {:title (ml/t :hypervisors/used-mem) :key [:resources :provisioned-memory]
               :type [:bytes :mb] :order 6}
-   :reserved-men {:title "Reserved Memory" :key [:resources :reserved-memory]
+   :reserved-men {:title (ml/t :hypervisors/reserved-mem) :key [:resources :reserved-memory]
                   :type [:bytes :mb] :order 7}
-   :free-men {:title "Free Memory" :key [:resources :free-memory]
+   :free-men {:title (ml/t :hypervisors/free-mem) :key [:resources :free-memory]
               :type [:bytes :mb]  :order 8}))
 
 (set-state! [root :fields] (initial-state config))

@@ -105,6 +105,25 @@
                                   :element-del-succ "Element deleted."
                                   :element-del-fail "Failed to delete element."}
 
+                  :hypervisor-api {:hv-del-succ "Hypervisor removed."
+                                   :hv-del-fail "Failed to remove hypervisor."
+                                   :hv-rename-succ "Hypervisor renamed."
+                                   :hv-rename-fail "Failed to rename hypervisor."
+                                   :svc-change-succ "Service state changed."
+                                   :svc-change-fail "Failed to change service state."
+                                   :config-set-succ "Configuration updated."
+                                   :config-set-fail "Failed to change configuration."
+                                   :char-set-succ "Characteristic set."
+                                   :char-set-fail "Failed to set characteristic."
+                                   :char-del-succ "Characteristic deleted."
+                                   :char-del-fail "Failed to delete characteristic."}
+                  :hypervisor-view {:gen-info "Info"
+                                    :gen-info-host "Host"
+                                    :gen-info-os "Operating System"
+                                    :gen-info-os-ver "OS Version"
+                                    :gen-info-chunter-ver "Chunter Version"
+                                    :gen-info-last-boot "Last Boot"}
+
                   :roles {:roles "Roles"}
                   :roles-view {:general "General"
                                :permissions "Permission"

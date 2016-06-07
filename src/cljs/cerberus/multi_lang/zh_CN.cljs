@@ -103,6 +103,76 @@
                                   :element-del-succ "元素删除成功"
                                   :element-del-fail "元素删除失败"}
 
+                  :hypervisors {:hypervisors "物理机"
+                                :name "别名"
+                                :version "版本"
+                                :os-ver "操作系统版本"
+                                :host "主机"
+                                :last-seen "最后上线"
+                                :uptime "运行时间"
+                                :used-mem "使用内存"
+                                :reserved-mem "保留内存"
+                                :free-mem "空闲内存"}
+                  :hypervisors-api {:hv-del-succ "物理机删除成功"
+                                    :hv-del-fail "物理机删除失败"
+                                    :hv-rename-succ "物理机重命名成功"
+                                    :hv-rename-fail "物理机重命名失败"
+                                    :svc-change-succ "服务改变状态成功"
+                                    :svc-change-fail "服务改变状态失败"
+                                    :config-set-succ "配置设置成功"
+                                    :config-set-fail "配置设置失败"
+                                    :char-set-succ "特性设置成功"
+                                    :char-set-fail "特性设置失败"
+                                    :char-del-succ "特性删除成功"
+                                    :char-del-fail "特性删除失败"}
+                  :hypervisors-view {:gen-info "信息"
+                                     :gen-info-host "主机"
+                                     :gen-info-os "操作系统"
+                                     :gen-info-os-ver "操作系统版本"
+                                     :gen-info-chunter-ver "Chunter版本"
+                                     :gen-info-last-boot "最后启动"
+
+                                     :gen-hw-hardware "硬件"
+                                     :gen-hw-cpu "处理器"
+                                     :gen-hw-cores "核心"
+                                     :gen-hw-mainboard "主板"
+                                     :gen-hw-manufacturer "制造商"
+                                     :gen-hw-sn "序列号"
+                                     :gen-hw-vs "虚拟化支持"
+
+                                     :gen-mem-memory "内存"
+                                     :gen-mem-total "总量"
+                                     :gen-mem-provisioned "已分配"
+                                     :gen-mem-free "空闲"
+                                     :gen-mem-reserved "保留"
+                                     :gen-mem-l1-size "L1缓存大小"
+                                     :gen-mem-l1-hit "L1缓存命中率"
+
+                                     :gen-st-storage "存储"
+                                     :gen-st-disks "磁盘"
+                                     :gen-st-pools "池"
+                                     :gen-st-health "健康: "
+                                     :gen-st-size "大小: "
+                                     :gen-st-free "空闲: "
+                                     :gen-st-used "已使用: "
+
+                                     :gen-home-unknown "未知"
+                                     :gen-home-change-alias "修改别名"
+                                     :gen-home-networks "网络"
+
+                                     :char-char "特性"
+                                     :char-value "值"
+                                     :char-add-char "添加特性"
+
+                                     :metrics-cpu "处理器"
+
+                                     :sections-general "常规"
+                                     :sections-services "服务"
+                                     :sections-char "特性"
+                                     :sections-metrics "度量"
+                                     :sections-metadata "元数据"}
+
+
                   :roles {:roles "角色"}
                   :roles-view {:general "常规"
                                :permissions "权限"
