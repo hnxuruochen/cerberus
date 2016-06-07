@@ -16,8 +16,8 @@
                          :orgs "组织"
                          :packages "配置包"
                          :roles "角色"
-                         :users "用户" 
-                  }
+                         :users "用户"
+                         }
                   :clients {:clients "客户端"}
                   :clients-view {:auth-change-secret "修改密钥"
                                  :auth-new-secret "新密钥"
@@ -173,6 +173,21 @@
                                      :sections-metrics "度量"
                                      :sections-metadata "元数据"}
 
+                  :ipranges-api {:delete-succ "网络地址范围删除成功"
+                                 :delete-fail "网络地址范围删除失败"}
+                  :ipranges-create {:name "名称"
+                                    :nic-tag "网卡标签"
+                                    :vlan "虚拟局域网"
+                                    :subnet-ip "子网网络地址"
+                                    :netmask "子网掩码"
+                                    :gateway "网关"
+                                    :first "首地址"
+                                    :last "尾地址"}
+                  :ipranges-view {:general-general "常规"
+                                  :general-uuid "标识符"
+                                  :general-network "网络"
+                                  :general-vlan "虚拟局域网"}
+
 
                   :roles {:roles "角色"}
                   :roles-view {:general "常规"
@@ -187,19 +202,19 @@
                   :roles-create {:name "名称"}
                   :vms {
                         :brand "类型"
-                        :cluster "集群"    
-                        :cpu "处理器"              
+                        :cluster "集群"
+                        :cpu "处理器"
                         :created "创建时间"
                         :createdAgo "创建时长"
                         :creator "创建者"
                         :dataset "镜像"
                         :hostname "主机名"
-                        :hypervisor "物理机"                        
-                        :ip "网络地址"                        
+                        :hypervisor "物理机"
+                        :ip "网络地址"
                         :machines "虚机"
                         :memory "内存"
                         :name "名称"
                         :owner "所有者"
                         :package "配置包"
                         :state "状态"
-                  }})
+                        }})
