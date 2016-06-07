@@ -31,7 +31,8 @@
    [cerberus.fields :as fields]
    [cerberus.metrics :as metrics]
    [cerberus.utils :refer [make-event menu-items]]
-   [cerberus.fields :refer [fmt-bytes fmt-percent]]))
+   [cerberus.fields :refer [fmt-bytes fmt-percent]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def token-path "sessions/one_time_token")
 
@@ -87,7 +88,7 @@
              :className "pull-right fbutown"
              :on-click #(vms/change-alias uuid (:alias state))
              :disabled? (empty? (:alias state))}
-            "change-alias")))
+            (ml/t :vms-view/change-alias))))
          (row
           (g/col
            {:md 8}
@@ -107,58 +108,58 @@
              :className "pull-right fbutown"
              :on-click #(vms/set-owner uuid (:org state))
              :disabled? (boolean  (invalid-owner (:org state)))}
-            "Set owner")))
+            (ml/t :vms-view/set-owner))))
          (row
           (g/col
            {:sm 6 :md 4}
            (p/panel
-            {:header (d/h3 "General")
+            {:header (d/h3 (ml/t :vms-view/general))
              :list-group
              (lg
-              "UUID"       uuid
-              "Type"       (:type conf)
-              "Alias"      (:alias conf)
-              "State"      (:state element)
-              "Created"    (:created_at conf)
-              "Hypervisor" (d/a {:href (str "#/hypervisors/" (:uuid hypervisor))} (:alias hypervisor))
-              "Owner"      (d/a {:href (str "#/orgs/" (:uuid org))} (:name org))
-              "Autoboot"   (:autoboot conf)
-              "Dataset"    (d/a {:href (str "#/datasets/" (:uuid dataset))} (:name dataset))
-              "Package"    (d/a {:href (str "#/packages/" (:uuid package))} (:name package))
-              "Services" (d/span (count (filter (fn [[_ state]] (= state "maintenance")) services)) "/"
+              (ml/t :vms-view/uuid)       uuid
+              (ml/t :vms-view/type)       (:type conf)
+              (ml/t :vms-view/alias)      (:alias conf)
+              (ml/t :vms-view/state)      (:state element)
+              (ml/t :vms-view/created)    (:created_at conf)
+              (ml/t :vms-view/hypervisor) (d/a {:href (str "#/hypervisors/" (:uuid hypervisor))} (:alias hypervisor))
+              (ml/t :vms-view/owner)      (d/a {:href (str "#/orgs/" (:uuid org))} (:name org))
+              (ml/t :vms-view/autoboot)   (:autoboot conf)
+              (ml/t :vms-view/dataset)    (d/a {:href (str "#/datasets/" (:uuid dataset))} (:name dataset))
+              (ml/t :vms-view/package)    (d/a {:href (str "#/packages/" (:uuid package))} (:name package))
+              (ml/t :vms-view/services) (d/span (count (filter (fn [[_ state]] (= state "maintenance")) services)) "/"
                                  (count (filter (fn [[_ state]] (= state "online")) services)) "/"
                                  (count (filter (fn [[_ state]] (= state "disabled")) services))))}))
           (g/col
            {:sm 6 :md 4}
            (p/panel
-            {:header (d/h3 "CPU / Memory")
+            {:header (d/h3 (ml/t :vms-view/cpu-memory))
              :list-group
              (lg
-              "CPU Shares" (:cpu_shares conf)
-              "CPU Cap"    (-> (:cpu_cap conf) fmt-percent)
-              "Max Swap"   (->> (:max_swap conf) (fmt-bytes :b))
-              "Memory"     (->> (:ram conf) (fmt-bytes :mb)))}))
+              (ml/t :vms-view/cpu-shares) (:cpu_shares conf)
+              (ml/t :vms-view/cpu-cap)    (-> (:cpu_cap conf) fmt-percent)
+              (ml/t :vms-view/max-swap)   (->> (:max_swap conf) (fmt-bytes :b))
+              (ml/t :vms-view/memory)     (->> (:ram conf) (fmt-bytes :mb)))}))
           (g/col
            {:sm 6 :md 4}
            (p/panel
-            {:header (d/h3 "Disk")
+            {:header (d/h3 (ml/t :vms-view/disk))
              :list-group
              (lg
-              "Quota"         (->> (:quota conf) (fmt-bytes :gb))
-              "I/O Priority"  (:zfs_io_priority conf)
-              "Backups"       (count (:backups element))
-              "Snapshots"     (count (:snapshots element)))}))
+              (ml/t :vms-view/quota)         (->> (:quota conf) (fmt-bytes :gb))
+              (ml/t :vms-view/io-priority)  (:zfs_io_priority conf)
+              (ml/t :vms-view/backups)       (count (:backups element))
+              (ml/t :vms-view/snapshots)     (count (:snapshots element)))}))
           (g/col
            {:sm 6 :md 4}
            (p/panel
-            {:header (d/h3 "Networking")
+            {:header (d/h3 (ml/t :vms-view/networking))
              :list-group
              (lg
-              "Hostname"       (:hostname conf)
-              "DNS Domain"     (:dns_domain conf)
-              "Resolvers"      (cstr/join ", " (:resolvers conf))
-              "Firewall Rules" (count (:fw_rules conf))
-              "IPs" (cstr/join ", " (map :ip (:networks conf))))}))))))))
+              (ml/t :vms-view/hostname)       (:hostname conf)
+              (ml/t :vms-view/dns-domain)     (:dns_domain conf)
+              (ml/t :vms-view/resolvers)      (cstr/join ", " (:resolvers conf))
+              (ml/t :vms-view/firewall-rules) (count (:fw_rules conf))
+              (ml/t :vms-view/ips) (cstr/join ", " (map :ip (:networks conf))))}))))))))
 
 (defn render-imaging [data owner opts]
   (reify
@@ -179,31 +180,31 @@
           (g/col
            {}
            (d/p
-            "To create a new image follow this steps:"
+            (ml/t :vms-view/image-info-0)
             (d/ol
-             (d/li "Make sure everything is working fine on the vm")
-             (d/li "Execute sm-prepare-image to make the vm image-ready")
-             (d/li "Create a snapshot of the vm")
-             (d/li "Set the data of the image, filling the form")
-             (d/li "Choose the snapshot you want to base the image on"))
-            "Then, wait until the image is ready, the datasets page will reflect that state. After that, a new vm could be created with the new image. More info " (d/a {:href "#"} "here") ".")))
+             (d/li (ml/t :vms-view/image-info-1))
+             (d/li (ml/t :vms-view/image-info-2))
+             (d/li (ml/t :vms-view/image-info-3))
+             (d/li (ml/t :vms-view/image-info-4))
+             (d/li (ml/t :vms-view/image-info-5)))
+             (ml/t :vms-view/image-info-6) (d/a {:href "#"} (ml/t :vms-view/image-info-7)) (ml/t :vms-view/image-info-8))))
          (g/row
           {}
           (g/col
            {:xs 8}
-           (i/input {:type "text" :placeholder "Name"
+           (i/input {:type "text" :placeholder (ml/t :vms-view/name)
                      :value (:name state) :on-change (->state owner :name)}))
           (g/col
            {:xs 2}
-           (i/input {:type "text" :placeholder "Version"
+           (i/input {:type "text" :placeholder (ml/t :vms-view/version)
                      :value (:version state) :on-change (->state owner :version)}))
           (g/col
            {:xs 2}
-           (i/input {:type "text" :placeholder "OS"
+           (i/input {:type "text" :placeholder (ml/t :vms-view/os)
                      :value (:os state) :on-change (->state owner :os)}))
           (g/col
            {:xs 12}
-           (i/input {:type "text" :placeholder "Description"
+           (i/input {:type "text" :placeholder (ml/t :vms-view/description)
                      :value (:desc state) :on-change (->state owner :desc)})))
          (g/row
           {}
@@ -213,9 +214,9 @@
             {}
             (d/thead
              (d/tr
-              (d/th "Name")
-              (d/th "Date")
-              (d/th "Size")
+              (d/th (ml/t :vms-view/name))
+              (d/th (ml/t :vms-view/date))
+              (d/th (ml/t :vms-view/size))
               (d/th "")))
             (d/tbody
              (map (fn [[uuid {comment :comment timestamp :timestamp size :size}]]
@@ -229,7 +230,7 @@
                              :className "pull-right fbutown"
                              :on-click #(datasets/from-vm (:uuid data) uuid (:name state) (:version state) (:os state) (:descs state))
                              :disabled? invalid}
-                            "Create Image"))))
+                            (ml/t :vms-view/create-image)))))
                   (filter
                    #(= "completed" (:state (second %)))
                    (sort-by #(:timestamp (second %)) (:snapshots data)))))))))))))
@@ -247,8 +248,8 @@
            {:striped? false}
            (d/tr
             {}
-            (d/td {} "Date")
-            (d/td {} "Entry")))
+            (d/td {} (ml/t :vms-view/date))
+            (d/td {} (ml/t :vms-view/entry))))
           (d/tbody
            {}
            (map
@@ -301,7 +302,7 @@
                (del/state-show owner mac))} (r/glyphicon {:glyph "trash"}))]
          :list-group
          (d/ul {:class "list-group"}
-               (group-li "Hostname: " (g/row
+               (group-li (ml/t :vms-view/hostname-) (g/row
                                        {}
                                        (g/col {:md 10}
                                               (i/input {:type "text"
@@ -314,16 +315,16 @@
                                                 :bs-size "small"
                                                 :on-click
                                                 #(vms/set-hostname uuid interface (:hostname state))} (r/glyphicon {:glyph "pencil"})))))
-               (group-li "Network: " (if-let [net (network-map ip)]
+               (group-li (ml/t :vms-view/network-)  (if-let [net (network-map ip)]
                                        (d/a {:href (str  "#/networks/" net)} (get-in full-nets [net :name]))))
-               (group-li "IP Range: "
+               (group-li (ml/t :vms-view/ip-range-)
                          (if-let [ipr (iprange-map ip)]
                            (d/a {:href (str  "#/ipranges/" ipr)} (get-in iprs [ipr :name])) ""))
-               (group-li "Tag: "      tag)
-               (group-li "IP: "       ip)
-               (group-li "Netmask: "  netmask)
-               (group-li "Gateway: "  gateway)
-               (group-li "MAC: "      mac)
+               (group-li (ml/t :vms-view/tag-)      tag)
+               (group-li (ml/t :vms-view/ip-)       ip)
+               (group-li (ml/t :vms-view/netmask-)  netmask)
+               (group-li (ml/t :vms-view/gateway-)  gateway)
+               (group-li (ml/t :vms-view/mac-)      mac)
                )})))))
 
 
@@ -360,7 +361,7 @@
            {:xs 2}
            (b/button {:bs-style "primary"
                       :disabled? disabled
-                      :on-click #(vms/add-network uuid (val-by-id "net-add"))} "Add")))
+                      :on-click #(vms/add-network uuid (val-by-id "net-add"))} (ml/t :vms-view/add))))
          (map (fn [row]
                 (g/row nil
                        (om/build-all
@@ -403,12 +404,12 @@
       (g/col
        {:md 4}
        (p/panel
-        {:header (if package (:name package) "custom")
+        {:header (if package (:name package) (ml/t :vms-view/custom))
          :list-group
          (d/ul {:class "list-group"}
-               (group-li "CPU: "    (cmp-vals :cpu_cap fmt-percent))
-               (group-li "Memory: " (cmp-vals :ram (partial fmt-bytes :mb)))
-               (group-li "Quota: "  (partial cmp-vals :quota (partial fmt-bytes :gb))))}))
+               (group-li (ml/t :vms-view/cpu-)    (cmp-vals :cpu_cap fmt-percent))
+               (group-li (ml/t :vms-view/memory-) (cmp-vals :ram (partial fmt-bytes :mb)))
+               (group-li (ml/t :vms-view/quota-)  (partial cmp-vals :quota (partial fmt-bytes :gb))))}))
       (g/col
        {:md 8}
        (table
@@ -416,7 +417,7 @@
         (d/thead
          {}
          (map d/td
-              ["Name" "CPU" "Memory" "Quota" (d/span {:class "pull-right"} "Change")]))
+              [(ml/t :vms-view/name) (ml/t :vms-view/cpu) (ml/t :vms-view/memory) (ml/t :vms-view/quota) (d/span {:class "pull-right"} (ml/t :vms-view/change))]))
 
         (apply d/tbody
                {}
@@ -450,14 +451,14 @@
    (d/td (name uuid))
    (d/td comment)
    (d/td (str (js/Date. (/ timestamp 1000))))
-   (d/td state)
+   (d/td (ml/t (keyword "vms-view" state)))
    (d/td (fmt-bytes :b size))
    (d/td {:class "actions no-carret"}
          (b/dropdown {:bs-size "xsmall" :title (r/glyphicon {:glyph "option-vertical"})
                       :on-click (make-event identity)}
                      (menu-items
-                      ["Roll Back" #(vms/restore-snapshot vm uuid)]
-                      ["Delete"    #(do
+                      [(ml/t :vms-view/roll-back) #(vms/restore-snapshot vm uuid)]
+                      [(ml/t :vms-view/delete)    #(do
                                       (om/set-state! owner [:delete :name] comment)
                                       (del/state-show owner (name uuid)))])))))
 
@@ -469,11 +470,11 @@
     {:id "snapshot-table"}
     (d/thead
      {}
-     (d/td "UUID")
-     (d/td "Comment")
-     (d/td "Timestamp")
-     (d/td "State")
-     (d/td "Size")
+     (d/td (ml/t :vms-view/uuid))
+     (d/td (ml/t :vms-view/comment))
+     (d/td (ml/t :vms-view/timestamp))
+     (d/td (ml/t :vms-view/state))
+     (d/td (ml/t :vms-view/size))
      (d/td {:class "actions"}))
     (apply d/tbody
            {}
@@ -494,29 +495,29 @@
         (g/col
          {:md 12}
          (i/input
-          {:label "New Snapshot"}
+          {:label (ml/t :vms-view/new-snapshot)}
           (row
            (g/col
             {:xs 10}
             (i/input {:type :text
                       :value (:name state)
-                      :placeholder "Snapshot Comment"
+                      :placeholder (ml/t :vms-view/snapshot-comment)
                       :on-change (->state owner :name)}))
            (g/col
             {:xs 2}
             (b/button {:bs-style "primary"
                        :wrapper-classname "col-xs-2"
                        :disabled? (empty? (:name state))
-                       :on-click #(vms/snapshot (:uuid data) (:name state))} "Create")))))
+                       :on-click #(vms/snapshot (:uuid data) (:name state))} (ml/t :vms-view/create))))))
         (snapshot-table state owner (:uuid data) (:snapshots data)))))))
 
 
 (defn show-state [state]
   (condp = state
-    "uploading" (r/label {:bs-style "warning"} state)
-    "completed" (r/label {:bs-style "success"} state)
-    "failed" (r/label {:bs-style "danger"} state)
-    (r/label {:bs-style "default"} state)))
+    "uploading" (r/label {:bs-style "warning"} (ml/t (keyword "vms-view" state)))
+    "completed" (r/label {:bs-style "success"} (ml/t (keyword "vms-view" state)))
+    "failed" (r/label {:bs-style "danger"} (ml/t (keyword "vms-view" state)))
+    (r/label {:bs-style "default"} (ml/t (keyword "vms-view" state)))))
 
 (defn backup-row  [owner vm hypervisor
                    [uuid {comment :comment timestamp :timestamp
@@ -533,12 +534,12 @@
            (b/dropdown {:bs-size "xsmall" :title (r/glyphicon {:glyph "option-vertical"})
                         :on-click (make-event identity)}
                        (menu-items
-                        ["Incremental" #(vms/backup vm uuid (val-by-id "backup-comment"))]
+                        [(ml/t :vms-view/incremental) #(vms/backup vm uuid (val-by-id "backup-comment"))]
                         (if (and hypervisor (not (empty? hypervisor)))
-                          ["Restore" #(vms/restore-backup vm hypervisor uuid)]
-                          ["Roll Back" #(vms/restore-backup vm uuid)])
+                          [(ml/t :vms-view/restore) #(vms/restore-backup vm hypervisor uuid)]
+                          [(ml/t :vms-view/roll-back) #(vms/restore-backup vm uuid)])
 
-                        ["Delete"    #(do
+                        [(ml/t :vms-view/delete)    #(do
                                         (om/set-state! owner [:delete :name] comment)
                                         (del/state-show owner (name uuid)))]))))))
 
@@ -550,11 +551,11 @@
     {:id "backup-table"}
     (d/thead
      {}
-     (d/td "UUID")
-     (d/td "Comment")
-     (d/td "Timestamp")
-     (d/td "State")
-     (d/td "Size")
+     (d/td (ml/t :vms-view/uuid))
+     (d/td (ml/t :vms-view/comment))
+     (d/td (ml/t :vms-view/timestamp))
+     (d/td (ml/t :vms-view/state))
+     (d/td (ml/t :vms-view/size))
      (d/td {:class "actions"}))
     (apply d/tbody
            {}
@@ -577,19 +578,16 @@
             (g/col
              {:xs 12}
              (d/p
-              "Once a backup is made it is possible to remove a zone from"
-              " a hypervisor without deleting the backups, that way the"
-              " zone can later on be deployed again."
+              (ml/t :vms-view/backup-info)
               (b/button {:bs-style "danger"
                          :disabled? (empty? (:backups data))
                          :on-click #(vms/delete-hypervisor (:uuid data))
 
-                         :class "pull-right"} "Delete from hypervisor"))))
+                         :class "pull-right"} (ml/t :vms-view/backup-delete)))))
            (row
             (g/col {}
                    (d/p
-                    "This vm is in 'limbo' it currently has no hypervisors assigned"
-                    " that means it can be re-deployed.")
+                   (ml/t :vms-view/deploy-info))
                    (i/input {:type "select"
                              :value (:target state)
                              :on-change (->state owner :target)}
@@ -604,12 +602,12 @@
           (g/col
            {:md 12}
            (i/input
-            {:label "New Backup"}
+            {:label (ml/t :vms-view/new-backup)}
             (row
              (g/col
               {:xs 10}
               (i/input {:type :text
-                        :placeholder "Backup Comment"
+                        :placeholder (ml/t :vms-view/backup-comment)
                         :on-change (->state owner :name)
                         :value (:name state)
                         :id "backup-comment"}))
@@ -617,7 +615,7 @@
                     (b/button {:bs-style "primary"
                                :wrapper-classname "col-xs-2"
                                :disabled? (empty? (:name state))
-                               :on-click #(vms/backup (:uuid data) (:name state))} "Create")))))
+                               :on-click #(vms/backup (:uuid data) (:name state))} (ml/t :vms-view/create))))))
           (backup-table state owner uuid (:target state) (:backups data))))))))
 
 
@@ -699,12 +697,12 @@
     (i/input final-config body)))
 
 (defn direction-select [owner state]
-  (select :direction "Direction" owner state {}
-          (d/option {:value "inbound"} "Inbound")
-          (d/option {:value "outbound"} "Outbound")))
+  (select :direction (ml/t :vms-view/direction) owner state {}
+          (d/option {:value "inbound"} (ml/t :vms-view/inbound))
+          (d/option {:value "outbound"} (ml/t :vms-view/outbound))))
 
 (defn protocol-select [owner state]
-  (select :protocol "Protocol" owner state
+  (select :protocol (ml/t :vms-view/protocol) owner state
           {:on-change #(om/set-state! owner :icmp-type "0")}
           (d/option {:value "tcp"} "TCP")
           (d/option {:value "udp"} "UDP")
@@ -713,26 +711,26 @@
 (defn target-select [owner state]
   (select :target
           (if (= (:direction state) "inbound")
-            "Source" "Destination")
+            (ml/t :vms-view/source) (ml/t :vms-view/destination))
           owner state
           {:on-change #(om/set-state! owner :mask "24")}
-          (d/option {:value "all"} "all")
-          (d/option {:value "ip"} "IP")
-          (d/option {:value "subnet"} "Subnet")))
+          (d/option {:value "all"} (ml/t :vms-view/all))
+          (d/option {:value "ip"} (ml/t :vms-view/ip))
+          (d/option {:value "subnet"} (ml/t :vms-view/subnet))))
 
 (defn target-data [owner state]
   (condp = (:target state)
     "ip" (i/input {:type "text"
                    :label (if (= (:direction state) "inbound")
-                            "Source IP" "Dest IP")
+                            (ml/t :vms-view/source-ip) (ml/t :vms-view/dest-ip))
                    :class "input-sm" :id "ip" :value (:ip state)
                    :label-classname lc :wrapper-classname wc
                    :on-change #(o-state! owner :ip)})
-    "subnet" [(i/input {:type "text" :label "Subnet" :class "input-sm"
+    "subnet" [(i/input {:type "text" :label (ml/t :vms-view/subnet) :class "input-sm"
                         :id "subnet" :value (:subnet state)
                         :label-classname lc :wrapper-classname wc
                         :on-change #(o-state! owner :subnet)})
-              (select :mask "Mask" owner state {}
+              (select :mask (ml/t :vms-view/mask) owner state {}
                       (map #(d/option {:value %} %) (range 1 33)))]
     []))
 
@@ -740,7 +738,7 @@
   (if (or
        (= (:protocol state) "tcp")
        (= (:protocol state) "udp"))
-    [(i/input {:type "checkbox" :label "All Ports"
+    [(i/input {:type "checkbox" :label (ml/t :vms-view/all-ports)
                :id "all-ports"
                :checked (:all-ports state)
                :wrapper-classname (str "col-xs-offset-2 col-sm-offset-1 "
@@ -748,7 +746,7 @@
                                        "col-xl-offset-1 " wc)
                :on-change #(om/set-state! owner :all-ports (.-checked (.-target %)))})
      (if (not (:all-ports state))
-       (i/input {:type "text" :label "Ports" :class "input-sm" :id "ports"
+       (i/input {:type "text" :label (ml/t :vms-view/ports) :class "input-sm" :id "ports"
                  :value (:ports state)
                  :on-change #(o-state! owner :ports)
                  :label-classname lc :wrapper-classname wc}))]))
@@ -787,9 +785,9 @@
                   {:key :id})))))))
 
 (defn action-select [owner state]
-  (select :action "Action" owner state {}
-          (d/option {:value "allow"} "allow")
-          (d/option {:value "block"} "block")))
+  (select :action (ml/t :vms-view/action) owner state {}
+          (d/option {:value "allow"} (ml/t :vms-view/allow))
+          (d/option {:value "block"} (ml/t :vms-view/block))))
 
 (defn rule-target [state]
   (condp = (:target state)
@@ -898,29 +896,29 @@
           {:bs-style "primary"
            :class "fwaddbtn"
            :on-click #(add-rule state)}
-          "add rule")))
+          (ml/t :vms-view/add-rule))))
        (row
         (g/col
          {:xs 10
           :class "fwlegend"}
          (d/p
           (d/br)
-          (r/glyphicon {:glyph "fire"}) " block"
-          (r/glyphicon {:glyph "ok"}) " allow"
-          (r/glyphicon {:glyph "hdd"}) " this zone")))
+          (r/glyphicon {:glyph "fire"}) (str " " (ml/t :vms-view/block))
+          (r/glyphicon {:glyph "ok"}) (str " " (ml/t :vms-view/allow))
+          (r/glyphicon {:glyph "hdd"}) (str " " (ml/t :vms-view/this-zone)))))
        (row
         (g/col
          {:xs 12 :md 6}
          (p/panel
-          {:header "Inbound rules"
+          {:header (ml/t :vms-view/inbound-rules)
            :class "fwrule"}
           (table
            {}
            (d/thead
             (d/tr
-             (d/th "src")
-             (d/th "action")
-             (d/th "dst")
+             (d/th (ml/t :vms-view/src))
+             (d/th (ml/t :vms-view/action))
+             (d/th (ml/t :vms-view/dst))
              (d/th)))
            (d/tbody
             (let [rules (filter #(= (:direction %) "inbound") (:fw_rules (get-in app [root :elements (get-in app [root :selected])])))]
@@ -928,15 +926,15 @@
         (g/col
          {:xs 12 :md 6}
          (p/panel
-          {:header "Outbound rules"
+          {:header (ml/t :vms-view/outbound-rules)
            :class "fwrule"}
           (table
            {}
            (d/thead
             (d/tr
-             (d/th "src")
-             (d/th "action")
-             (d/th "dst")
+             (d/th (ml/t :vms-view/src))
+             (d/th (ml/t :vms-view/action))
+             (d/th (ml/t :vms-view/dst))
              (d/th )))
            (d/tbody
             (let [rules (filter #(= (:direction %) "outbound") (:fw_rules (get-in app [root :elements (get-in app [root :selected])])))]
@@ -974,19 +972,19 @@
   #(om/build f %2))
 
 (def sections
-  {""          {:key  1 :fn #(om/build render-home %1)      :title "General"}
+  {""          {:key  1 :fn #(om/build render-home %1)      :title (ml/t :vms-view/general)}
    "networks"  {:key  2 :fn #(om/build
                               render-networks %1
-                              {:opts {:uuid (:uuid %2)}})  :title "Networks"}
-   "package"   {:key  3 :fn render-package   :title "Package"}
-   "snapshots" {:key  4 :fn (b render-snapshots) :title "Snapshot"}
-   "imaging"   {:key  5 :fn (b render-imaging) :title "Imaging"}
-   "backups"   {:key  6 :fn #(om/build render-backups %1 {:opts {:uuid (:uuid %2)}})   :title "Backups"}
-   "services"  {:key  7 :fn #(om/build services/render %2 {:opts {:action vms/service-action}})  :title "Services"}
-   "logs"      {:key  8 :fn (b render-logs)      :title "Logs"}
-   "fw-rules" {:key 9 :fn #(om/build render-fw-rules %1) :title "Firewall"}
-   "metrics"   {:key 10 :fn #(om/build metrics/render (:metrics %2) {:opts {:translate build-metric}})   :title "Metrics"}
-   "metadata"  {:key 11 :fn (b metadata/render)  :title "Metadata"}})
+                              {:opts {:uuid (:uuid %2)}})  :title (ml/t :vms-view/networks)}
+   "package"   {:key  3 :fn render-package   :title (ml/t :vms-view/package)}
+   "snapshots" {:key  4 :fn (b render-snapshots) :title (ml/t :vms-view/snapshot)}
+   "imaging"   {:key  5 :fn (b render-imaging) :title (ml/t :vms-view/imaging)}
+   "backups"   {:key  6 :fn #(om/build render-backups %1 {:opts {:uuid (:uuid %2)}})   :title (ml/t :vms-view/backups)}
+   "services"  {:key  7 :fn #(om/build services/render %2 {:opts {:action vms/service-action}})  :title (ml/t :vms-view/services)}
+   "logs"      {:key  8 :fn (b render-logs)      :title (ml/t :vms-view/logs)}
+   "fw-rules" {:key 9 :fn #(om/build render-fw-rules %1) :title (ml/t :vms-view/firewall)}
+   "metrics"   {:key 10 :fn #(om/build metrics/render (:metrics %2) {:opts {:translate build-metric}})   :title (ml/t :vms-view/metrics)}
+   "metadata"  {:key 11 :fn (b metadata/render)  :title (ml/t :vms-view/metadata)}})
 
 
 

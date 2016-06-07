@@ -7,7 +7,8 @@
    [om-bootstrap.random :as r]
    [om-bootstrap.button :as b]
    [cerberus.utils :refer [grid-row]]
-   [cerberus.utils :refer [make-event menu-items]]))
+   [cerberus.utils :refer [make-event menu-items]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn tbl-row [[srv state] owner {:keys [action uuid]}]
   (reify
@@ -22,17 +23,17 @@
             sa (fn [a] (action uuid srv a))]
         (d/tr
          (d/td srv)
-         (d/td state)
+         (d/td (ml/t (keyword "services" state)))
          (d/td
           {:class "actions no-carret"}
           (b/dropdown {:bs-size "xsmall" :title (r/glyphicon {:glyph "option-vertical"})
                        :on-click (make-event identity)}
                       (menu-items
-                       ["Enable"   {:class (if (s!= "disabled")     "disabled")} #(sa :enable)]
-                       ["Disable"  {:class (if (s=  "disabled")     "disabled")} #(sa :disable)]
-                       ["Restart"  {:class (if (s!= "online")       "disabled")} #(sa :restart)]
-                       ["Refresh"  {:class (if (s!= "online")       "disabled")} #(sa :refresh)]
-                       ["Clear"    {:class (if (s!= "maintenance") "disabled")} #(sa :clear)]
+                       [(ml/t :services/enable)   {:class (if (s!= "disabled")     "disabled")} #(sa :enable)]
+                       [(ml/t :services/disable)  {:class (if (s=  "disabled")     "disabled")} #(sa :disable)]
+                       [(ml/t :services/restart)  {:class (if (s!= "online")       "disabled")} #(sa :restart)]
+                       [(ml/t :services/refresh)  {:class (if (s!= "online")       "disabled")} #(sa :refresh)]
+                       [(ml/t :services/clear)    {:class (if (s!= "maintenance") "disabled")} #(sa :clear)]
                        ))))))))
 
 (defn render [data owner opts]
@@ -52,8 +53,8 @@
            {:striped? false}
            (d/tr
             {}
-            (d/td {} "Service")
-            (d/td {} "State")
+            (d/td {} (ml/t :services/service))
+            (d/td {} (ml/t :services/state))
             (d/td {:class "actions"} "")))
           (d/tbody
            {}

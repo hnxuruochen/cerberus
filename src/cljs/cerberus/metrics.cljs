@@ -5,7 +5,8 @@
    [om-bootstrap.panel :as p]
    [om-bootstrap.grid :as g]
    [om-bootstrap.random :as r]
-   [cerberus.utils :refer [row]]))
+   [cerberus.utils :refer [row]]
+   [cerberus.multi-lang.entry :as ml]))
 
 ;; This is really ugly but something is crazy about the reify for OM here
 ;; this for will moutnt and will unmoutn are not the same and having timer in
@@ -111,7 +112,7 @@
          (row
           (g/col
            {:xs 12}
-           (d/p "No metric storage seems to be configured please install DalmatinerDB and Tachyon to use this feature")))
+           (d/p (ml/t :metrics/error-info))))
          (row
           (let [metrics (map normalize-metrics (reduce build-metric {} (map process-metric data)))]
             (om/build-all point-view metrics))))))))
