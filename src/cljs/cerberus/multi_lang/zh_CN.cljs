@@ -1,6 +1,7 @@
 (ns cerberus.multi-lang.zh-CN)
 
 (def tconfig-map {
+                  :missing "翻译缺失"
                   :core {
                          :clients "客户"
                          :configuration "设置"

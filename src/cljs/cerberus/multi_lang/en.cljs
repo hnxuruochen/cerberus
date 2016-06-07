@@ -1,6 +1,7 @@
 (ns cerberus.multi-lang.en)
 
 (def tconfig-map {
+                  :missing "missing key"
                   :core {
                          :clients "Clients"
                          :configuration "Configuration"
@@ -15,8 +16,8 @@
                          :orgs "Organisations"
                          :packages "Packages"
                          :roles "Roles"
-                         :users "Users" 
-                  }
+                         :users "Users"
+                         }
                   :clients {:clients "Clients"}
                   :clients-view {:auth-change-secret "Change Secret"
                                  :auth-new-secret "New Secret"
@@ -105,24 +106,105 @@
                                   :element-del-succ "Element deleted."
                                   :element-del-fail "Failed to delete element."}
 
-                  :hypervisor-api {:hv-del-succ "Hypervisor removed."
-                                   :hv-del-fail "Failed to remove hypervisor."
-                                   :hv-rename-succ "Hypervisor renamed."
-                                   :hv-rename-fail "Failed to rename hypervisor."
-                                   :svc-change-succ "Service state changed."
-                                   :svc-change-fail "Failed to change service state."
-                                   :config-set-succ "Configuration updated."
-                                   :config-set-fail "Failed to change configuration."
-                                   :char-set-succ "Characteristic set."
-                                   :char-set-fail "Failed to set characteristic."
-                                   :char-del-succ "Characteristic deleted."
-                                   :char-del-fail "Failed to delete characteristic."}
-                  :hypervisor-view {:gen-info "Info"
-                                    :gen-info-host "Host"
-                                    :gen-info-os "Operating System"
-                                    :gen-info-os-ver "OS Version"
-                                    :gen-info-chunter-ver "Chunter Version"
-                                    :gen-info-last-boot "Last Boot"}
+                  :hypervisors {:hypervisors "Hypervisors"
+                                :name "Name"
+                                :version "Version"
+                                :os-ver "OS Version"
+                                :host "Host"
+                                :last-seen "Last Seen"
+                                :uptime "Uptime"
+                                :used-mem "Used Memory"
+                                :reserved-mem "Reserved Memory"
+                                :free-mem "Free Memory"}
+                  :hypervisors-api {:hv-del-succ "Hypervisor removed."
+                                    :hv-del-fail "Failed to remove hypervisor."
+                                    :hv-rename-succ "Hypervisor renamed."
+                                    :hv-rename-fail "Failed to rename hypervisor."
+                                    :svc-change-succ "Service state changed."
+                                    :svc-change-fail "Failed to change service state."
+                                    :config-set-succ "Configuration updated."
+                                    :config-set-fail "Failed to change configuration."
+                                    :char-set-succ "Characteristic set."
+                                    :char-set-fail "Failed to set characteristic."
+                                    :char-del-succ "Characteristic deleted."
+                                    :char-del-fail "Failed to delete characteristic."}
+                  :hypervisors-view {:gen-info "Info"
+                                     :gen-info-host "Host"
+                                     :gen-info-os "Operating System"
+                                     :gen-info-os-ver "OS Version"
+                                     :gen-info-chunter-ver "Chunter Version"
+                                     :gen-info-last-boot "Last Boot"
+
+                                     :gen-hw-hardware "Hardware"
+                                     :gen-hw-cpu "CPU"
+                                     :gen-hw-cores "Cores"
+                                     :gen-hw-mainboard "Mainboard"
+                                     :gen-hw-manufacturer "Manufacturer"
+                                     :gen-hw-sn "Serial Number"
+                                     :gen-hw-vs "Virtualisation Support"
+
+                                     :gen-mem-memory "Memory"
+                                     :gen-mem-total "Total"
+                                     :gen-mem-provisioned "Provisioned"
+                                     :gen-mem-free "Free"
+                                     :gen-mem-reserved "Reserved"
+                                     :gen-mem-l1-size "L1 Cache Size"
+                                     :gen-mem-l1-hit "L1 Cache Hit %"
+
+                                     :gen-st-storage "Storage"
+                                     :gen-st-disks "Disks"
+                                     :gen-st-pools "Pools"
+                                     :gen-st-health "Health: "
+                                     :gen-st-size "Size: "
+                                     :gen-st-free "Free: "
+                                     :gen-st-used "Used: "
+
+                                     :gen-home-unknown "Unknown"
+                                     :gen-home-change-alias "Change Alias"
+                                     :gen-home-networks "Networks"
+
+                                     :char-char "Characteristic"
+                                     :char-value "Value"
+                                     :char-add-char "Add Characteristic"
+
+                                     :metrics-cpu "CPU"
+
+                                     :sections-general "General"
+                                     :sections-services "Services"
+                                     :sections-char "Characteristics"
+                                     :sections-metrics "Metrics"
+                                     :sections-metadata "Metadata"}
+
+                  :ipranges {:ip-ranges "IP Ranges"}
+                  :ipranges-api {:delete-succ "IP range deleted."
+                                 :delete-fail "Failed to delete IP range."}
+                  :ipranges-create {:name "Name"
+                                    :nic-tag "NIC Tag"
+                                    :vlan "VLAN"
+                                    :subnet-ip "Subnet IP"
+                                    :netmask "Netmask"
+                                    :gateway "Gateway"
+                                    :first "First"
+                                    :last "Last"}
+                  :ipranges-view {:gen-general-general "General"
+                                  :gen-general-uuid "UUID"
+                                  :gen-general-network "Network"
+                                  :gen-general-gateway "Gateway"
+                                  :gen-general-netmask "Netmask"
+                                  :gen-general-vlan "VLAN"
+                                  :gen-general-tag "Tag"
+
+                                  :gen-ips-ips "IPs"
+                                  :gen-ips-free "Free"
+                                  :gen-ips-used "Used"
+
+                                  :ips-free "Free"
+                                  :ips-used "Used"
+
+                                  :sections-general "General"
+                                  :sections-ips "IPs"
+                                  :sections-metadata "Metadata"}
+
 
                   :roles {:roles "Roles"}
                   :roles-view {:general "General"
@@ -135,7 +217,7 @@
                               :revoke-succ "Permission revoked."
                               :revoke-fail "Failed to revoke permission."}
                   :roles-create {:name "Name"}
-                  :vms {                          
+                  :vms {
                         :brand "Brand"
                         :cluster "Cluster"
                         :console "Console"
@@ -145,11 +227,11 @@
                         :creator "Creator"
                         :dataset "Dataset"
                         :delete "Delete"
-                        :failed "failed"                        
+                        :failed "failed"
                         :hostname "Hostname"
                         :hypervisor "Hypervisor"
-                        :ip "IP"       
-                        :lock "Lock"                 
+                        :ip "IP"
+                        :lock "Lock"
                         :machines "Machines"
                         :memory "Memory"
                         :name "Name"
@@ -158,8 +240,8 @@
                         :reboot "Reboot"
                         :running "running"
                         :start "Start"
-                        :state "State"                        
+                        :state "State"
                         :stop "Stop"
                         :stopped "stopped"
                         :unlock "Unlock"
-                  }})
+                        }})
