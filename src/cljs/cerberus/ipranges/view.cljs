@@ -12,7 +12,8 @@
    [cerberus.utils :refer [lg]]
 
    [cerberus.metadata :as metadata]
-   [cerberus.ipranges.api :refer [root] :as ipranges]))
+   [cerberus.ipranges.api :refer [root] :as ipranges]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn render-home [data owner opts]
   (reify
@@ -25,25 +26,25 @@
         (g/col
          {:xs 12 :sm 6}
          (p/panel
-          {:header (d/h3 "General")
+          {:header (d/h3 (ml/t :ipranges-view/gen-general-general))
            :list-group
            (lg
-            "UUID"    (:uuid data)
-            "Network" (:network data)
-            "Gateway" (:gateway data)
-            "Netmask" (:netmask data)
-            "VLAN"    (:vlan data)
-            "TAG"     (:tag data)
+            (ml/t :ipranges-view/gen-general-uuid)            (:uuid data)
+            (ml/t :ipranges-view/gen-general-network)            (:network data)
+            (ml/t :ipranges-view/gen-general-gateway)            (:gateway data)
+            (ml/t :ipranges-view/gen-general-netmask)            (:netmask data)
+            (ml/t :ipranges-view/gen-general-vlan)            (:vlan data)
+            (ml/t :ipranges-view/gen-general-tag)            (:tag data)
             )})
          )
         (g/col
          {:xs 12 :sm 6}
          (p/panel
-          {:header (d/h3 "IPs")
+          {:header (d/h3 (ml/t :ipranges-view/gen-ips-ips))
            :list-group
            (lg
-            "Free" (count (:free data))
-            "Used" (count (:used data)))})))))))
+            (ml/t :ipranges-view/gen-ips-free)            (count (:free data))
+            (ml/t :ipranges-view/gen-ips-used)            (count (:used data)))})))))))
 
 (defn render-ips [data owner opts]
   (reify
@@ -56,19 +57,19 @@
         (g/col
          {:xs 12 :sm 6}
          (p/panel
-          {:header "Free"}
+          {:header (ml/t :ipranges-view/ips-free)}
           (d/ul
            (map d/li (:free data)))))
         (g/col
          {:xs 12 :sm 6}
          (p/panel
-          {:header "Used"}
+          {:header (ml/t :ipranges-view/ips-used)}
           (d/ul
            (map d/li (:used data))))))))))
 
 (def sections
-  {""          {:key  1 :fn #(om/build render-home %2)     :title "General"}
-   "ips"       {:key  2 :fn #(om/build render-ips %2)      :title "IPs"}
-   "metadata"  {:key  3 :fn #(om/build metadata/render %2) :title "Metadata"}})
+  {""          {:key  1 :fn #(om/build render-home %2)     :title (ml/t :ipranges-view/sections-general)}
+   "ips"       {:key  2 :fn #(om/build render-ips %2)      :title (ml/t :ipranges-view/sections-ips)}
+   "metadata"  {:key  3 :fn #(om/build metadata/render %2) :title (ml/t :ipranges-view/sections-metadata)}})
 
 (def render (view/make root sections ipranges/get :name-fn :name))

@@ -10,15 +10,16 @@
    [cerberus.networks.api :refer [root] :as networks]
    [cerberus.utils :refer [initial-state]]
    [cerberus.state :refer [set-state!]]
-   [cerberus.fields :refer [mk-config]]))
+   [cerberus.fields :refer [mk-config]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn actions [{uuid :uuid}]
   [(del/menue-item uuid)])
 
 (def config
   (mk-config
-   root "Networks" actions
-   :ipranges {:name "IP Ranges" :key #(count (:ipranges %))
+   root (ml/t :networks/networks) actions
+   :ipranges {:name (ml/t :networks/ip-ranges) :key #(count (:ipranges %))
               :formater #(if (= 0 %)
                            (r/label {:bs-style "danger"} %)
                            %)}))

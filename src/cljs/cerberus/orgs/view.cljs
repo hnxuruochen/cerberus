@@ -23,7 +23,8 @@
    [cerberus.permissions :as perms]
    [cerberus.metadata :as metadata]
    [cerberus.state :refer [set-state! app-state]]
-   [cerberus.fields :refer [fmt-bytes fmt-percent]]))
+   [cerberus.fields :refer [fmt-bytes fmt-percent]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn get-org [data uuid]
   (get-in data [root :elements uuid :name]))
@@ -96,14 +97,14 @@
            {:md 3}
            (i/input
             {:type "text"
-             :placeholder "resource"
+             :placeholder (ml/t :orgs-view/res-res)
              :value (:res state)
              :on-change (->state owner :res)}))
           (g/col
            {:md 5}
            (i/input
             {:type "text"
-             :placeholder "Value"
+             :placeholder (ml/t :orgs-view/res-value)
              :value (:val state)
              :on-change (->state owner :val)}))
           (g/col
@@ -113,7 +114,7 @@
              :className "pull-right"
              :on-click #(orgs/inc-resource uuid (:res state) (str->int (:val state)))
              :disabled? invalid?}
-            "Increase"))
+            (ml/t :orgs-view/res-inc)))
           (g/col
            {:md 2}
            (b/button
@@ -121,7 +122,7 @@
              :className "pull-right"
              :on-click #(orgs/dec-resource uuid (:res state) (str->int (:val state)))
              :disabled? invalid?}
-            "Decrease")))
+            (ml/t :orgs-view/res-dec))))
          (row
           (g/col
            {}
@@ -129,8 +130,8 @@
             {}
             (d/thead
              (d/tr
-              (d/th "Resource")
-              (d/th "Value")
+              (d/th (ml/t :orgs-view/res-res))
+              (d/th (ml/t :orgs-view/res-value))
               #_(d/th "")
               ))
             (d/tbody
@@ -175,7 +176,7 @@
             {:bs-style "primary"
              :className "pull-right"
              :on-click #(orgs/set-net uuid :public (:public state))}
-            "Set Public Network")))
+            (ml/t :orgs-view/docker-set-pub-net))))
          (row
           (g/col
            {:md 10}
@@ -190,7 +191,7 @@
             {:bs-style "primary"
              :className "pull-right"
              :on-click #(orgs/set-net uuid :private (:private state))}
-            "Set Private Network"))))))))
+            (ml/t :orgs-view/docker-set-priv-net)))))))))
 
 (defn mk-trigger [{actor      :actor
                    action     :action
@@ -222,9 +223,9 @@
       nil)))
 
 (def trigger-name
-  {"vm_create" "When a VM is created"
-   "user_create" "When an User is created"
-   "dataset_create" "When a Dataset is created"})
+  {"vm_create" (ml/t :orgs-view/tr-trigger-vm)
+   "user_create" (ml/t :orgs-view/tr-trigger-user)
+   "dataset_create" (ml/t :orgs-view/tr-trigger-dataset)})
 
 
 (defn get-role [data uuid]
@@ -235,14 +236,14 @@
   (match
    [trigger]
    [{:action "role_grant" :target role :permission perm}]
-   (d/span "Grant the role " (d/strong (get-role data role)) ": "
+   (d/span (ml/t :orgs-view/tr-rest-role) (d/strong (get-role data role)) ": "
            (d/strong (get-in perms/vm-perms [(last perm) :title])))
    [{:action "user_grant" :target user :permission perm}]
-   (d/span "Grant the user " (d/strong user))
+   (d/span (ml/t :orgs-view/tr-rest-user) (d/strong user))
    [{:action "join_org" :target org}]
-   (d/span "Join the Organisation " (d/strong (get-in data [root :elements org :name])))
+   (d/span (ml/t :orgs-view/tr-rest-join-org) (d/strong (get-in data [root :elements org :name])))
    [{:action "join_role" :target role}]
-   (d/span "Receive the role " (d/strong (get-role data role)))
+   (d/span (ml/t :orgs-view/tr-rest-rcv-role) (d/strong (get-role data role)))
    [_] (pr-str trigger)))
 
 (defn render-triggers [data owner {:keys [id]}]
@@ -266,21 +267,21 @@
            {}
            (d/div
             {:id "trigger-wizzard"}
-            "When "
+            (ml/t :orgs-view/tr-when)
             (i/input
              {:type "select" :on-change (->state owner :actor)
               :value actor :id "actor-select"}
-             (d/option {:value "vm_create"}      "a VM")
-             (d/option {:value "user_create"}    "an User")
-             (d/option {:value "dataset_create"} "a Dataset"))
-            " is created "
+             (d/option {:value "vm_create"}      (ml/t :orgs-view/tr-a-vm))
+             (d/option {:value "user_create"}    (ml/t :orgs-view/tr-a-user))
+             (d/option {:value "dataset_create"} (ml/t :orgs-view/tr-a-dataset)))
+            (ml/t :orgs-view/tr-is-created)
             (i/input
              {:type "select" :value action :id "action-select"
               :on-change (->state owner :action) :valid? false}
-             (if (= "user_create" actor) (d/option {:value "join_org"} "join them to the organization"))
-             (if (= "user_create" actor) (d/option {:value "join_role"} "give them the role"))
-             (d/option {:value "role_grant"} "grant the role")
-             (d/option {:value "user_grant"} "grant the user"))
+             (if (= "user_create" actor) (d/option {:value "join_org"} (ml/t :orgs-view/tr-join-them-org)))
+             (if (= "user_create" actor) (d/option {:value "join_role"} (ml/t :orgs-view/tr-give-them-role)))
+             (d/option {:value "role_grant"} (ml/t :orgs-view/tr-grant-role))
+             (d/option {:value "user_grant"} (ml/t :orgs-view/tr-grant-user)))
             (cond
               (#{"join_role" "role_grant"} action)
               (i/input {:type "select" :value target :id "target-select"
@@ -309,7 +310,7 @@
               :else "")
             (if (#{"user_grant" "role_grant"} action)
               (d/span
-               " permissions to "
+               (ml/t :orgs-view/tr-permissions-to)
                (i/input {:type "select" :value permission :id "permission-select"
                          :on-change (->state owner :permission)}
                         (map
@@ -320,13 +321,13 @@
                            "user_create"    perms/user-perms
                            "dataset_create" perms/dataset-perms
                            [])))
-               " the new "
+               (ml/t :orgs-view/tr-the-new)
                (condp = actor
-                 "vm_create" "VM"
-                 "user_create" "User"
-                 "dataset_create" "Dataset")
+                 "vm_create" (ml/t :orgs-view/tr-vm)
+                 "user_create" (ml/t :orgs-view/tr-user)
+                 "dataset_create" (ml/t :orgs-view/tr-dataset))
                ""))
-            ".")))
+            (ml/t :orgs-view/tr-period))))
          (g/row
           {}
           (g/col
@@ -336,7 +337,7 @@
               {:bs-style "primary"
                :onClick #(orgs/add-trigger id actor payload)
                :disabled? (nil? payload)}
-              "Create Trigger")
+              (ml/t :orgs-view/tr-create-trigger))
              )))
          (g/row
           {}
@@ -346,8 +347,8 @@
             {}
             (d/thead
              (d/tr
-              (d/th "Event")
-              (d/th "Rest")
+              (d/th (ml/t :orgs-view/tr-event))
+              (d/th (ml/t :orgs-view/tr-rest))
               (d/th "")))
             (d/tbody
              (map
@@ -376,34 +377,34 @@
         (g/col
          {:sm 6}
          (p/panel
-          {:header (d/h3 "General")
+          {:header (d/h3 (ml/t :orgs-view/gen-general))
            :list-group
            (lg
-            "UUID"     (:uuid data))}))
+            (ml/t :orgs-view/gen-uuid)            (:uuid data))}))
         (g/col
          {:sm 6}
          (p/panel
-          {:header (d/h3 "Resources")
+          {:header (d/h3 (ml/t :orgs-view/gen-res))
            :list-group
            (apply lg (flatten (map (fn [[n v]] [(name n) v]) (:resources data))))}))
         (g/col
          {:sm 6}
          (p/panel
-          {:header (d/h3 "Triggers")
+          {:header (d/h3 (ml/t :orgs-view/gen-triggers))
            :list-group
            (lg
-            "Total"            (count (:triggers data))
-            "VM Creation"      (count (filter (fn [[_ {t :trigger}]] (= t "vm_create")) ts))
-            "User Creation"    (count (filter (fn [[_ {t :trigger}]] (= t "user_create")) ts))
-            "Dataset Creation" (count (filter (fn [[_ {t :trigger}]] (= t "dataset_create")) ts)))})))))))
+            (ml/t :orgs-view/gen-tr-total)            (count (:triggers data))
+            (ml/t :orgs-view/gen-tr-vm)            (count (filter (fn [[_ {t :trigger}]] (= t "vm_create")) ts))
+            (ml/t :orgs-view/gen-tr-user)            (count (filter (fn [[_ {t :trigger}]] (= t "user_create")) ts))
+            (ml/t :orgs-view/gen-tr-dataset)            (count (filter (fn [[_ {t :trigger}]] (= t "dataset_create")) ts)))})))))))
 
 (def sections
-  {""           {:key 1 :title "General"    :fn #(om/build render-home       %2)}
-   "resources"  {:key 2 :title "Resources"  :fn #(om/build render-resources  %2)}
-   "accounting" {:key 3 :title "Accounting" :fn #(om/build render-accounting %2)}
-   "triggers"   {:key 4 :title "Triggers"   :fn #(om/build render-triggers   %1 {:opts {:id (:uuid %2)}})}
-   "docker"     {:key 5 :title "Docker"     :fn #(om/build render-docker   %1 {:opts {:id (:uuid %2)}})}
-   "metadata"   {:key 6 :title "Metadata"   :fn #(om/build metadata/render   %2)}})
+  {""           {:key 1 :title (ml/t :orgs-view/sections-general)    :fn #(om/build render-home       %2)}
+   "resources"  {:key 2 :title (ml/t :orgs-view/sections-res)  :fn #(om/build render-resources  %2)}
+   "accounting" {:key 3 :title (ml/t :orgs-view/sections-accounting) :fn #(om/build render-accounting %2)}
+   "triggers"   {:key 4 :title (ml/t :orgs-view/sections-triggers)   :fn #(om/build render-triggers   %1 {:opts {:id (:uuid %2)}})}
+   "docker"     {:key 5 :title (ml/t :orgs-view/sections-docker)     :fn #(om/build render-docker   %1 {:opts {:id (:uuid %2)}})}
+   "metadata"   {:key 6 :title (ml/t :orgs-view/sections-metadata)   :fn #(om/build metadata/render   %2)}})
 
 (def render
   (view/make

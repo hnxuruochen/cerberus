@@ -10,13 +10,14 @@
    [cerberus.ipranges.view :as view]
    [cerberus.utils :refer [initial-state]]
    [cerberus.state :refer [set-state!]]
-   [cerberus.fields :refer [mk-config]]))
+   [cerberus.fields :refer [mk-config]]
+   [cerberus.multi-lang.entry :as ml]))
 
 
 (defn actions [{uuid :uuid}]
   [(del/menue-item uuid)])
 
-(def config (mk-config root "IP Ranges" actions))
+(def config (mk-config root (ml/t :ipranges/ip-ranges) actions))
 
 (set-state! [root :fields] (initial-state config))
 
