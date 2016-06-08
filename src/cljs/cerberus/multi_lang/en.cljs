@@ -43,7 +43,7 @@
                          :password "Password"
                          :roles "Roles"
                          :users "Users"
-                         :yubiky "YubiKey"
+                         :yubikey "YubiKey"
                          }
                   :clients {
                             :clients "Clients"
@@ -709,5 +709,5 @@
                           :name "Name"
                           }
                   :del {
-                          :delete "Delete"
-                  }})
+                        :delete "Delete"
+                        }})
