@@ -202,7 +202,7 @@
                    {:bs-style "primary"
                     :on-click #(om/update! data [:data :config :metadata (:meta-name state)] (:meta-val state))
                     :disabled? (or (empty? (:meta-name state)) (empty? (:meta-val state)))}
-                   "Add")))
+                   (ml/t :vms-create/add))))
                 (g/row
                  {}
                  (g/col

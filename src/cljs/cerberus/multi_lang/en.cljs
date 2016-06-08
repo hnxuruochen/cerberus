@@ -589,6 +589,7 @@
                                :set-resolvers "Set Resolvers"
                                :value "Value"
                                :version "Version"
+                               :add "Add"
                                }
                   :vms-view {
                              :action "Action"
@@ -703,4 +704,4 @@
                              }
                   :field {
                           :name "Name"
-                  }})
+                          }})

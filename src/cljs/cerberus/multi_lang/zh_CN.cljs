@@ -588,6 +588,7 @@
                                :set-resolvers "设置域名解析地址"
                                :value "值"
                                :version "版本"
+                               :add "添加"
                                }
                   :vms-view {
                              :action "动作"
