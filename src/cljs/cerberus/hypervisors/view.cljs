@@ -27,7 +27,7 @@
 
 (defn info [osname osver chunterversion boottime host]
   (p/panel
-   {:header (d/h3 (ml/t :hypervisor-view/general-info))
+   {:header (d/h3 (ml/t :hypervisor-view/gen-info))
     :list-group
     (lg
      (ml/t :hypervisors-view/gen-info-host) host
