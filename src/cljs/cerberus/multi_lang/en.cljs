@@ -704,4 +704,7 @@
                              }
                   :field {
                           :name "Name"
-                          }})
+                          }
+                  :del {
+                          :delete "Delete"
+                  }})

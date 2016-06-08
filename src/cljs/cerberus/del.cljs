@@ -4,7 +4,8 @@
    [om-bootstrap.button :as b]
    [om-bootstrap.modal :as md]
    [om-tools.dom :as d :include-macros true]
-   [cerberus.state :refer [set-state!]]))
+   [cerberus.state :refer [set-state!]]
+   [cerberus.multi-lang.entry :as ml]))
 
 
 
@@ -15,7 +16,7 @@
   (om/set-state! owner [:delete :id] uuid))
 
 (defn menue-item [uuid]
-  ["Delete" #(show uuid)])
+  [(ml/t :del/delete) #(show uuid)])
 
 
 
@@ -26,7 +27,7 @@
      {:style {:display (if id "block" "none")} }
      (md/modal
       {:header (d/h4
-                "Delete"
+                (ml/t :del/delete)
                 (d/button {:type         "button"
                            :class        "close"
                            :aria-hidden  true
@@ -52,7 +53,7 @@
      {:style {:display (if id "block" "none")} }
      (md/modal
       {:header (d/h4
-                "Delete"
+                (ml/t :del/delete)
                 (d/button {:type         "button"
                            :class        "close"
                            :aria-hidden  true
