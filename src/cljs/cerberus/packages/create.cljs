@@ -19,7 +19,7 @@
    [["must" (ml/t :packages-create/cond-must)]
     ["cant" (ml/t :packages-create/cond-cant)]
     ["scale" (ml/t :packages-create/cond-scale)]
-    ["random" (ml/t :packages-create/cond-random)]]
+    ["random" (ml/t :packages-create/cond-rand)]]
    (map
     (fn [i]
       [i (str (if (< 0 i) "+") i)])
