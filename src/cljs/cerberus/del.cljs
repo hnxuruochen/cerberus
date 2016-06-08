@@ -43,8 +43,8 @@
                            :on-click #(do
                                         (delete-fn id)
                                         (om/set-state! owner :delete nil))}
-                          "delete"))}
-      "Are you sure that you want to delete '" (d/strong (name-fn state)) "' (" id ")?" ))))
+                          (ml/t :del/delete)))}
+      (ml/t :del/alert-msg)"'" (d/strong (name-fn state)) "' (" id ")?" ))))
 
 (defn modal [data root name-fn delete-fn]
   (let [id (:delete data)
@@ -69,8 +69,8 @@
                            :on-click #(do
                                         (delete-fn data id)
                                         (set-state! [:delete] nil))}
-                          "delete"))}
-      "Are you sure that you want to delete '" (d/strong (name-fn element)) "' (" id ")?" ))))
+                          (ml/t :del/delete)))}
+      (ml/t :del/alert-msg) " '" (d/strong (name-fn element)) "' (" id ")?" ))))
 
 
 

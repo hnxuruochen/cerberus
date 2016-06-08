@@ -709,4 +709,5 @@
                           }
                   :del {
                           :delete "删除"
+                          :alert-msg "您确定要删除 "
                   }})

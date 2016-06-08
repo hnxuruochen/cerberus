@@ -710,4 +710,5 @@
                           }
                   :del {
                         :delete "Delete"
-                        }})
+                        :alert-msg "Are you sure that you want to delete "
+                 }})
