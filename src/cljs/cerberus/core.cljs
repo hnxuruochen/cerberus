@@ -67,15 +67,15 @@
    (d/img {:className "loginlogo" :src "imgs/fifo-logo.png" :alt "FiFo"})
    (d/form
     nil
-    (i/input {:type "text" :placeholder "Login" :id "login" :bs-style (if (:valid-login app) "" "error")})
-    (i/input {:type "password" :placeholder "Password" :id "password"
+    (i/input {:type "text" :placeholder (ml/t :core/login) :id "login" :bs-style (if (:valid-login app) "" "error")})
+    (i/input {:type "password" :placeholder (ml/t :core/password) :id "password"
               :on-key-up #(if (= (.-keyCode  %) 13) (login-fn))
               :bs-style (if (:valid-login app) "" "error")})
-    (i/input {:type "text" :placeholder "YubiKey" :id "yubikey"
+    (i/input {:type "text" :placeholder (ml/t :core/yubikey) :id "yubikey"
               :on-key-up #(if (= (.-keyCode  %) 13) (login-fn))
               :bs-style (if (:valid-login app) "" "error")})
     (b/button {:bs-style "primary"
-               :on-click login-fn} "Login"))))
+               :on-click login-fn} (ml/t :core/login)))))
 
 (defn nav-style [app section view]
   (if (and (= section (:section app)) (= view (:view app)))

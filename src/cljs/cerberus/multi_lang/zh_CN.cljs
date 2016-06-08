@@ -33,14 +33,17 @@
                          :groupings "编组"
                          :hypervisors "物理机"
                          :ip-ranges "IP范围"
+                         :login "登入"
                          :logout "登出"
                          :machines "虚拟机"
                          :networks "网络"
                          :notifications "通知"
                          :orgs "组织"
                          :packages "配置包"
+                         :password "密码"
                          :roles "角色"
                          :users "用户"
+                         :yubikey "YubiKey"
                          }
                   :clients {
                             :clients "客户端"

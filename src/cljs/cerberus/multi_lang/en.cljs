@@ -33,14 +33,17 @@
                          :groupings "Stack & Clusters"
                          :hypervisors "Hypervisors"
                          :ip-ranges "IP Ranges"
+                         :login "Login"
                          :logout "Logout"
                          :machines "Machines"
                          :networks "Networks"
                          :notifications "Notifications"
                          :orgs "Organisations"
                          :packages "Packages"
+                         :password "Password"
                          :roles "Roles"
                          :users "Users"
+                         :yubiky "YubiKey"
                          }
                   :clients {
                             :clients "Clients"
