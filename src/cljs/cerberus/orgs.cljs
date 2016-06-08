@@ -11,7 +11,8 @@
 
    [cerberus.utils :refer [initial-state]]
    [cerberus.state :refer [set-state!]]
-   [cerberus.fields :refer [mk-config]]))
+   [cerberus.fields :refer [mk-config]]
+   [cerberus.multi-lang.entry :as ml]))
 
 (defn actions [{uuid :uuid}]
   [(del/menue-item uuid)])

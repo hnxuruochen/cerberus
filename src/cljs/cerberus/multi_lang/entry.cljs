@@ -9,7 +9,7 @@
   (or (first (.-languages js/window.navigator)) (.-language js/window.navigator)))
 
 (def my-tconfig
-  {:dev-mode? true
+  {:dev-mode? false
    :fallback-locale :en
    :dictionary
    {:en en/tconfig-map
