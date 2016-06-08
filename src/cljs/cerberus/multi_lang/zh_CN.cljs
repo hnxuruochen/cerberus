@@ -57,18 +57,18 @@
                                  :sections-metadata "元数据"
                                  }
                   :clients-api {
-                                :client-delete-succ "客户端删除成功"
-                                :client-delete-fail "客户端删除失败"
-                                :grant-fail "权限授予失败"
-                                :grant-succ "权限授予成功"
-                                :revoke-succ "权限撤销成功"
-                                :revoke-fail "权限撤销失败"
-                                :secret-succ "密钥修改成功"
-                                :secret-fail "密钥修改失败"
-                                :uri-add-succ "URI添加成功"
-                                :uri-add-fail "URI添加失败"
-                                :uri-del-succ "URI删除成功"
-                                :uri-del-fail "URI删除失败"
+                                :client-delete-succ "客户端删除成功。"
+                                :client-delete-fail "客户端删除失败。"
+                                :grant-fail "权限授予失败。"
+                                :grant-succ "权限授予成功。"
+                                :revoke-succ "权限撤销成功。"
+                                :revoke-fail "权限撤销失败。"
+                                :secret-succ "密钥修改成功。"
+                                :secret-fail "密钥修改失败。"
+                                :uri-add-succ "URI添加成功。"
+                                :uri-add-fail "URI添加失败。"
+                                :uri-del-succ "URI删除成功。"
+                                :uri-del-fail "URI删除失败。"
                                 }
                   :clients-create {
                                    :name "名称"
@@ -80,14 +80,14 @@
                              :imported "导入"
                              }
                   :datasets-api {
-                                 :dataset-del-succ "镜像删除成功"
-                                 :dataset-del-fail "镜像删除失败"
+                                 :dataset-del-succ "镜像删除成功。"
+                                 :dataset-del-fail "镜像删除失败。"
                                  :dataset-import-start "镜像导入开始"
-                                 :dataset-import-fail "镜像导入失败"
-                                 :nic-add-succ "网卡添加成功"
-                                 :nic-add-fail "网卡添加失败"
-                                 :nic-del-succ "网卡删除成功"
-                                 :nic-del-fail "网卡删除失败"
+                                 :dataset-import-fail "镜像导入失败。"
+                                 :nic-add-succ "网卡添加成功。"
+                                 :nic-add-fail "网卡添加失败。"
+                                 :nic-del-succ "网卡删除成功。"
+                                 :nic-del-fail "网卡删除失败。"
                                  }
                   :datasets-create {
                                     :name "名称"
@@ -132,16 +132,16 @@
                                      :name "名称"
                                      }
                   :groupings-api {
-                                  :grouping-del-succ "编组删除成功"
-                                  :grouping-del-fail "编组删除失败"
-                                  :config-set-succ "配置设置成功"
-                                  :config-set-fail "配置设置失败"
-                                  :config-del-succ "配置删除成功"
-                                  :config-del-fail "配置删除失败"
-                                  :element-add-succ "元素添加成功"
-                                  :element-add-fail "元素添加失败"
-                                  :element-del-succ "元素删除成功"
-                                  :element-del-fail "元素删除失败"
+                                  :grouping-del-succ "编组删除成功。"
+                                  :grouping-del-fail "编组删除失败。"
+                                  :config-set-succ "配置设置成功。"
+                                  :config-set-fail "配置设置失败。"
+                                  :config-del-succ "配置删除成功。"
+                                  :config-del-fail "配置删除失败。"
+                                  :element-add-succ "元素添加成功。"
+                                  :element-add-fail "元素添加失败。"
+                                  :element-del-succ "元素删除成功。"
+                                  :element-del-fail "元素删除失败。"
                                   }
                   :hypervisors {
                                 :hypervisors "物理机"
@@ -156,18 +156,18 @@
                                 :free-mem "空闲内存"
                                 }
                   :hypervisors-api {
-                                    :hv-del-succ "物理机删除成功"
-                                    :hv-del-fail "物理机删除失败"
-                                    :hv-rename-succ "物理机重命名成功"
-                                    :hv-rename-fail "物理机重命名失败"
-                                    :svc-change-succ "服务改变状态成功"
-                                    :svc-change-fail "服务改变状态失败"
-                                    :config-set-succ "配置设置成功"
-                                    :config-set-fail "配置设置失败"
-                                    :char-set-succ "特性设置成功"
-                                    :char-set-fail "特性设置失败"
-                                    :char-del-succ "特性删除成功"
-                                    :char-del-fail "特性删除失败"
+                                    :hv-del-succ "物理机删除成功。"
+                                    :hv-del-fail "物理机删除失败。"
+                                    :hv-rename-succ "物理机重命名成功。"
+                                    :hv-rename-fail "物理机重命名失败。"
+                                    :svc-change-succ "服务改变状态成功。"
+                                    :svc-change-fail "服务改变状态失败。"
+                                    :config-set-succ "配置设置成功。"
+                                    :config-set-fail "配置设置失败。"
+                                    :char-set-succ "特性设置成功。"
+                                    :char-set-fail "特性设置失败。"
+                                    :char-del-succ "特性删除成功。"
+                                    :char-del-fail "特性删除失败。"
                                     }
                   :hypervisors-view {
                                      :gen-info "信息"
@@ -217,8 +217,8 @@
                              :ip-ranges "IP范围"
                              }
                   :ipranges-api {
-                                 :delete-succ "IP范围删除成功"
-                                 :delete-fail "IP范围删除失败"
+                                 :delete-succ "IP范围删除成功。"
+                                 :delete-fail "IP范围删除失败。"
                                  }
                   :ipranges-create {
                                     :name "名称"
@@ -252,12 +252,12 @@
                              :ip-ranges "IP范围"
                              }
                   :networks-api {
-                                 :network-del-succ "网络配置删除成功"
-                                 :network-del-fail "网络配置删除失败"
-                                 :iprange-add-succ "IP范围添加成功"
-                                 :iprange-add-fail "IP范围添加失败"
-                                 :iprange-del-succ "IP范围删除成功"
-                                 :iprange-del-fail "IP范围删除失败"
+                                 :network-del-succ "网络配置删除成功。"
+                                 :network-del-fail "网络配置删除失败。"
+                                 :iprange-add-succ "IP范围添加成功。"
+                                 :iprange-add-fail "IP范围添加失败。"
+                                 :iprange-del-succ "IP范围删除成功。"
+                                 :iprange-del-fail "IP范围删除失败。"
                                  }
                   :networks-create {
                                     :name "名称"
@@ -275,20 +275,20 @@
                          :orgs "组织"
                          }
                   :orgs-api {
-                             :orgs-del-succ "组织删除成功"
-                             :orgs-del-fail "组织删除失败"
-                             :trigger-del-succ "触发器删除成功"
-                             :trigger-del-fail "触发器删除失败"
-                             :trigger-add-succ "触发器添加成功"
-                             :trigger-add-fail "触发器添加失败"
-                             :res-dec-succ "资源减少成功"
-                             :res-dec-fail "资源减少失败"
-                             :res-inc-succ "资源增加成功"
-                             :res-inc-fail "资源增加失败"
-                             :net-set-succ "网络配置设置成功"
-                             :net-set-fail "网络配置设置失败"
-                             :res-del-succ "资源删除成功"
-                             :res-del-fail "资源删除失败"
+                             :orgs-del-succ "组织删除成功。"
+                             :orgs-del-fail "组织删除失败。"
+                             :trigger-del-succ "触发器删除成功。"
+                             :trigger-del-fail "触发器删除失败。"
+                             :trigger-add-succ "触发器添加成功。"
+                             :trigger-add-fail "触发器添加失败。"
+                             :res-dec-succ "资源减少成功。"
+                             :res-dec-fail "资源减少失败。"
+                             :res-inc-succ "资源增加成功。"
+                             :res-inc-fail "资源增加失败。"
+                             :net-set-succ "网络配置设置成功。"
+                             :net-set-fail "网络配置设置失败。"
+                             :res-del-succ "资源删除成功。"
+                             :res-del-fail "资源删除失败。"
                              }
                   :orgs-create {
                                 :name "名称"
@@ -345,8 +345,8 @@
                              :ttl-cpu "CPU"
                              :ttl-quota "配额"
                              :ttl-ram "内存"}
-                  :packages-api {:del-succ "配置包删除成功"
-                                 :del-fail "配置包删除失败"}
+                  :packages-api {:del-succ "配置包删除成功。"
+                                 :del-fail "配置包删除失败。"}
                   :packages-create {:cond-must "必须"
                                     :cond-cant "不能"
                                     :cond-scale "缩放"
@@ -401,12 +401,12 @@
                                :metadata "元数据"
                                }
                   :roles-api {
-                              :delete-succ "角色删除成功"
-                              :delete-fail "角色删除失败"
-                              :grant-succ "权限授予成功"
-                              :grant-fail "权限授予失败"
-                              :revoke-succ "权限撤销成功"
-                              :revoke-fail "权限撤销失败"
+                              :delete-succ "角色删除成功。"
+                              :delete-fail "角色删除失败。"
+                              :grant-succ "权限授予成功。"
+                              :grant-fail "权限授予失败。"
+                              :revoke-succ "权限撤销成功。"
+                              :revoke-fail "权限撤销失败。"
                               }
                   :roles-create {
                                  :name "名称"
