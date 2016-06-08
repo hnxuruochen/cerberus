@@ -12,16 +12,17 @@
    [cerberus.utils :refer [initial-state]]
    [om-bootstrap.random :as r]
    [om-tools.dom :as d :include-macros true]
-   [om.core :as om :include-macros true]))
+   [om.core :as om :include-macros true]
+   [cerberus.multi-lang.entry :as ml]))
 
 
 (defn actions [{uuid :uuid}]
   [(del/menue-item uuid)])
 
 (def config (mk-config
-             root "Users" actions
-             :name {:title "Name" :key :name :order -10}
-             :org {:title "Organisation"
+             root (ml/t :users-view/users) actions
+             :name {:title (ml/t :users-view/name) :key :name :order -10}
+             :org {:title (ml/t :users-view/organisation)
                    :key (partial api/get-sub-element :orgs :org :name)}))
 
 (set-state! [root :fields] (initial-state config))
