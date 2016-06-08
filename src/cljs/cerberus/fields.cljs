@@ -1,7 +1,8 @@
 (ns cerberus.fields
   (:require-macros [cljs.core.match.macros :refer [match]])
   (:require
-   [cljs.core.match]))
+   [cljs.core.match]
+   [cerberus.multi-lang.entry :as ml]))
 
 (def all-defaults
   {:formater str :type :string})
@@ -107,7 +108,7 @@
 
 (def default-fields
   {:uuid {:title "UUID" :key :uuid :order -12  :type :uuid :show false}
-   :name {:title "Name" :key :name :order -20}})
+   :name {:title (ml/t :field/name) :key :name :order -20}})
 
 (defn apply-defaults
   ([fields]

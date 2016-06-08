@@ -699,4 +699,7 @@
                              :uploading "上传中"
                              :uuid "标识符"
                              :version "版本"
-                             }})
+                             }
+                  :field {
+                          :name "名称"
+                  }})
