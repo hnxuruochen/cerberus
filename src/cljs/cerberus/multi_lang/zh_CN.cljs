@@ -13,7 +13,7 @@
                         :new-networks "创建新的网络"
                         :new-ipranges "创建新的网络地址范围"
                         :new-dtrace "创建新 DTrace Script"
-                        :new-datasets "导入 Dataset"
+                        :new-datasets "导入镜像"
                         :btn-machine "创建虚拟机"
                         :btn-users "创建用户"
                         :btn-roles "创建角色"
