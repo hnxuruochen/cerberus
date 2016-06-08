@@ -75,15 +75,15 @@
                                    :secret "密钥"
                                    }
                   :datasets {
-                             :datasets "系统镜像"
+                             :datasets "镜像"
                              :version "版本"
                              :imported "导入"
                              }
                   :datasets-api {
-                                 :dataset-del-succ "系统镜像删除成功"
-                                 :dataset-del-fail "系统镜像删除失败"
-                                 :dataset-import-start "系统镜像导入开始"
-                                 :dataset-import-fail "系统镜像导入失败"
+                                 :dataset-del-succ "镜像删除成功"
+                                 :dataset-del-fail "镜像删除失败"
+                                 :dataset-import-start "镜像导入开始"
+                                 :dataset-import-fail "镜像导入失败"
                                  :nic-add-succ "网卡添加成功"
                                  :nic-add-fail "网卡添加失败"
                                  :nic-del-succ "网卡删除成功"
@@ -702,4 +702,4 @@
                              }
                   :field {
                           :name "名称"
-                  }})
+                          }})
