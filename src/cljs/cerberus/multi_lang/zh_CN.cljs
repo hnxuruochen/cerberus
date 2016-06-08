@@ -28,7 +28,7 @@
                         }
                   :core {
                          :clients "客户端"
-                         :configuration "设置"
+                         :configuration "配置"
                          :datasets "镜像"
                          :groupings "编组"
                          :hypervisors "物理机"
