@@ -592,6 +592,7 @@
                                :value "值"
                                :version "版本"
                                :add "添加"
+                               :no-free-ips "无可用IP"
                                }
                   :vms-view {
                              :action "动作"

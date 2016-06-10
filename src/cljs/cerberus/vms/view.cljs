@@ -860,6 +860,24 @@
          (d/td target-str ":" filters-str)
          (d/td btn))))))
 
+
+(defn rule-table [render-rule title rules]
+  (g/col
+   {:xs 12 :md 6}
+   (p/panel
+    {:header title
+     :class "fwrule"}
+    (table
+     {}
+     (d/thead
+      (d/tr
+       (d/th (ml/t :vms-view/src))
+       (d/th (ml/t :vms-view/action))
+       (d/th (ml/t :vms-view/dst))
+       (d/th)))
+     (d/tbody
+      (map render-rule rules))))))
+
 (defn render-fw-rules [app owner opts]
   (reify
     om/IInitState
@@ -903,42 +921,15 @@
           :class "fwlegend"}
          (d/p
           (d/br)
-          (r/glyphicon {:glyph "fire"}) (str " " (ml/t :vms-view/block))
-          (r/glyphicon {:glyph "ok"}) (str " " (ml/t :vms-view/allow))
-          (r/glyphicon {:glyph "hdd"}) (str " " (ml/t :vms-view/this-zone)))))
-       (row
-        (g/col
-         {:xs 12 :md 6}
-         (p/panel
-          {:header (ml/t :vms-view/inbound-rules)
-           :class "fwrule"}
-          (table
-           {}
-           (d/thead
-            (d/tr
-             (d/th (ml/t :vms-view/src))
-             (d/th (ml/t :vms-view/action))
-             (d/th (ml/t :vms-view/dst))
-             (d/th)))
-           (d/tbody
-            (let [rules (filter #(= (:direction %) "inbound") (:fw_rules (get-in app [root :elements (get-in app [root :selected])])))]
-              (map (partial render-rule (get-in app [root :selected])) rules))))))
-        (g/col
-         {:xs 12 :md 6}
-         (p/panel
-          {:header (ml/t :vms-view/outbound-rules)
-           :class "fwrule"}
-          (table
-           {}
-           (d/thead
-            (d/tr
-             (d/th (ml/t :vms-view/src))
-             (d/th (ml/t :vms-view/action))
-             (d/th (ml/t :vms-view/dst))
-             (d/th )))
-           (d/tbody
-            (let [rules (filter #(= (:direction %) "outbound") (:fw_rules (get-in app [root :elements (get-in app [root :selected])])))]
-              (map (partial render-rule (get-in app [root :selected])) rules)))))))))))
+          (r/glyphicon {:glyph "fire"}) (ml/t :vms-view/block)
+          (r/glyphicon {:glyph "ok"}) (ml/t :vms-view/allow)
+          (r/glyphicon {:glyph "hdd"}) (ml/t :vms-view/this-zone))))
+       (let [uuid (get-in app [root :selected])
+             fw-rules (get-in app [root :elements uuid :fw_rules])
+             rule-table (partial rule-table (partial render-rule uuid))]
+         (row
+          (rule-table (ml/t :vms-view/inbound-rules) (filter #(= (:direction %) "inbound") fw-rules))
+          (rule-table (ml/t :vms-view/outbound-rules) (filter #(= (:direction %) "outbound") fw-rules))))))))
 
 (defn build-metric [acc {name :name points :points}]
   (match
@@ -982,7 +973,7 @@
    "backups"   {:key  6 :fn #(om/build render-backups %1 {:opts {:uuid (:uuid %2)}})   :title (ml/t :vms-view/backups)}
    "services"  {:key  7 :fn #(om/build services/render %2 {:opts {:action vms/service-action}})  :title (ml/t :vms-view/services)}
    "logs"      {:key  8 :fn (b render-logs)      :title (ml/t :vms-view/logs)}
-   "fw-rules" {:key 9 :fn #(om/build render-fw-rules %1) :title (ml/t :vms-view/firewall)}
+   "fw-rules"  {:key  9 :fn #(om/build render-fw-rules %1) :title (ml/t :vms-view/firewall)}
    "metrics"   {:key 10 :fn #(om/build metrics/render (:metrics %2) {:opts {:translate build-metric}})   :title (ml/t :vms-view/metrics)}
    "metadata"  {:key 11 :fn (b metadata/render)  :title (ml/t :vms-view/metadata)}})
 
