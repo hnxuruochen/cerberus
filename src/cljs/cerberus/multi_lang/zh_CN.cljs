@@ -660,7 +660,7 @@
                              :ip- "IP："
                              :ip-range- "IP范围："
                              :logs "日志"
-                             :mac- "网卡物理地址："
+                             :mac- "MAC："
                              :mask "掩码"
                              :max-swap "最大交换区"
                              :memory "内存"
