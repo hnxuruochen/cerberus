@@ -1,7 +1,6 @@
 (ns cerberus.multi-lang.zh-CN)
 
 (def tconfig-map {
-                  :missing "翻译缺失"
                   :add {
                         :new-machine "创建新的虚拟机"
                         :new-users "创建用户"
@@ -515,6 +514,7 @@
                         :hypervisor "物理机"
                         :installing-dataset "安装镜像中"
                         :ip "IP"
+                        :limbo "已废弃"
                         :lock "锁定"
                         :machines "虚拟机"
                         :memory "内存"

@@ -1,7 +1,6 @@
 (ns cerberus.multi-lang.en)
 
 (def tconfig-map {
-                  :missing "missing key"
                   :add {
                         :new-machine "New Machine"
                         :new-users "New User"
@@ -516,6 +515,7 @@
                         :hypervisor "Hypervisor"
                         :installing-dataset "installing-dataset"
                         :ip "IP"
+                        :limbo "limbo"
                         :lock "Lock"
                         :machines "Machines"
                         :memory "Memory"
