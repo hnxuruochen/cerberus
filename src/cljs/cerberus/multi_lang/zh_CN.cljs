@@ -592,6 +592,7 @@
                                :value "值"
                                :version "版本"
                                :add "添加"
+                               :no-free-ips "无可用IP"
                                }
                   :vms-view {
                              :action "动作"
@@ -659,7 +660,7 @@
                              :ip- "IP："
                              :ip-range- "IP范围："
                              :logs "日志"
-                             :mac- "网卡物理地址："
+                             :mac- "MAC："
                              :mask "掩码"
                              :max-swap "最大交换区"
                              :memory "内存"

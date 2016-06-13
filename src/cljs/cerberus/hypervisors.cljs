@@ -18,8 +18,6 @@
   [(del/menue-item uuid)])
 
 
-#(hypervisors/delete uuid)
-
 (def config
   (mk-config
    root (ml/t :hypervisors/hypervisors) actions
@@ -28,8 +26,10 @@
    :os-version {:title (ml/t :hypervisors/os-ver) :key [:sysinfo (keyword "Live Image")] :order 2}
    :host {:title (ml/t :hypervisors/host) :key :host :order 3 :show false}
    :last-seen {:title (ml/t :hypervisors/last-seen) :key :last_seen
+               :sort-key (fn [h] (* -1  (:last_seen h)))
                :type [:ago :s] :order 4}
    :uptime {:title (ml/t :hypervisors/uptime) :key (fn [h] (str->int (get-in h [:sysinfo (keyword "Boot Time")])))
+            :sort-key (fn [h] (* -1 (str->int (get-in h [:sysinfo (keyword "Boot Time")]))))
             :type [:ago :s] :order 5}
    :used-men {:title (ml/t :hypervisors/used-mem) :key [:resources :provisioned-memory]
               :type [:bytes :mb] :order 6}
