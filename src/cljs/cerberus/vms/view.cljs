@@ -517,7 +517,7 @@
     "uploading" (r/label {:bs-style "warning"} (ml/t (keyword "vms-view" state)))
     "completed" (r/label {:bs-style "success"} (ml/t (keyword "vms-view" state)))
     "failed" (r/label {:bs-style "danger"} (ml/t (keyword "vms-view" state)))
-    (r/label {:bs-style "default"} (ml/t (keyword "vms-view" state)))))
+    (r/label {:bs-style "default"} state)))
 
 (defn backup-row  [owner vm hypervisor
                    [uuid {comment :comment timestamp :timestamp
