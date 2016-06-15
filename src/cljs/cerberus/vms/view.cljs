@@ -977,7 +977,7 @@
    "logs"      {:key  8 :fn (b render-logs)      :title "Logs"}
    "fw-rules" {:key 9 :fn #(om/build render-fw-rules %1) :title "Firewall"}
    "metrics"   {:key 10 :fn #(om/build metrics/render (:metrics %2) {:opts {:translate build-metric}})   :title "Metrics"}
-   "metadata"  {:key 11 :fn (b metadata/render)  :title "Metadata"}})
+   "metadata"  {:key 11 :fn #(om/build metadata/render %2 {:opts {:root :vms}})  :title "Metadata"}})
 
 
 
